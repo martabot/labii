@@ -428,20 +428,6 @@ CREATE TABLE `post` (
   `votos` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `post`
---
-
-INSERT INTO `post` (`id`, `user`, `titulo`, `cuerpo`, `fecha`, `img1`, `img2`, `img3`, `adjunto`, `palabra1`, `palabra2`, `palabra3`, `status`, `privacidad`, `votos`) VALUES
-(1, 14, 'Hollis', 'ni da', '2019-07-06 00:00:00', '', '', '', '', 'mentira', '', '', 1, 1, 0),
-(2, 14, 'Hollis', 'ni da', '2019-07-06 00:00:00', '', '', '', '', 'mentira', '', '', 1, 1, 0),
-(3, 14, 'Hollis', 'jjjj', '2019-07-06 00:00:00', '', '', '', '', 'mentira', '', '', 1, 1, 0),
-(4, 14, 'Hollis', 'erwerwee', '2019-07-06 00:00:00', '', '', '', '', 'mentira', '', '', 1, 1, 0),
-(5, 14, 'Hollis', 'no se', '2019-07-06 00:00:00', '', '', '', '', 'mentira', '', '', 1, 1, 0),
-(6, 14, 'Hollis', 'jkhihiu', '2019-07-06 00:00:00', 'http://localhost/LABII/public/img/post/333eeaa932b339e8.jpeg', '', '', '', 'mentira', '', '', 1, 1, 0),
-(7, 14, 'Nuevo Post', 'Este es el post de los perritos re locos cucha-ndo gorillaz', '2019-07-06 00:00:00', 'http://localhost/LABII/public/img/post/7c8733cf8f13bb7d.jpeg', '', '', '', 'tuquita', '', '', 1, 1, 0),
-(8, 9, 'Mi primer post', 'No se que decir en el post, se me terminó el vino', '2019-07-06 00:00:00', 'http://localhost/LABII/public/img/post/543dcf13d0905ab6.png', 'http://localhost/LABII/public/img/post/0effb3975b3f15dc.png', 'http://localhost/LABII/public/img/post/b4bd925652f57074.png', '', 'palabra1 ', 'palabra2 ', 'palabra3', 1, 1, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -575,7 +561,7 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --

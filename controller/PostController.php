@@ -19,8 +19,6 @@ class PostController extends ControladorBase{
     }
 
     public function crear(){
-        include "Archivos.php";
-        $ar=new Archivos();
         if(isset($_GET['id'])){
             $post=new Post($this->adapter);
             $user=new Usuario($this->adapter);
