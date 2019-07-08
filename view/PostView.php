@@ -23,7 +23,7 @@
     img{height: 220px; width: 60%; overflow: hidden;padding-top: 20px}
     .x{padding-left: 10px}
     section div.t{margin-top: 7px}
-    .t,.t a{color: orangered}
+    .t,.t a,.user{color: orangered}
     .t span, .x a{color: grey}
     .card{margin-top:15px }
     .post span{
@@ -31,6 +31,9 @@
     }
     .card p{
         padding-top:10px
+    }
+    #persona{
+        color:orangered
     }
     .post{
         width:100%
@@ -42,6 +45,7 @@
     .p {
         width:100%
     }
+    .derecha{float:right}
 }
     </style>
   </head>
@@ -74,8 +78,8 @@
                    <img src='<?php echo $usuario->profilePic; ?>' alt="foto de perfil"> 
                 </div>
                 <div class="row justify-content-center" style="padding-top: 23px">
-                    <h2 style="width:100%" class="card-header-title text-center"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2>
-                    <h4 class="mb-1 pb-4 pt-0 text-center"><?php echo $pais->nombre; ?></h4>
+                    <p><h2 class="card-header-title text-center p"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2></p><br>
+                    <p><h4 class="mb-1 pb-4 pt-0 text-center"><?php echo $pais->nombre; ?></h4></p>
                 </div>
                 
                 <!-- Card -->
@@ -108,14 +112,12 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="row" style="margin:30px 0px 30px -10px">
-                            <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("post","index"); ?>&id=<?php echo $usuario->id; ?>">Agregar Post</a>
-                            
-                            <?php 
-                            foreach($allPost as $post){
-                                echo '<div class="row post">
+                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id ?>">⇦ Regresar al muro</a>
+                            <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
-                                                <h4 class="card-title">'.$post->titulo.'</h4>
+                                
+                                    <?php echo ' <h4 class="card-title">'.$post->titulo.'</h4>
                                                 <hr>';
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="palabra".$i;
@@ -131,21 +133,24 @@
                                                         echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                                     }
                                                 }
-                                                    echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
-                                                    foreach($cant as $c){
-                                                        if($c['id']==$post->id){
-                                                        $t=(int)$c['cant'];
-                                                        }
-                                                    }
-                                                    if(!$t){$t=0;}
-                                                    $link=$helper->url('usuario','verPost'); 
-                                                    echo'<a href="'.$link.'&id='.$usuario->id.'&unico='.$post->id.'">'.$t.' Comentarios</a>';
-                                                    $t=0;
-                                               echo' </div>
-                                            </div>
-                                        </div>';
-                            }
-                            ?>
+                                                echo '<hr><a href="#">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp
+                                                        <a href="#">'.(int)$cant.' Comentarios</a>';
+
+                                               
+                                                ?>
+                                                
+                                                <form method="POST" action="<?php echo $helper->url("post","comentar"); ?>&idUser=<?php echo $usuario->id; ?>&idPost=<?php echo $post->id;?>">
+                                                            <textarea style="width:100%" rows="3" placeholder="Deje aquí su comentario" name="txt"></textarea>
+                                                            <input type="submit" value="Comentar" class="derecha btn btn-outline-info my-2 my-sm-0">
+                                                        </form>
+                                                <hr style="margin-top:60px">
+                                                <?php
+                                                foreach($com as $comen){
+                                                    echo '<b id="persona">'.$comen['username'].'</b> <i>'.$comen['cuerpo'].'</i><br>';
+                                                }?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>  
                         </div>
                     </div>

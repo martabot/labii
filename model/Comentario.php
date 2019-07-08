@@ -5,7 +5,6 @@ class Comentario extends EntidadBase{
     private $post;
     private $cuerpo;
     private $fecha;
-    private $pic;
     private $votos;
     private $status;
 
@@ -26,8 +25,7 @@ class Comentario extends EntidadBase{
     } 
 	
     public function save(){
-        $poo=$this->post->__get('id');
-        $us=$this->user->__get('id');
+        
 
 		if($this->id){
             $query= "UPDATE `comentario` SET 
@@ -35,7 +33,6 @@ class Comentario extends EntidadBase{
                 `post`= $poo,
                 `cuerpo`= '$this->cuerpo',
                 `fecha`= '$this->fecha',
-                `pic`= '$this->pic',
                 `votos`= '$this->votos',
                 `status`= '$this->status' 
                 WHERE `id`=$this->id;";
@@ -45,18 +42,19 @@ class Comentario extends EntidadBase{
 			return $save;
 			
 		}
-		else{
-            $query= "INSERT INTO `comentario`(`user`, `post`, `cuerpo`, `fecha`, `pic`, `votos`, `status`) VALUES (
+        else{
+            $poo=$this->post->__get('id');
+            $us=$this->user->__get('id');
+            $query= "INSERT INTO `comentario`(`user`, `post`, `cuerpo`, `fecha`) VALUES (
                  $us,
                  $poo,
                 '$this->cuerpo',
-                '$this->fecha',
-                '$this->pic',
-                '$this->votos',
-                '$this->status');";
+                 NOW());";
 			$save=$this->db()->query($query);
-			//$this->db()->error;
-			return $save;
+			if(!$save){
+                return $this->db()->error;
+            }else{
+			return $save;}
 		}	
     }
 }

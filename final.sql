@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 06-07-2019 a las 22:39:57
+-- Tiempo de generación: 08-07-2019 a las 00:14:35
 -- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
 -- Versión de PHP: 7.0.30-0+deb9u1
 
@@ -73,12 +73,12 @@ CREATE TABLE `comentario` (
   `user` int(11) NOT NULL,
   `post` int(11) NOT NULL,
   `cuerpo` varchar(5000) DEFAULT NULL,
-  `fecha` date NOT NULL,
-  `pic` varchar(500) DEFAULT NULL,
+  `fecha` datetime NOT NULL,
   `votos` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `privacidad` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -413,7 +413,7 @@ INSERT INTO `pais` (`id`, `isoCode`, `nombre`) VALUES
 CREATE TABLE `post` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
-  `titulo` varchar(50) NOT NULL,
+  `titulo` varchar(500) NOT NULL,
   `cuerpo` varchar(5000) DEFAULT NULL,
   `fecha` datetime NOT NULL,
   `img1` varchar(500) DEFAULT NULL,
@@ -427,6 +427,7 @@ CREATE TABLE `post` (
   `privacidad` tinyint(1) NOT NULL DEFAULT '1',
   `votos` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -556,7 +557,7 @@ ALTER TABLE `moderador`
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 --
 -- AUTO_INCREMENT de la tabla `post`
 --

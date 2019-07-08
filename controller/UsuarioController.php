@@ -123,12 +123,40 @@ class UsuarioController extends ControladorBase{
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
 				$pais=$pd->getById($usuario->pais);
+				$post=new Post($this->adapter);
+				$allPosts=$post->getAllPost($id);
+				$cant=$post->getCountCom($id);
 				$this->view("Perfil",array(
 					"usuario"=>$usuario,
-					"pais"=>$pais
+					"pais"=>$pais,
+					"allPost"=>$allPosts,
+					"cant"=>$cant
 				));
 			}
 		}
+
+    public function verPost(){
+			if(isset($_GET["unico"])){ 
+				$id=(int)$_GET["id"];
+				$unico=$_GET["unico"];
+				$usuario = new Usuario($this->adapter);
+				$usuario = $usuario->getById($id);
+				$pd=new Pais($this->adapter);
+				$pais=$pd->getById($usuario->pais);
+				$post=new Post($this->adapter);
+				$post=$post->getById($unico);
+				$com=new Comentario($this->adapter);
+				$allComentarios=$com->getComentarios($unico);
+				$cant=sizeof($allComentarios);
+				$this->view("Post",array(
+					"usuario"=>$usuario,
+					"pais"=>$pais,
+					"post"=>$post,
+					"cant"=>$cant,
+					"com"=>$allComentarios
+				));
+			}
+    }
 
 		//turning . 
 
@@ -215,10 +243,7 @@ class UsuarioController extends ControladorBase{
 						 $save=$usuario->save();
 			 $us=$usuario->getById($_GET["id"]);
 			 $p1=$pais->getById($_POST["country"]);
-			 $this->view("Perfil", array(
-				 "usuario"=>$us,
-				 "pais"=>$p1
-			 ));
+			 $this->verMuro();
 	 			}
 			}
 		}

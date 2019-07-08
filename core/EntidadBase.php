@@ -32,6 +32,36 @@ class EntidadBase{
         
         return $resultSet;
     }
+
+    public function getAllPost($persona){
+        $query=$this->db->query("SELECT * from post where user=$persona and status=1 ORDER BY fecha DESC;");
+
+        while ($row = $query->fetch_object()) {
+           $resultSet[]=$row;
+        }
+        
+        return $resultSet;
+    }
+
+    public function getCountCom($id){
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.user=$id and p.id=c.post GROUP by p.id ORDER BY p.fecha DESC;");
+
+        while($row = $query->fetch_assoc()) {
+           $resultSet[]=$row;
+        }
+        
+        return $resultSet;
+    }
+
+    public function getComentarios($id){
+        $query=$this->db->query("SELECT u.username,c.cuerpo FROM usuario u, comentario c WHERE c.post=$id and c.user=u.id ORDER BY c.fecha DESC;");
+
+        while($row = $query->fetch_assoc()) {
+           $resultSet[]=$row;
+        }
+        
+        return $resultSet;
+    }
     
     public function getById($id){
         $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id");

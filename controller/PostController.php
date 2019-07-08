@@ -18,6 +18,27 @@ class PostController extends ControladorBase{
 		));
     }
 
+    public function verPost($id,$unico){
+            $usuario = new Usuario($this->adapter);
+            $usuario = $usuario->getById($id);
+            $pd=new Pais($this->adapter);
+            $pais=$pd->getById($usuario->pais);
+            $post=new Post($this->adapter);
+            $post=$post->getById($unico);
+            $com=new Comentario($this->adapter);
+            $allComentarios=$com->getComentarios($unico);
+            $cant=sizeof($allComentarios);
+            $this->view("Post",array(
+                "usuario"=>$usuario,
+                "pais"=>$pais,
+                "post"=>$post,
+                "cant"=>$cant,
+                "com"=>$allComentarios
+            ));
+        }
+
+
+
     public function crear(){
         if(isset($_GET['id'])){
             $post=new Post($this->adapter);
@@ -49,12 +70,51 @@ class PostController extends ControladorBase{
                         $tmpName=$foto['tmp_name'];
                         $fileSize=$foto['size'];
                         $fileType=$foto['type'];
-                        if($tmpName==""){echo "esta vacio";}if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){$imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/post/";$extension=explode("/",$fileType);$fileName=bin2hex(random_bytes(8)).'.'.$extension[1];$filePath=$imagenes.$fileName;$serverName="http://localhost/LABII/public/img/post/".$fileName;if($result=move_uploaded_file($tmpName, $filePath)){$post->__set($rec,$serverName);}else{echo "no se subio";exit;}}else{echo "debe subir imagen con extension .jpg .jpeg .gif o .png";}
+                        if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif")
+                            {
+                                $imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/post/";
+                                $extension=explode("/",$fileType);
+                                $fileName=bin2hex(random_bytes(8)).'.'.$extension[1];
+                                $filePath=$imagenes.$fileName;
+                                $serverName="http://localhost/LABII/public/img/post/".$fileName;
+                                if($result=move_uploaded_file($tmpName, $filePath)){
+                                    $post->__set($rec,$serverName);
+                                }else{
+                                    echo "no se subio";exit;
+                                }}
                         $i++;
                     }
                 $save=$post->save();
-                $this->redirect();
-        }}
+                $id=(int)$_GET["id"];
+				$usuario = $user->getById($id);
+				$pd=new Pais($this->adapter);
+				$pais=$pd->getById($usuario->pais);
+				$post=new Post($this->adapter);
+                $allPosts=$post->getAllPost($id);
+                $cant=$post->getCountCom($id);
+				$this->view("Perfil",array(
+					"usuario"=>$usuario,
+					"pais"=>$pais,
+                    "allPost"=>$allPosts,
+                    "cant"=>$cant
+				));
+            }
+        }
+    }
+
+    public function comentar(){
+        $com=new Comentario($this->adapter);
+        $usuario=new Usuario($this->adapter);
+        $post=new Post($this->adapter);
+        $cuerpo=isset($_POST['txt'])?$_POST['txt']:"";
+        $usuario->__set("id",$_GET['idUser']);
+        $com->__set("user",$usuario);
+        $com->__set("cuerpo",$cuerpo);
+        $post->__set("id",$_GET['idPost']);
+        $com->__set("post",$post);
+        $save=$com->save();
+        $allComentarios=$com->getComentarios($_GET['idPost']);
+        $this->verPost($_GET['idUser'],$_GET['idPost']);
     }
 }
 ?>
