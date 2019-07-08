@@ -1,3 +1,4 @@
+<?php ini_get('register_globals'); ?>
 <!doctype html>
 <html lang="es">
   <head>
@@ -17,6 +18,7 @@
     </script>
     <style>
     .x,h5{text-decoration: none;color: rgb(252, 159, 84)}
+    #nombre{color: rgb(252, 159, 84)}
     .x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }
     .todo{
         font-family: 'Assistant', sans-serif;
@@ -34,37 +36,30 @@
                     <a class="nav-link" href="#">Inicio</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id; ?>">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
             </form>
-            <a style="text-decoration: none" href="<?php echo $helper->url("usuario","index"); ?>"><h4 style="color: whitesmoke;padding-left:20px">Ω</h4></a>
+            <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion");?>">Cerrar Sesion</a>
         </div>
     </nav>
 <div class="row todo">
     <div class="col-lg-6">
-        <div class="row justify-content-center" style="padding-top: 40px">
-            <div class="card" style="width: 80%">
-                <div class="card-body">
-                      <a href="#" class="x"><h5 class="card-title">TITULO DE POST PUBLICO</h5></a>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-        <hr style="width: 80%;padding-left: 10%">
-                <div class="card-body">
-                      <a href="#" class="x"><h5 class="card-title">TITULO DE POST PUBLICO</h5></a>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-        <hr style="width: 80%;padding-left: 10%">
-                <div class="card-body">
-                      <a href="#" class="x"><h5 class="card-title">TITULO DE POST PUBLICO</h5></a>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
+        <div class="row justify-content-center" style="padding-top: 40px;overflow:hidden">
+            
+                    <?php foreach($publicos as $publico){ ?>
+                        <div class="card" style="width: 80%;margin-bottom:10px">
+                            <div class="card-body">
+                                    <span id="nombre">@<?php echo $publico["username"]; ?></span>
+                                    <a href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $publico['id'];?>&unico=<?php echo $publico['unico'];?>" class="x"><h5 class="card-title"><?php echo $publico["titulo"];?></h5></a><?php echo $publico["cuerpo"];?>
+                                </div>
+                            </div>
+                    <?php } ?>
             </div>
         </div>
-    </div>
     <div class="col-lg-6">
         <div class="row justify-content-center" style="padding-top: 40px">
             <div class="card" style="width: 80%;">
@@ -72,35 +67,12 @@
                       <h5 class="card-title">TITULO DE POST AMIGO <img alt="amigo" style="float: right" src="/public/img/duft1.jpg" height="30px"></h5>
                       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                       <a href="#" class="btn btn-info">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center" style="padding-top: 40px">
-            <div class="card" style="width: 80%;">
-                <div class="card-body">
-                      <h5 class="card-title">TITULO DE POST AMIGO <img alt="amigo"  style="float: right" src="/public/img/duft1.jpg" height="30px"></h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-info">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center" style="padding-top: 40px">
-            <div class="card" style="width: 80%;">
-                <div class="card-body">
-                      <h5 class="card-title">TITULO DE POST AMIGO <img alt="amigo"  style="float: right" src="/public/img/duft1.jpg" height="30px"></h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-info">Go somewhere</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!--<script src="/public/lib.js"></script>-->
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

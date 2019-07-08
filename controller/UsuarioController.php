@@ -1,4 +1,7 @@
 <?php
+session_start();
+ini_get('register_globals');
+
 class UsuarioController extends ControladorBase{
     public $conectar;
 		public $adapter;
@@ -12,16 +15,25 @@ class UsuarioController extends ControladorBase{
 
 		//Listar todos los Usuarios	
 		public function index(){
-			if(isset($_GET['id'])){
+			if($_SESSION["id"]){
+				unset($_SESSION["visitante"]);
 				$ud=new Usuario($this->adapter);
-				$obj=$ud->getById($_GET['id']);
+				$obj=$ud->getById($_SESSION["id"]);
+				$publicos=$ud->getPublicos();
 				$this->view("Index",array(
-					"usuario"=>$obj
+					"usuario"=>$obj,
+					"publicos"=>$publicos
 				));
 			}else{
 				$this->view("Bienvenida","");
 			}
 		
+		}
+
+		public function cerrarSesion(){
+			unset($_SESSION["id"]);
+			session_destroy();
+			$this->index();
 		}
 
 		public function iniciar(){
@@ -108,17 +120,22 @@ class UsuarioController extends ControladorBase{
 				$saltedPass = $pw.$salt;
 				$hashedPass = hash('sha256', $saltedPass);
 				$obj=$ud->getByID($usuario['id']);
+				$publicos=$ud->getPublicos();
+				session_start();
+				$_SESSION["id"]=$obj->id;
 				if($usuario['pass']==$hashedPass){
 					$this->view("Index",array(
-						"usuario"=>$obj
+						"usuario"=>$obj,
+						"publicos"=>$publicos
 					));
 				}else{echo 'Contraseña o nombre incorrecto!';}
 			}
 		}
 
 		public function verMuro(){
-			if(isset($_GET["id"])){ 
-				$id=(int)$_GET["id"];
+			if(isset($_SESSION["visitante"])){ 
+				$id=(int)$_SESSION["visitante"];}
+				else{$id=(int)$_SESSION["id"];}
 				$usuario = new Usuario($this->adapter);
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
@@ -126,13 +143,21 @@ class UsuarioController extends ControladorBase{
 				$post=new Post($this->adapter);
 				$allPosts=$post->getAllPost($id);
 				$cant=$post->getCountCom($id);
+				if(isset($_SESSION["visitante"])){
+					$amigo=$post->getAmigos($_SESSION["id"],$_SESSION["visitante"]);
+				} else {$amigo=NULL;}
 				$this->view("Perfil",array(
+					"amigo"=>$amigo,
 					"usuario"=>$usuario,
 					"pais"=>$pais,
 					"allPost"=>$allPosts,
 					"cant"=>$cant
 				));
-			}
+		}
+
+		public function mine(){
+			unset($_SESSION["visitante"]);
+			$this->verMuro();
 		}
 
     public function verPost(){
@@ -170,12 +195,23 @@ class UsuarioController extends ControladorBase{
 			}
 			$this->redirect();
 		}
+
+		public function agregarAmigo(){
+				$amigo=new Amigo($this->adapter);
+				$user=new Usuario($this->adapter);
+				$u1=$user->__set("id",$_SESSION["id"]);
+				$usuario=new Usuario($this->adapter);
+				$u2=$usuario->__set("id",$_SESSION["visitante"]);
+				$amigo->__set("user1",$u1);
+				$amigo->__set("user2",$u2);
+				$save=$amigo->save();
+				$this->verMuro();
+		}
    
      
 		//Muestra el formulario de Actualizacion
 		public function editar(){
-			if(isset($_GET["id"])){ 
-				$id=(int)$_GET["id"];
+				$id=(int)$_SESSION["id"];
 				$usuario = new Usuario($this->adapter);
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
@@ -184,12 +220,10 @@ class UsuarioController extends ControladorBase{
 					"paises"=>$paises,
 					"usuario"=>$usuario
 				));
-			}
-		}	 
+		}
 		//Procesa los datos del formulario de edición
 		public function actualizar(){
-			if(isset($_GET["id"])){
-				$id=$_GET["id"];
+				$id=$_SESSION["id"];
 				$usuario=new Usuario($this->adapter);
 				$ud=$usuario->getOneBy("id",$id);
 				$salt = $ud['salt'];
@@ -203,49 +237,34 @@ class UsuarioController extends ControladorBase{
 					$nom=isset($_POST["nombre"])?$_POST['nombre']:NULL;
 					$ap=isset($_POST["apellido"])?$_POST['apellido']:NULL;
 					$mail=isset($_POST["mail"])?$_POST["mail"]:NULL;
+					$profilePic=isset($_POST["actual"])?$_POST["actual"]:NULL;
 					if(!$nom||!$ap||!$mail){
 						$strError="Datos faltantes";
 						echo $strError;
 					}else{
-									$usuario->__set("id",$_GET["id"]);
+									$usuario->__set("id",$id);
 									$hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
 									$usuario->__set('fechaUltMod',$hoy);
 									$usuario->__set("nombre",$nom);
 									$usuario->__set("apellido",$ap);
 									$usuario->__set("mail",$mail);
+									if($profilePic){
+										$usuario->__set("profilePic",$profilePic);
+									}else{
 									$fileName=$_FILES['profilePic']['name'];
 									$tmpName=$_FILES['profilePic']['tmp_name'];
 									$fileSize=$_FILES['profilePic']['size'];
 									$fileType=$_FILES['profilePic']['type'];
-									if($tmpName==""){
-										echo "esta vacio";
-									}
-          if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
-        	   $imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/profile/";
-        	   $extension=explode("/",$fileType);
-        	   $fileName=$ud['username'].'.'.$extension[1];
-						 $filePath=$imagenes.$fileName;
-						 $serverName="http://localhost/LABII/public/img/profile/".$fileName;
-        	   if($result=move_uploaded_file($tmpName, $filePath)){
-        		    $usuario->__set("profilePic",$serverName);
-        	   }else{
-                echo "no se subio";
-                exit;
-             }
-        		 }else{
-        				echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
-        		 }
+          				if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){$imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/profile/"; $extension=explode("/",$fileType);$fileName=$ud['username'].'.'.$extension[1];$filePath=$imagenes.$fileName;$serverName="http://localhost/LABII/public/img/profile/".$fileName;if($result=move_uploaded_file($tmpName, $filePath)){$usuario->__set("profilePic",$serverName);}else{echo "no se subio";exit;}}}
 							
 						 $usuario->__set("bday",$_POST["bd"]);
 						 $pais = new Pais($this->adapter);
 						 $pais->__set("id",$_POST["country"]);
 						 $usuario->__set("pais",$pais);
 						 $save=$usuario->save();
-			 $us=$usuario->getById($_GET["id"]);
-			 $p1=$pais->getById($_POST["country"]);
 			 $this->verMuro();
 	 			}
-			}
+			
 		}
 	}
 }

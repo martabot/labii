@@ -42,7 +42,7 @@
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
             </form>
-            <a style="text-decoration: none" href="<?php echo $helper->url("usuario","index"); ?>"><h4 style="color: whitesmoke;padding-left:20px">Ω</h4></a>
+            <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion");?>">Cerrar Sesion</a>
         </div>
     </nav>
 

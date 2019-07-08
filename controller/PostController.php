@@ -1,4 +1,7 @@
 <?php
+session_start();
+ini_get('register_globals');
+
 class PostController extends ControladorBase{
     public $conectar;
     public $adapter;
@@ -12,7 +15,7 @@ class PostController extends ControladorBase{
 
     public function index(){
         $ud=new Usuario($this->adapter);
-		$obj=$ud->getById($_GET['id']);
+		$obj=$ud->getById($_SESSION["id"]);
 		$this->view("Postear",array(
 			"usuario"=>$obj
 		));

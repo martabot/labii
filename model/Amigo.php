@@ -42,7 +42,7 @@ class Amigo extends EntidadBase{
 		}
 		else{
 			$query= "INSERT INTO amigo (`user1`, `user2`, `fecha`) VALUES (
-                $us1,$us2,'$this->fecha');";
+                $us1,$us2,NOW());";
 
 			$save=$this->db()->query($query);
 			//$this->db()->error;

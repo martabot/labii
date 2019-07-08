@@ -1,4 +1,7 @@
 <?php
+session_start();
+ini_get('register_globals');
+
 class EntidadBase{
     private $table;
     private $db;
@@ -92,6 +95,29 @@ class EntidadBase{
         
         return $resultSet;
     }
+
+    public function getPublicos(){
+        $query=$this->db->query("SELECT u.username,u.id,p.id as unico,p.titulo,p.cuerpo FROM post p, usuario u WHERE p.user=u.id and p.privacidad=1 ORDER BY p.fecha DESC;");
+
+        $i=0;
+        while($i<7&&$row = $query->fetch_assoc()) {
+           $resultSet[]=$row;
+           $i++;
+        }
+        
+        return $resultSet;
+    }
+
+    public function getAmigos($id1,$id2){
+        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id1 and user2=$id2) or (user2=$id1 and user1=$id2);");
+
+        if($row = $query->fetch_object()) {
+           $resultSet=$row;
+        }
+        
+        return $resultSet;
+    }
+
     
     public function deleteById($id){
         $query=$this->db->query("DELETE FROM $this->table WHERE id=$id"); 

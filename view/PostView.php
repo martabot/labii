@@ -1,3 +1,9 @@
+<?php 
+if($usuario->id!=$_SESSION['id']){
+    $_SESSION['visitante']=$usuario->id;
+}
+
+?>
 <!doctype html>
 <html lang="es">
   <head>
@@ -57,17 +63,17 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>">Inicio</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>">Inicio</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
             </form>
-            <a style="text-decoration: none" href="<?php echo $helper->url("usuario","index"); ?>"><h4 style="color: whitesmoke;padding-left:20px">Ω</h4></a>
+            <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion"); ?>">Cerrar Sesion</a>
         </div>
     </nav>
 
@@ -89,9 +95,10 @@
                     <div class="ult card-body card-body-cascade text-center">
             
                                 <section class="container-fluid">
+                                <?php if($_SESSION['id']==$usuario->id){ ?>
                                 <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","editar") ?>&id=<?php echo $usuario->id; ?>">EDITAR PERFIL</a>
-                                    </div>
+                                </div> <?php } ?>
                                     <div class="row t">
                                     <a href="<?php echo $helper->url("usuario","editar") ?>&id=<?php echo $usuario->id; ?>">INTERESES<span>&nbsp(30)</span></a>
                                     </div>
@@ -112,7 +119,7 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="row" style="margin:30px 0px 30px -10px">
-                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id ?>">⇦ Regresar al muro</a>
+                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>">⇦ Regresar al muro</a>
                             <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">

@@ -26,23 +26,23 @@
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
-            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>"><b>StackOverPets</b></a>
+            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()" style="outline: none"><</button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>">Inicio</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>">Inicio</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id; ?>">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
             </form>
-            <a style="text-decoration: none" href="<?php echo $helper->url("usuario","index"); ?>"><h4 style="color: whitesmoke;padding-left:20px">Ω</h4></a>
+            <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion"); ?>">Cerrar Sesion</a>
         </div>
     </nav>
 
@@ -72,6 +72,7 @@
                      }?>
                 </select>
             </div>
+            <input type="hidden" value="<?php echo $usuario->profilePic; ?>" name="actual">
             <div class="row costado">
                 <span>Foto de perfil: </span> <input class="col-4 form-control" type="file" name="profilePic" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
