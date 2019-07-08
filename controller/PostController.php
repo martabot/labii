@@ -110,7 +110,7 @@ class PostController extends ControladorBase{
         $usuario=new Usuario($this->adapter);
         $post=new Post($this->adapter);
         $cuerpo=isset($_POST['txt'])?$_POST['txt']:"";
-        $usuario->__set("id",$_GET['idUser']);
+        $usuario->__set("id",$_SESSION['id']);
         $com->__set("user",$usuario);
         $com->__set("cuerpo",$cuerpo);
         $post->__set("id",$_GET['idPost']);
