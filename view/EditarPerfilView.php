@@ -48,7 +48,7 @@
 
     <div class="todo">
     <h2>Editar perfil: <?php echo $usuario->username; ?></h2>
-    <form method="POST" action="<?php echo $helper->url("usuario","actualizar"); ?>&id=<?php echo $usuario->id; ?>" enctype="multipart/form-data">
+    <form method="POST" action="<?php echo $helper->url("usuario","actualizar"); ?>" enctype="multipart/form-data">
             <div class="row costado">
                 <span>Nombre: </span><input class="col-4 form-control" type="text" name="nombre" value="<?php echo $usuario->nombre; ?>">
             </div>
@@ -81,7 +81,7 @@
             </div>
             <div class="row costado">
                 <div class="offset-md-2">
-                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id; ?>" class="btn btn-outline-info">Cancelar</button>
+                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>" class="btn btn-outline-info">Cancelar</button>
                     <input type="submit" value="Actualizar" name="update" class="btn btn-outline-info">
                 </div>
             </div>

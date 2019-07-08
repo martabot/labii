@@ -26,16 +26,16 @@
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
-            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>"><b>StackOverPets</b></a>
+            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()" style="outline: none"><</button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>">Inicio</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>">Inicio</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id; ?>">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -48,7 +48,7 @@
 
     <div class="todo">
     <h2>Nuevo Post: <?php echo $usuario->username; ?></h2>
-    <form method="POST" action="<?php echo $helper->url("post","crear"); ?>&id=<?php echo $usuario->id; ?>" enctype="multipart/form-data">
+    <form method="POST" action="<?php echo $helper->url("post","crear"); ?>" enctype="multipart/form-data">
             <div class="row costado">
                 <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo">
             </div>
@@ -69,7 +69,7 @@
             </div>
             <div class="row costado">
                 <div class="offset-md-2">
-                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>&id=<?php echo $usuario->id; ?>" class="btn btn-outline-info">Cancelar</button>
+                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>" class="btn btn-outline-info">Cancelar</button>
                     <input type="submit" value="Publicar" name="update" class="btn btn-outline-info">
                 </div>
             </div>

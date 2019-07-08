@@ -43,10 +43,10 @@ class PostController extends ControladorBase{
 
 
     public function crear(){
-        if(isset($_GET['id'])){
+        if(isset($_SESSION['id'])){
             $post=new Post($this->adapter);
             $user=new Usuario($this->adapter);
-            $user->__set("id",$_GET['id']);
+            $user->__set("id",$_SESSION['id']);
             $titulo=isset($_POST["titulo"])?$_POST['titulo']:NULL;
             $cuerpo=isset($_POST["cuerpo"])?$_POST['cuerpo']:NULL;
             $palabras=isset($_POST["palabras"])?$_POST["palabras"]:NULL;
@@ -88,7 +88,7 @@ class PostController extends ControladorBase{
                         $i++;
                     }
                 $save=$post->save();
-                $id=(int)$_GET["id"];
+                $id=(int)$_SESSION["id"];
 				$usuario = $user->getById($id);
 				$pd=new Pais($this->adapter);
 				$pais=$pd->getById($usuario->pais);

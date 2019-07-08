@@ -48,7 +48,7 @@
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
-            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>&id=<?php echo $usuario->id; ?>"><b>StackOverPets</b></a>
+            <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()" style="outline: none"><</button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -88,16 +88,16 @@
                                 <section class="container-fluid">
                                 <?php if($_SESSION['id']==$usuario->id){ ?>
                                 <div class="row t">
-                                        <a href="<?php echo $helper->url("usuario","editar") ?>&id=<?php echo $usuario->id; ?>">EDITAR PERFIL</a>
+                                        <a href="<?php echo $helper->url("usuario","editar") ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar") ?>&id=<?php echo $usuario->id; ?>">INTERESES<span>&nbsp(30)</span></a>
+                                    <a href="<?php echo $helper->url("usuario","editar") ?>">INTERESES<span>&nbsp(30)</span></a>
                                     </div>
                                     <div class="row t">
                                         <a href="#">AMIGOS <span>&nbsp(2089)</span></a>
                                     </div>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar") ?>&id=<?php echo $usuario->id; ?>">ORDENAR POR DESTACADOS</a>
+                                    <a href="<?php echo $helper->url("usuario","editar") ?>">ORDENAR POR DESTACADOS</a>
                                     </div>
                                 </section>
                     </div>
