@@ -294,19 +294,19 @@ class UsuarioController extends ControladorBase{
 									$usuario->__set("mail",$mail);
 									if($profilePic){
 										$usuario->__set("profilePic",$profilePic);
-									}else{
+									}
 									$fileName=$_FILES['profilePic']['name'];
 									$tmpName=$_FILES['profilePic']['tmp_name'];
 									$fileSize=$_FILES['profilePic']['size'];
 									$fileType=$_FILES['profilePic']['type'];
-          				if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){$imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/profile/"; $extension=explode("/",$fileType);$fileName=$ud['username'].'.'.$extension[1];$filePath=$imagenes.$fileName;$serverName="http://localhost/LABII/public/img/profile/".$fileName;if($result=move_uploaded_file($tmpName, $filePath)){$usuario->__set("profilePic",$serverName);}else{echo "no se subio";exit;}}}
+          				if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){$imagenes=$_SERVER['DOCUMENT_ROOT']."/LABII/public/img/profile/"; $extension=explode("/",$fileType);$fileName=$ud['username'].'.'.$extension[1];$filePath=$imagenes.$fileName;$serverName="http://localhost/LABII/public/img/profile/".$fileName;if($result=move_uploaded_file($tmpName, $filePath)){$usuario->__set("profilePic",$serverName);}else{echo "no se subio";exit;}}
 							
 						 $usuario->__set("bday",$_POST["bd"]);
 						 $pais = new Pais($this->adapter);
 						 $pais->__set("id",$_POST["country"]);
 						 $usuario->__set("pais",$pais);
 						 $save=$usuario->save();
-			 $this->verMuro();
+			 	$this->verMuro();
 	 			}
 			
 		}
