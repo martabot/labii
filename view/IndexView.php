@@ -17,11 +17,34 @@
         }
     </script>
     <style>
-    .x,h5{text-decoration: none;color: rgb(252, 159, 84)}
+    .x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}
     #nombre{color: rgb(252, 159, 84)}
     .x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }
     .todo{
         font-family: 'Assistant', sans-serif;
+    }
+
+    #img{
+        padding-left:10px
+    }
+
+    .l{margin:30px 7px 0px 60px}
+    .r{margin:30px 50px 0px 7px}
+    #eti{
+        background-color: #fefbde; padding:3px;margin:5px;color:grey
+    }
+    .card p{
+        padding-top:10px
+    }
+    .post{
+        width:100%
+    }
+    .post img{
+        width:100%;
+        height:auto
+    }
+    .p {
+        width:100%
     }
     </style>
   </head>
@@ -38,6 +61,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones(<?php echo (int)$notis; ?>)</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -47,32 +73,114 @@
         </div>
     </nav>
 <div class="row todo">
-    <div class="col-lg-6">
-        <div class="row justify-content-center" style="padding-top: 40px;overflow:hidden">
-            
-                    <?php foreach($publicos as $publico){ ?>
-                        <div class="card" style="width: 80%;margin-bottom:10px">
-                            <div class="card-body">
-                                    <span id="nombre">@<?php echo $publico["username"]; ?></span>
-                                    <a href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $publico['id'];?>&unico=<?php echo $publico['unico'];?>" class="x"><h5 class="card-title"><?php echo $publico["titulo"];?></h5></a><?php echo $publico["cuerpo"];?>
-                                </div>
-                            </div>
-                    <?php } ?>
-            </div>
-        </div>
-    <div class="col-lg-6">
-        <div class="row justify-content-center" style="padding-top: 40px">
-            <div class="card" style="width: 80%;">
-                <div class="card-body">
-                      <h5 class="card-title">TITULO DE POST AMIGO <img alt="amigo" style="float: right" src="/public/img/duft1.jpg" height="30px"></h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-info">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     
+<div class="col-lg-6">
+<?php  
+           foreach($allPost as $post){
+            foreach($cant as $c){
+                if($c['id']==$post->id){
+                $t=$c['cant'];
+                }
+            }
+                
+            foreach($duenios as $you){
+                if($you['id']==$post->id){
+                $name=$you['username'];
+                }
+            }
+               ?>
+            
+
+            <div class="row post">
+                    <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
+                        <div class="card-body">
+                        <span class="d" style="float: right;margin-bottom:5px">
+                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                                <span id="nombre">@<?php echo $name; ?></span></a>
+                            <a href="#" class="btn btn-outline-danger btn-sm">
+                                <b>x</b></a> 
+                            </span><br>
+                        <h5 class="card-title"><b><?php echo $post->titulo;?></b></h5>
+                            <hr>
+                            <?php
+                            for($i = 1; $i < 4; ++$i) {
+                                $each="palabra".$i;
+                                if($post->$each){
+                                    echo '<span id="eti">'.$post->$each.'</span>';
+                                }
+                            }
+                            echo '<br>
+                            <p class="card-text">'.$post->cuerpo.'</p>';
+                            for($i = 1; $i < 4; ++$i) {
+                                $each="img".$i;
+                                if($post->$each){
+                                    echo '<img src="'.$post->$each.'" alt="Imagen de post">';
+                                }
+                            }
+                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                $t=isset($t)?$t:0;
+                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
+                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                $t=0;
+                           echo' </div>
+                        </div>
+                    </div>';
+        }?>
+        </div>
+    <div class="col-lg-6">
+    <?php 
+     if(!isset($amiguis)){
+            echo '<div class="row r justify-content-center align-middle"><span class="alert alert-info">Los post de tus amigos aparecerán en esta seccion.</span></div>';
+     }else{
+           foreach($amiguis as $post){
+            foreach($cant as $c){
+                if($c['id']==$post->id){
+                $t=$c['cant'];
+                }
+            }
+            foreach($duenios as $you){
+                if($you['id']==$post->id){
+                $name=$you['username'];
+                }
+            }
+               ?>
+            <div class="row post">
+                    <div class="r card shadow-sm p-1 mb-3 bg-white rounded p">
+                        <div class="card-body">
+                        <span class="d" style="float: right;margin-bottom:5px">
+                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                                <span id="nombre">@<?php echo $name; ?></span></a>
+                            <a href="#" class="btn btn-outline-danger btn-sm">
+                                <b>x</b></a> 
+                            </span><br>
+                        <h5 class="card-title"><b><?php echo $post->titulo;?></b></h5>
+                            <hr>
+                            <?php
+                            for($i = 1; $i < 4; ++$i) {
+                                $each="palabra".$i;
+                                if($post->$each){
+                                    echo '<span id="eti">'.$post->$each.'</span>';
+                                }
+                            }
+                            echo '<br>
+                            <p class="card-text">'.$post->cuerpo.'</p>';
+                            for($i = 1; $i < 4; ++$i) {
+                                $each="img".$i;
+                                if($post->$each){
+                                    echo '<img src="'.$post->$each.'" alt="Imagen de post">';
+                                }
+                            }
+                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                $t=isset($t)?$t:0;
+                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
+                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                $t=0;
+                           echo' </div>
+                        </div>
+                    </div>';
+        }}?>
+           </div>
+    </div>
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

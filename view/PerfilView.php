@@ -30,6 +30,10 @@
     .post span{
         background-color: #fefbde; padding:3px;margin:5px;color:grey
     }
+
+    #img{
+        padding-left:10px
+    }
     .card p{
         padding-top:10px
     }
@@ -58,6 +62,9 @@
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones(<?php echo (int)$notis; ?>)</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -117,8 +124,11 @@
                                 <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a>
                             <?php }else{
                                 $estado=(int)$amigo->status;
-                                if($estado==0){?>
+                                if($estado==0&&$amigo->user2==$_SESSION["id"]){?>
+                                    <a class="btn btn-outline-success my-2 my-sm-0" href="<?php echo $helper->url("usuario","aceptarSolicitud"); ?>">Aceptar Solicitud</a>                                
                                     <a class="btn btn-outline-danger my-2 my-sm-0" href="<?php echo $helper->url("usuario","cancelarSolicitud"); ?>">Cancelar Solicitud</a><?php 
+                                 }else if ($estado==0&&$amigo->user2==$_SESSION["visitante"]){?>
+                                    <a class="btn btn-outline-danger my-2 my-sm-0" href="<?php echo $helper->url("usuario","cancelarSolicitud"); ?>">Cancelar Solicitud</a><?php
                                  }else if ($estado==1){?>
                                      <p class="btn btn-success my-2 my-sm-0">Amigos</p><?php 
                                     } else { ?> 
@@ -127,7 +137,7 @@
                                     }
                                 } 
                             }
-                            
+                            if(isset($allPost)){
                             foreach($allPost as $post){
                                 echo '<div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
@@ -151,17 +161,17 @@
                                                     echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
                                                     foreach($cant as $c){
                                                         if($c['id']==$post->id){
-                                                        $t=(int)$c['cant'];
+                                                        $t=$c['cant'];
                                                         }
                                                     }
-                                                    if(!$t){$t=0;}
+                                                    $t=isset($t)?$t:0;
                                                     $link=$helper->url('usuario','verPost'); 
                                                     echo'<a href="'.$link.'&id='.$usuario->id.'&unico='.$post->id.'">'.$t.' Comentarios</a>';
                                                     $t=0;
                                                echo' </div>
                                             </div>
                                         </div>';
-                            }
+                            }}
                             ?>
                             </div>  
                         </div>

@@ -1,0 +1,7 @@
+Hola Agus...
+
+Saque esos require que estaban de más pero dejé los mágicos porque ya estabán por todos lados...
+
+Fijate el ultimo commit con las notificaciones, también las agrego a la db y empecé a usar $_SESSION, como me sale, va mejorando de a poco. El usuarioController me quedó muy cargado o eso es normal? (o sea a pesar del codigo repetido, ya haré una limpieza)
+
+Tengo una duda... cómo atrapo errores de reenviar formularios a veces cuando vuelve atras el navegador? 

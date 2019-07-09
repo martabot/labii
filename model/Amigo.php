@@ -1,5 +1,6 @@
 <?php
 class Amigo extends EntidadBase{
+    private $id;
     private $user1;
     private $user2;
     private $status;
@@ -22,25 +23,22 @@ class Amigo extends EntidadBase{
     } 
 	
     public function save(){
-        $us1=$this->user1->__get('id');
-        $us2=$this->user2->__get('id');
         
 		if($this->status!=0){
             //0 = pendiente (se inserta)
             //1 = aceptado (se actualiza)
             //2 = rechazado (se actualiza)
 			
-			$query= "UPDATE 'amigo' set 
-                        'status'=$this->status, 
-                    WHERE user1=$us1 and user2=$us2";
+			$query= "UPDATE `amigo` SET `status`= $this->status WHERE id=$this->id ;";
 			
 			$save=$this->db()->query($query);
             //$this->db()->error;
-            
 			return $save;
 			
 		}
 		else{
+            $us1=$this->user1->__get('id');
+            $us2=$this->user2->__get('id');
 			$query= "INSERT INTO amigo (`user1`, `user2`, `fecha`) VALUES (
                 $us1,$us2,NOW());";
 

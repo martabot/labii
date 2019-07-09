@@ -68,6 +68,10 @@ if($usuario->id!=$_SESSION['id']){
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
                 </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones(<?php echo (int)$notis; ?>)</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -119,7 +123,7 @@ if($usuario->id!=$_SESSION['id']){
                     </div>
                     <div class="col-lg-7">
                         <div class="row" style="margin:30px 0px 30px -10px">
-                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>">⇦ Regresar al muro</a>
+                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>">⇦ Ver muro</a>
                             <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
@@ -152,9 +156,10 @@ if($usuario->id!=$_SESSION['id']){
                                                         </form>
                                                 <hr style="margin-top:60px">
                                                 <?php
+                                                if(isset($com)){
                                                 foreach($com as $comen){
                                                     echo '<b id="persona">'.$comen['username'].'</b> <i>'.$comen['cuerpo'].'</i><br>';
-                                                }?>
+                                                }}?>
                                         </div>
                                     </div>
                                 </div>

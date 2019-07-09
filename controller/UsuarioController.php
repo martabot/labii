@@ -15,14 +15,24 @@ class UsuarioController extends ControladorBase{
 
 		//Listar todos los Usuarios	
 		public function index(){
-			if($_SESSION["id"]){
+			if(isset($_SESSION["id"])){
 				unset($_SESSION["visitante"]);
 				$ud=new Usuario($this->adapter);
-				$obj=$ud->getById($_SESSION["id"]);
-				$publicos=$ud->getPublicos();
+				$id=$_SESSION["id"];
+				$obj=$ud->getById($id);
+				$post=new Post($this->adapter);
+				$allPosts=$post->getByFecha("privacidad",1);
+				$amiguis=$post->getPostDeAmigos($id);
+				$cant=$post->getAllCom();
+				$duenios=$post->getPublicadores();
+				$notificaciones=sizeof($post->getUnseen($id));
 				$this->view("Index",array(
+					"notis"=>$notificaciones,
 					"usuario"=>$obj,
-					"publicos"=>$publicos
+					"allPost"=>$allPosts,
+					"cant"=>$cant,
+					"amiguis"=>$amiguis,
+					"duenios"=>$duenios
 				));
 			}else{
 				$this->view("Bienvenida","");
@@ -109,27 +119,27 @@ class UsuarioController extends ControladorBase{
 		}
 
 		public function ingresar(){
+			if(isset($_SESSION['id'])){
+				$this->index();
+			}else {
 			if(isset($_POST['username'])&&isset($_POST['pass'])){
 				
-				$user=$_POST['username'];
+				$un=$_POST['username'];
 				$pw=$_POST['pass'];
 
 				$ud=new Usuario($this->adapter);
-				$usuario=$ud->getOneBy("username",$user);
+				$usuario=$ud->getOneBy("username", $un);
 				$salt = $usuario['salt'];
 				$saltedPass = $pw.$salt;
-				$hashedPass = hash('sha256', $saltedPass);
-				$obj=$ud->getByID($usuario['id']);
-				$publicos=$ud->getPublicos();
-				session_start();
-				$_SESSION["id"]=$obj->id;
+				$hashedPass = hash('sha256', $saltedPass);	
 				if($usuario['pass']==$hashedPass){
-					$this->view("Index",array(
-						"usuario"=>$obj,
-						"publicos"=>$publicos
-					));
+						$_SESSION["id"]=$usuario['id'];
+						$_SESSION['username']=$un;
+						$_SESSION['pass']="si";
+						$this->index();
 				}else{echo 'Contraseña o nombre incorrecto!';}
-			}
+			}else{$this->index();}
+		}
 		}
 
 		public function verMuro(){
@@ -144,9 +154,11 @@ class UsuarioController extends ControladorBase{
 				$allPosts=$post->getAllPost($id);
 				$cant=$post->getCountCom($id);
 				if(isset($_SESSION["visitante"])){
-					$amigo=$post->getAmigos($_SESSION["id"],$_SESSION["visitante"]);
+					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
 				} else {$amigo=NULL;}
+				$notificaciones=sizeof($post->getUnseen($_SESSION["id"]));
 				$this->view("Perfil",array(
+					"notis"=>$notificaciones,
 					"amigo"=>$amigo,
 					"usuario"=>$usuario,
 					"pais"=>$pais,
@@ -160,10 +172,37 @@ class UsuarioController extends ControladorBase{
 			$this->verMuro();
 		}
 
+		public function aceptarSolicitud(){
+			$amigo=new Amigo($this->adapter);
+			$ad=new Amigo($this->adapter);
+			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"]);
+			$amigo->__set("id",$ad->id);
+			$amigo->__set("status",1);
+			$_SESSION['nAmigo']=" aceptó tu solicitud de amistad";
+			$save=$amigo->save();
+			$this->redirect("notificaciones","crear");
+		}
+
+		public function cancelarSolicitud(){
+			$amigo=new Amigo($this->adapter);
+			$ad=new Amigo($this->adapter);
+			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"]);
+			$amigo->__set("id",$ad->id);
+			$amigo->__set("status",2);
+			$_SESSION['nAmigo']=" rechazó tu solicitud de amistad";
+			$save=$amigo->save();
+			echo $save;
+			$this->redirect("notificaciones","crear");
+		}
+
     public function verPost(){
-			if(isset($_GET["unico"])){ 
+			if(isset($_GET["unico"])&&isset($_GET["id"])){ 
 				$id=(int)$_GET["id"];
 				$unico=$_GET["unico"];
+			}else if(isset($_SESSION['unico'])&&isset($_SESSION['id'])){
+				$id=$_SESSION['id'];
+				$unico=$_SESSION['unico'];
+			}
 				$usuario = new Usuario($this->adapter);
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
@@ -173,17 +212,19 @@ class UsuarioController extends ControladorBase{
 				$com=new Comentario($this->adapter);
 				$allComentarios=$com->getComentarios($unico);
 				$cant=sizeof($allComentarios);
+				$notificaciones=sizeof($com->getUnseen($id));
 				$this->view("Post",array(
+					"notis"=>$notificaciones,
 					"usuario"=>$usuario,
 					"pais"=>$pais,
 					"post"=>$post,
 					"cant"=>$cant,
 					"com"=>$allComentarios
 				));
-			}
     }
 
 		//turning . 
+
 
 		//Procesa el borrado de unUsuario
 		public function borrar(){
@@ -204,8 +245,9 @@ class UsuarioController extends ControladorBase{
 				$u2=$usuario->__set("id",$_SESSION["visitante"]);
 				$amigo->__set("user1",$u1);
 				$amigo->__set("user2",$u2);
+				$_SESSION['nAmigo']=" te ha enviado una solicitud de amistad";
 				$save=$amigo->save();
-				$this->verMuro();
+				$this->redirect("notificaciones","crear");
 		}
    
      
@@ -216,7 +258,9 @@ class UsuarioController extends ControladorBase{
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
 				$paises=$pd->getAll();
+				$notificaciones=sizeof($pd->getUnseen($id));
 				$this->view("EditarPerfil",array(
+					"notis"=>$notificaciones,
 					"paises"=>$paises,
 					"usuario"=>$usuario
 				));

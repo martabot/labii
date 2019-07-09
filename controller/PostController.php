@@ -15,8 +15,10 @@ class PostController extends ControladorBase{
 
     public function index(){
         $ud=new Usuario($this->adapter);
-		$obj=$ud->getById($_SESSION["id"]);
+        $obj=$ud->getById($_SESSION["id"]);
+        $notificaciones=sizeof($ud->getUnseen($_SESSION["id"]));
 		$this->view("Postear",array(
+            "notis"=>$notificaciones,
 			"usuario"=>$obj
 		));
     }
@@ -31,7 +33,9 @@ class PostController extends ControladorBase{
             $com=new Comentario($this->adapter);
             $allComentarios=$com->getComentarios($unico);
             $cant=sizeof($allComentarios);
+            $notificaciones=sizeof($post->getUnseen($id));
             $this->view("Post",array(
+                "notis"=>$notificaciones,
                 "usuario"=>$usuario,
                 "pais"=>$pais,
                 "post"=>$post,
@@ -95,7 +99,9 @@ class PostController extends ControladorBase{
 				$post=new Post($this->adapter);
                 $allPosts=$post->getAllPost($id);
                 $cant=$post->getCountCom($id);
+				$notificaciones=sizeof($post->getUnseen($id));
 				$this->view("Perfil",array(
+                    "notis"=>$notificaciones,
 					"usuario"=>$usuario,
 					"pais"=>$pais,
                     "allPost"=>$allPosts,
