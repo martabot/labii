@@ -58,7 +58,7 @@ class EntidadBase{
     }
 
     public function getAllCom(){
-        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id) GROUP by p.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -100,13 +100,12 @@ class EntidadBase{
 
 
     public function getComentarios($id){
-        $query=$this->db->query("SELECT u.username,c.cuerpo FROM usuario u, comentario c WHERE c.post=$id and c.user=u.id ORDER BY c.fecha DESC;");
+        $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id) ORDER BY c.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
         }
-        
-        $resultSet=isset($resultSet)?$resultSet:NULL;
+
         return $resultSet;
     }
     
@@ -115,10 +114,7 @@ class EntidadBase{
 
         if($row = $query->fetch_object()) {
            $resultSet=$row;
-        }/*
-        if($this->db()->error){
-            $resultSet=$this->db()->error;
-        }*/
+        }
         return $resultSet;
     }
     

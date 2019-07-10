@@ -26,11 +26,42 @@ class DenunciaController extends ControladorBase{
         $this->redirect("usuario","index");
     }
 
-    public function denunciarComentario(){
+    public function denunciarCom(){
+        $dCom= new DenunciaCom($this->adapter);
+        $com=new Comentario($this->adapter);
+        $com->__set("id",$_GET['id']);
+        $dCom->__set("comentario",$com);
+        $usuario=new Usuario($this->adapter);
+        $usuario->__set("id",$_SESSION['id']);
+        $dCom->__set("user",$usuario);
+        $save=$dCom->save();
+        $_SESSION['unico']=$_GET['unico'];
+        $this->redirect("usuario","verPost");
+    }
 
-
-
-
+    public function moderador(){
+        if(isset($_SESSION["id"])){
+            unset($_SESSION["visitante"]);
+            $ud=new Moderador($this->adapter);
+            $id=$_SESSION["id"];
+            $obj=$ud->getById($id);
+            $post=new Post($this->adapter);
+            $allPosts=$post->getByFecha($id);
+            $amiguis=$post->getPostDeAmigos($id);
+            $cant=$post->getAllCom();
+            $duenios=$post->getPublicadores();
+            $notificaciones=sizeof($post->getUnseen($id));
+            $this->view("ModerarView",array(
+                "notis"=>$notificaciones,
+                "usuario"=>$obj,
+                "allPost"=>$allPosts,
+                "cant"=>$cant,
+                "amiguis"=>$amiguis,
+                "duenios"=>$duenios
+            ));
+        }else{
+            $this->view("Bienvenida","");
+        }
     }
 
 }

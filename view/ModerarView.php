@@ -1,10 +1,4 @@
-<?php ini_get('register_globals'); 
-if(isset($_SESSION['moderador'])){
-    $helper->url("denuncia","moderar");
-} else if(isset($_SESSION['admin'])){
-    $helper->url("admin","index");
-}
-?>
+<?php ini_get('register_globals'); ?>
 <!doctype html>
 <html lang="es">
   <head>
@@ -40,13 +34,13 @@ if(isset($_SESSION['moderador'])){
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Inicio</a>
+                    <a class="nav-link" href="#">Post</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("denuncia","listarCom"); ?>">Comentarios</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones(<?php echo (int)$notis; ?>)</a>
+                    <a class="nav-link" href="<?php echo $helper->url("denuncia","perfil"); ?>">Perfil</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

@@ -33,8 +33,11 @@ class PostController extends ControladorBase{
             $com=new Comentario($this->adapter);
             $allComentarios=$com->getComentarios($unico);
             $cant=sizeof($allComentarios);
-            $notificaciones=sizeof($post->getUnseen($id));
+            $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));
+            $asa=new Amigo($this->adapter);
+			$todos=sizeof($asa->getTodos($id));
             $this->view("Post",array(
+                "todos"=>$todos,
                 "notis"=>$notificaciones,
                 "usuario"=>$usuario,
                 "pais"=>$pais,

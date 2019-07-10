@@ -1,3 +1,12 @@
+<?php
+    if(isset($_SESSION['incorrecto'])){
+        echo '<script language="javascript">';
+        echo 'alert("Nombre de usuario o contraseña incorrecto");';
+        echo '</script>';
+        unset($_SESSION['incorrecto']);
+    }
+?>
+
 <!doctype html>
 <html lang="es">
   <head>

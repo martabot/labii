@@ -22,37 +22,7 @@ if($usuario->id!=$_SESSION['id']){
     }
     </script>
     <style>
-    .todo{font-family: 'Assistant', sans-serif;}
-        html{scrollbar-face-color: orangered}
-    .b{margin: 10px 10px 10px 10px}
-    .ult{padding-top:30px;padding-bottom:30px}
-    img{height: 220px; width: 60%; overflow: hidden;padding-top: 20px}
-    .x{padding-left: 10px}
-    section div.t{margin-top: 7px}
-    .t,.t a,.user{color: orangered}
-    .t span, .x a{color: grey}
-    .card{margin-top:15px }
-    .post span{
-        background-color: #fefbde; padding:3px;margin:5px;color:grey
-    }
-    .card p{
-        padding-top:10px
-    }
-    #persona{
-        color:orangered
-    }
-    .post{
-        width:100%
-    }
-    .post img{
-        width:100%;
-        height:auto
-    }
-    .p {
-        width:100%
-    }
-    .derecha{float:right}
-}
+    .todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}img{height: 220px; width: 60%; overflow: hidden;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}
     </style>
   </head>
   <body>
@@ -107,7 +77,7 @@ if($usuario->id!=$_SESSION['id']){
                                     <a href="<?php echo $helper->url("usuario","editar") ?>">INTERESES<span>&nbsp(30)</span></a>
                                     </div>
                                     <div class="row t">
-                                        <a href="#">AMIGOS <span>&nbsp(2089)</span></a>
+                                        <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp(<?php echo (int)$todos; ?>)</span></a>
                                     </div>
                                     <div class="row t">
                                     <a href="<?php echo $helper->url("usuario","editar") ?>">ORDENAR POR DESTACADOS</a>
@@ -123,7 +93,11 @@ if($usuario->id!=$_SESSION['id']){
                     </div>
                     <div class="col-lg-7">
                         <div class="row" style="margin:30px 0px 30px -10px">
-                            <a href="<?php echo $helper->url("usuario","verMuro"); ?>">⇦ Ver muro</a>
+                        <span style="float: right">
+                            <a style="padding-right:10px" href="<?php echo $helper->url("usuario","verMuro"); ?>">
+                                ⇦ Ver muro
+                                </a>
+                            </span>
                             <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
@@ -133,7 +107,7 @@ if($usuario->id!=$_SESSION['id']){
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="palabra".$i;
                                                     if($post->$each){
-                                                        echo '<span>'.$post->$each.'</span>';
+                                                        echo '<span id="eti">'.$post->$each.'</span>';
                                                     }
                                                 }
                                                 echo '<br>
@@ -157,9 +131,14 @@ if($usuario->id!=$_SESSION['id']){
                                                 <hr style="margin-top:60px">
                                                 <?php
                                                 if(isset($com)){
-                                                foreach($com as $comen){
-                                                    echo '<b id="persona">'.$comen['username'].'</b> <i>'.$comen['cuerpo'].'</i><br>';
-                                                }}?>
+                                                foreach($com as $comen){ 
+                                                    $link=$helper->url('denuncia','denunciarCom')."&id=".$comen['id']."&unico=".$comen['post'];?>
+                                                    <span> <b id="persona">@<?php echo $comen['username']; ?></b> <i><?php echo $comen['cuerpo']; ?></i>
+                                                    <span class="derecha">
+                                                        <a class="no" href="<?php echo $link;?>">&nbspx&nbsp</a>
+                                                        </span> </span>
+                                                    <hr class="muy">
+                                                <?php }}?>
                                         </div>
                                     </div>
                                 </div>

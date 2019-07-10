@@ -24,13 +24,10 @@ class DenunciaCom extends EntidadBase{
     } 
 	
     public function save(){
-        $us=$this->user->__get('id');
-        $com=$this->post->__get('id');
-        $mod=$this->moderador->__get('id');
         
-		if(!$this->fechaMod){
-			
-			$query= "UPDATE `denuncia_com` SET 
+		if($this->fechaMod){
+            $mod=$this->moderador->__get('id');
+			$query= "UPDATE `denunciaCom` SET 
                             `idModerador`=$mod,
 						    `fechaMod`='$this->fechaMod',
 					where 'idCom' = $com 
@@ -43,12 +40,14 @@ class DenunciaCom extends EntidadBase{
 			
 		}
 		else{
-            $query= "INSERT INTO `denuncia_com`(`idCom`, `idUsuario`, `fecha`, `motivo`) VALUES (
-                 $com,$us,
-                '$this->fecha',
-                '$this->motivo');";
+        $us=$this->user->__get('id');
+        $com=$this->comentario->__get('id');
+            $query= "INSERT INTO `denunciaCom`(`idCom`, `idUsuario`, `fecha`, `motivo`) VALUES (
+                 $com,$us,NOW(),'Hay un motivo para todo');";
 			$save=$this->db()->query($query);
-			//$this->db()->error;
+            
+            //$this->db()->error;
+            
 			return $save;
 		}	
     }

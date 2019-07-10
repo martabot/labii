@@ -135,11 +135,38 @@ class UsuarioController extends ControladorBase{
 				if($usuario['pass']==$hashedPass){
 						$_SESSION["id"]=$usuario['id'];
 						$_SESSION['username']=$un;
-						$_SESSION['pass']="si";
 						$this->index();
-				}else{echo 'Contraseña o nombre incorrecto!';}
-			}else{$this->index();}
-		}
+				}else{
+					$ad=new Admin($this->adapter);
+					if(!NULL==$ad->getOneBy("username", $un)){
+					$usuario=$ad->getOneBy("username", $un);
+					$salt = $usuario['salt'];
+					$saltedPass = $pw.$salt;
+					$hashedPass = hash('sha256', $saltedPass);	
+					if($usuario['pass']==$hashedPass){
+							$_SESSION["id"]=$usuario['id'];
+							$_SESSION['username']=$un;
+							$_SESSION['admin']="si";
+							$this->redirect("admin","index");}
+				} else {
+					$md=new Moderador($this->adapter);
+					if(!NULL==$md->getOneBy("username", $un)){
+					$usuario=$md->getOneBy("username", $un);
+					$salt = $usuario['salt'];
+					$saltedPass = $pw.$salt;
+					$hashedPass = hash('sha256', $saltedPass);	
+					if($usuario['pass']==$hashedPass){
+							$_SESSION["id"]=$usuario['id'];
+							$_SESSION['username']=$un;
+							$_SESSION['moderador']="si";
+							$this->redirect("moderador","index");}
+					}else{
+						$_SESSION['incorrecto']="si";
+						$this->view("Login","");
+					}
+				}
+			}
+			}}
 		}
 
 		public function verMuro(){
@@ -158,7 +185,7 @@ class UsuarioController extends ControladorBase{
 				} else {$amigo=NULL;}
 				$notificaciones=sizeof($post->getUnseen($_SESSION["id"]));
 				$asa=new Amigo($this->adapter);
-				$todos=sizeof($asa->getTodos($_SESSION['id']));
+				$todos=sizeof($asa->getTodos($id));
 				$this->view("Perfil",array(
 					"todos"=>$todos,
 					"notis"=>$notificaciones,
@@ -212,7 +239,10 @@ class UsuarioController extends ControladorBase{
 			if(isset($_GET["unico"])&&isset($_GET["id"])){ 
 				$id=(int)$_GET["id"];
 				$unico=$_GET["unico"];
-			}else if(isset($_SESSION['unico'])&&isset($_SESSION['id'])){
+			}else if(isset($_SESSION['unico'])&&isset($_SESSION['visitante'])){
+				$id=$_SESSION['visitante'];
+				$unico=$_SESSION['unico'];
+			} else if (isset($_SESSION['unico'])&&isset($_SESSION['id'])){
 				$id=$_SESSION['id'];
 				$unico=$_SESSION['unico'];
 			}
@@ -225,8 +255,11 @@ class UsuarioController extends ControladorBase{
 				$com=new Comentario($this->adapter);
 				$allComentarios=$com->getComentarios($unico);
 				$cant=sizeof($allComentarios);
-				$notificaciones=sizeof($com->getUnseen($id));
+				$notificaciones=sizeof($com->getUnseen($_SESSION['id']));
+				$asa=new Amigo($this->adapter);
+				$todos=sizeof($asa->getTodos($id));
 				$this->view("Post",array(
+					"todos"=>$todos,
 					"notis"=>$notificaciones,
 					"usuario"=>$usuario,
 					"pais"=>$pais,
