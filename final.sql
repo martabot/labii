@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 10-07-2019 a las 00:50:51
--- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
--- Versión de PHP: 7.0.30-0+deb9u1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 10-07-2019 a las 21:14:10
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -63,7 +65,6 @@ CREATE TABLE `amigo` (
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 -- --------------------------------------------------------
 
 --
@@ -81,19 +82,17 @@ CREATE TABLE `comentario` (
   `privacidad` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denunciaCom`
+-- Estructura de tabla para la tabla `denunciacom`
 --
 
-CREATE TABLE `denunciaCom` (
+CREATE TABLE `denunciacom` (
   `idCom` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
-  `idModerador` int(11) NOT NULL,
+  `idModerador` int(11) DEFAULT NULL,
   `motivo` varchar(50) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -101,10 +100,10 @@ CREATE TABLE `denunciaCom` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denunciaPost`
+-- Estructura de tabla para la tabla `denunciapost`
 --
 
-CREATE TABLE `denunciaPost` (
+CREATE TABLE `denunciapost` (
   `idPost` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `idModerador` int(11) DEFAULT NULL,
@@ -112,7 +111,6 @@ CREATE TABLE `denunciaPost` (
   `motivo` varchar(50) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 -- --------------------------------------------------------
 
@@ -450,8 +448,6 @@ CREATE TABLE `post` (
   `votos` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-
 -- --------------------------------------------------------
 
 --
@@ -474,7 +470,6 @@ CREATE TABLE `usuario` (
   `profilePic` varchar(500) NOT NULL,
   `pais` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 --
 -- Índices para tablas volcadas
@@ -503,17 +498,17 @@ ALTER TABLE `comentario`
   ADD KEY `post` (`post`);
 
 --
--- Indices de la tabla `denunciaCom`
+-- Indices de la tabla `denunciacom`
 --
-ALTER TABLE `denunciaCom`
+ALTER TABLE `denunciacom`
   ADD PRIMARY KEY (`idCom`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
 
 --
--- Indices de la tabla `denunciaPost`
+-- Indices de la tabla `denunciapost`
 --
-ALTER TABLE `denunciaPost`
+ALTER TABLE `denunciapost`
   ADD PRIMARY KEY (`idPost`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
@@ -572,46 +567,55 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `amigo`
 --
 ALTER TABLE `amigo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `interes`
 --
 ALTER TABLE `interes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `moderador`
 --
 ALTER TABLE `moderador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `notificacion`
 --
 ALTER TABLE `notificacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
 --
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -631,17 +635,17 @@ ALTER TABLE `comentario`
   ADD CONSTRAINT `usuario` FOREIGN KEY (`user`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denunciaCom`
+-- Filtros para la tabla `denunciacom`
 --
-ALTER TABLE `denunciaCom`
+ALTER TABLE `denunciacom`
   ADD CONSTRAINT `denunciaCom_ibfk_1` FOREIGN KEY (`idCom`) REFERENCES `comentario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaCom_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaCom_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denunciaPost`
+-- Filtros para la tabla `denunciapost`
 --
-ALTER TABLE `denunciaPost`
+ALTER TABLE `denunciapost`
   ADD CONSTRAINT `denunciaPost_ibfk_1` FOREIGN KEY (`idPost`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaPost_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaPost_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
@@ -679,6 +683,7 @@ ALTER TABLE `post`
 ALTER TABLE `usuario`
   ADD CONSTRAINT `modifica` FOREIGN KEY (`adminUltMod`) REFERENCES `admin` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`pais`) REFERENCES `pais` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
