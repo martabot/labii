@@ -16,7 +16,7 @@ class PostController extends ControladorBase{
     public function index(){
         $ud=new Usuario($this->adapter);
         $obj=$ud->getById($_SESSION["id"]);
-        if($ud->getUnseen($id)==!NULL){
+        if($ud->getUnseen($_SESSION['id'])==!NULL){
         $notificaciones=sizeof($ud->getUnseen($_SESSION["id"]));}else{$notificaciones=0;}
 		$this->view("Postear",array(
             "notis"=>$notificaciones,

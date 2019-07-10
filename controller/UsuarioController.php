@@ -256,10 +256,13 @@ class UsuarioController extends ControladorBase{
 				$post=$post->getById($unico);
 				$com=new Comentario($this->adapter);
 				$allComentarios=$com->getComentarios($unico);
-				$cant=sizeof($allComentarios);
-				$notificaciones=sizeof($com->getUnseen($_SESSION['id']));
+				if($allComentarios==!NULL){
+					$cant=sizeof($allComentarios);}else{$cant=0;}
+				if($com->getUnseen($_SESSION['id'])==!NULL){
+					$notificaciones=sizeof($com->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$asa=new Amigo($this->adapter);
-				$todos=sizeof($asa->getTodos($id));
+				if($asa->getTodos($id)==!NULL){
+					$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
 				$this->view("Post",array(
 					"todos"=>$todos,
 					"notis"=>$notificaciones,
