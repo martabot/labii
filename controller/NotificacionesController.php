@@ -67,7 +67,8 @@ class NotificacionesController extends ControladorBase{
         $ns=$notificacion->getAllFrom($_SESSION['id']);
         $usuario=new usuario($this->adapter);
         $u1=$usuario->getById($_SESSION['id']);
-        $n=sizeof($usuario->getUnseen($_SESSION["id"]));
+        if($usuario->getUnseen($_SESSION['id'])==!NULL){
+        $n=sizeof($usuario->getUnseen($_SESSION["id"]));}else{$n=0;}
         $this->view("Notificaciones",array(
             "notis"=>$n,
             "ns"=>$ns,

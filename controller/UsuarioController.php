@@ -25,7 +25,8 @@ class UsuarioController extends ControladorBase{
 				$amiguis=$post->getPostDeAmigos($id);
 				$cant=$post->getAllCom();
 				$duenios=$post->getPublicadores();
-				$notificaciones=sizeof($post->getUnseen($id));
+				if($post->getUnseen($id)==!NULL){
+				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
 				$this->view("Index",array(
 					"notis"=>$notificaciones,
 					"usuario"=>$obj,
@@ -183,7 +184,8 @@ class UsuarioController extends ControladorBase{
 				if(isset($_SESSION["visitante"])){
 					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
 				} else {$amigo=NULL;}
-				$notificaciones=sizeof($post->getUnseen($_SESSION["id"]));
+				if($post->getUnseen($id)==!NULL){
+				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
 				$asa=new Amigo($this->adapter);
 				$todos=sizeof($asa->getTodos($id));
 				$this->view("Perfil",array(

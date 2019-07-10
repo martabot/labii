@@ -16,7 +16,8 @@ class PostController extends ControladorBase{
     public function index(){
         $ud=new Usuario($this->adapter);
         $obj=$ud->getById($_SESSION["id"]);
-        $notificaciones=sizeof($ud->getUnseen($_SESSION["id"]));
+        if($ud->getUnseen($id)==!NULL){
+        $notificaciones=sizeof($ud->getUnseen($_SESSION["id"]));}else{$notificaciones=0;}
 		$this->view("Postear",array(
             "notis"=>$notificaciones,
 			"usuario"=>$obj
@@ -33,9 +34,11 @@ class PostController extends ControladorBase{
             $com=new Comentario($this->adapter);
             $allComentarios=$com->getComentarios($unico);
             $cant=sizeof($allComentarios);
-            $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));
+            if($pd->getUnseen($_SESSION['id'])==!NULL){
+            $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
             $asa=new Amigo($this->adapter);
-			$todos=sizeof($asa->getTodos($id));
+            if($asa->getTodos($id)==!NULL){
+			$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
             $this->view("Post",array(
                 "todos"=>$todos,
                 "notis"=>$notificaciones,
@@ -102,7 +105,8 @@ class PostController extends ControladorBase{
 				$post=new Post($this->adapter);
                 $allPosts=$post->getAllPost($id);
                 $cant=$post->getCountCom($id);
-				$notificaciones=sizeof($post->getUnseen($id));
+                if($post->getUnseen($id)==!NULL){
+				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
 				$this->view("Perfil",array(
                     "notis"=>$notificaciones,
 					"usuario"=>$usuario,

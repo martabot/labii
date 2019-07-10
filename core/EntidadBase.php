@@ -32,6 +32,7 @@ class EntidadBase{
            $resultSet[]=$row;
         }
         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
 
@@ -64,8 +65,10 @@ class EntidadBase{
            $resultSet[]=$row;
         }
         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
+
     public function getAllFrom($id){
         $query=$this->db->query("SELECT * FROM notificacion WHERE user2=$id ORDER BY fecha DESC;");
 
@@ -94,6 +97,7 @@ class EntidadBase{
            $resultSet[]=$row;
         }
         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
 
@@ -106,6 +110,7 @@ class EntidadBase{
            $resultSet[]=$row;
         }
 
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
     
@@ -115,6 +120,8 @@ class EntidadBase{
         if($row = $query->fetch_object()) {
            $resultSet=$row;
         }
+
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
     
@@ -136,8 +143,10 @@ class EntidadBase{
            $resultSet[]=$row;
         }
         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
+
     public function getTodos($id){
         $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id or user2=$id) and status=1;");
 
@@ -156,6 +165,7 @@ class EntidadBase{
            $resultSet[]=$row;
         }
         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
 
@@ -177,6 +187,7 @@ class EntidadBase{
             $resultSet=$row;
         }
 
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
 
@@ -208,6 +219,8 @@ class EntidadBase{
         if($row=$query->fetch_assoc()){
             $resultSet=$row;
         }
+        
+        $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
 
