@@ -95,16 +95,16 @@
                                 <section class="container-fluid">
                                 <?php if($_SESSION['id']==$usuario->id){ ?>
                                 <div class="row t">
-                                        <a href="<?php echo $helper->url("usuario","editar") ?>">EDITAR PERFIL</a>
+                                        <a href="<?php echo $helper->url("usuario","editar"); ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar") ?>">INTERESES<span>&nbsp(30)</span></a>
+                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">INTERESES<span>&nbsp(30)</span></a>
                                     </div>
                                     <div class="row t">
-                                        <a href="#">AMIGOS <span>&nbsp(2089)</span></a>
+                                        <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp(<?php echo (int)$todos; ?>)</span></a>
                                     </div>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar") ?>">ORDENAR POR DESTACADOS</a>
+                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">ORDENAR POR DESTACADOS</a>
                                     </div>
                                 </section>
                     </div>
@@ -130,7 +130,7 @@
                                  }else if ($estado==0&&$amigo->user2==$_SESSION["visitante"]){?>
                                     <a class="btn btn-outline-danger my-2 my-sm-0" href="<?php echo $helper->url("usuario","cancelarSolicitud"); ?>">Cancelar Solicitud</a><?php
                                  }else if ($estado==1){?>
-                                     <p class="btn btn-success my-2 my-sm-0">Amigos</p><?php 
+                                     <a class="btn btn-outline-success my-2 my-sm-0" href="<?php echo $helper->url("usuario","eliminarAmigo"); ?>">Amigos</a><?php 
                                     } else { ?> 
                                         <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a><?php
 
@@ -159,11 +159,12 @@
                                                     }
                                                 }
                                                     echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                                    if(isset($cant)){
                                                     foreach($cant as $c){
                                                         if($c['id']==$post->id){
                                                         $t=$c['cant'];
                                                         }
-                                                    }
+                                                    }}
                                                     $t=isset($t)?$t:0;
                                                     $link=$helper->url('usuario','verPost'); 
                                                     echo'<a href="'.$link.'&id='.$usuario->id.'&unico='.$post->id.'">'.$t.' Comentarios</a>';

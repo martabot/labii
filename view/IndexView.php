@@ -15,8 +15,15 @@
                     document.getElementById("v").textContent="v";
             }else{document.getElementById("v").textContent="<";}
         }
+
+            function denunciar(par){
+                var x = document.getElementById(par);
+                x.classList.toggle("d-none");
+            }
+
     </script>
     <style>
+    html {overflow-x: hidden}
     .x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}
     #nombre{color: rgb(252, 159, 84)}
     .x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }
@@ -75,8 +82,8 @@
 <div class="row todo">
     
 <div class="col-lg-6">
-<?php  
-           foreach($allPost as $post){
+<?php  $i=0; 
+        foreach($allPost as $post){
             foreach($cant as $c){
                 if($c['id']==$post->id){
                 $t=$c['cant'];
@@ -87,20 +94,21 @@
                 if($you['id']==$post->id){
                 $name=$you['username'];
                 }
-            }
+            } $i++; $den="denuncia".$i;
                ?>
-            
-
-            <div class="row post">
-                    <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
-                        <div class="card-body">
-                        <span class="d" style="float: right;margin-bottom:5px">
+        <div class="row post">
+            <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
+                <div class="card-body">
+                    <span class="d" style="float: right;margin-bottom:5px">
                             <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
                                 <span id="nombre">@<?php echo $name; ?></span></a>
-                            <a href="#" class="btn btn-outline-danger btn-sm">
-                                <b>x</b></a> 
+                            <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span><br>
-                        <h5 class="card-title"><b><?php echo $post->titulo;?></b></h5>
+                    <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
+                        <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
+                          <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
+                        </form>
+                        <h5 class="card-title" style="margin-top:10px"><b><?php echo $post->titulo;?></b></h5>
                             <hr>
                             <?php
                             for($i = 1; $i < 4; ++$i) {
@@ -131,7 +139,7 @@
     <?php 
      if(!isset($amiguis)){
             echo '<div class="row r justify-content-center align-middle"><span class="alert alert-info">Los post de tus amigos aparecerán en esta seccion.</span></div>';
-     }else{
+     }else{$i=0;
            foreach($amiguis as $post){
             foreach($cant as $c){
                 if($c['id']==$post->id){
@@ -142,7 +150,7 @@
                 if($you['id']==$post->id){
                 $name=$you['username'];
                 }
-            }
+            }$i++; $den="denu".$i;
                ?>
             <div class="row post">
                     <div class="r card shadow-sm p-1 mb-3 bg-white rounded p">
@@ -150,10 +158,13 @@
                         <span class="d" style="float: right;margin-bottom:5px">
                             <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
                                 <span id="nombre">@<?php echo $name; ?></span></a>
-                            <a href="#" class="btn btn-outline-danger btn-sm">
-                                <b>x</b></a> 
+                                <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span><br>
-                        <h5 class="card-title"><b><?php echo $post->titulo;?></b></h5>
+                    <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
+                        <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
+                          <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
+                        </form>
+                        <h5 class="card-title" style="margin-top:10px"><b><?php echo $post->titulo;?></b></h5>
                             <hr>
                             <?php
                             for($i = 1; $i < 4; ++$i) {

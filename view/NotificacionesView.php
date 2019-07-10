@@ -59,7 +59,7 @@
     if(isset($ns)){
     foreach($ns as $notificacion){
         if($notificacion->status==0){
-            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->user1; ?>
+            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
             <div class="row">
                 <a href="<?php echo $link; ?>">
                     <span id="noti" class="alert alert-warning"><?php echo $notificacion->descripcion;?></span>
@@ -68,7 +68,7 @@
             
 
             <?php } else { 
-                $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->user1; ?>
+                $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
                 <div class="row">
                     <a href="<?php echo $link; ?>">
                         <span id="noti" class="alert alert-light"><?php echo $notificacion->descripcion;?></span>

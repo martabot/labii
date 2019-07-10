@@ -29,31 +29,31 @@
             </div>
             <form method="POST" action="<?php echo $helper->url("usuario","crear"); ?>">
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="username" placeholder="Username">
+                <input class="col-4 form-control" type="text" name="username" placeholder="Username" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="nombre" placeholder="Nombre">
+                <input class="col-4 form-control" type="text" name="nombre" placeholder="Nombre" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="apellido" placeholder="Apellido">
+                <input class="col-4 form-control" type="text" name="apellido" placeholder="Apellido" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="mail" placeholder="e-mail">
+                <input class="col-4 form-control" type="text" name="mail" placeholder="e-mail" required>
             </div>
             <div class="row justify-content-center">
-                <input class="form-control col-4" type="date" name="bd">
+                <input class="form-control col-4" type="date" name="bd" required>
             </div>
             <div class="row justify-content-center">
-                <select class="col-4 form-control" name="country" size=1>
+                <select class="col-4 form-control" name="country" size=1 required>
                 <?php foreach($allPais as $pais) {
                     echo "<option value=".$pais->id.">".$pais->nombre."</option>";}?>
                 </select>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="password" name="pass1" placeholder="Enter Password">
+                <input class="col-4 form-control" type="password" name="pass1" placeholder="Enter Password" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="password" name="pass" placeholder="Repeat Password">
+                <input class="col-4 form-control" type="password" name="pass" placeholder="Repeat Password" required>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">

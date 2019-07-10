@@ -8,7 +8,7 @@ class DenunciaPost extends EntidadBase{
     private $fechaMod;
     
     public function __construct($adapter) {
-        $table="denuncia_post";
+        $table="denunciaPost";
         parent::__construct($table, $adapter);
     }
     
@@ -24,13 +24,12 @@ class DenunciaPost extends EntidadBase{
     } 
 	
     public function save(){
-        $us=$this->user->__get('id');
-        $poo=$this->post->__get('id');
-        $mod=$this->moderador->__get('id');
         
-		if(!$this->fechaMod){
+		if($this->fechaMod){
 			
-			$query= "UPDATE `denuncia_post` SET 
+            $mod=$this->moderador->__get('id');
+
+			$query= "UPDATE `denunciaPost` SET 
                             `idModerador`=$mod,
 						    `fechaMod`='$this->fechaMod',
 					where 'idPost' = $poo 
@@ -43,12 +42,11 @@ class DenunciaPost extends EntidadBase{
 			
 		}
 		else{
-            $query= "INSERT INTO `denuncia_post`(`idPost`, `idUsuario`, `fecha`, `motivo`) VALUES (
-                 $poo,$us,
-                '$this->fecha',
-                '$this->motivo');";
+            $us=$this->user->__get('id');
+            $poo=$this->post->__get('id');
+            $query= "INSERT INTO `denunciaPost`(`idPost`, `idUsuario`, `fecha`, `motivo`) VALUES ( $poo, $us, NOW(),'$this->motivo');";
 			$save=$this->db()->query($query);
-			//$this->db()->error;
+			$this->db()->error;
 			return $save;
 		}	
     }

@@ -53,19 +53,19 @@
     <h2>Editar perfil: <?php echo $usuario->username; ?></h2>
     <form method="POST" action="<?php echo $helper->url("usuario","actualizar"); ?>" enctype="multipart/form-data">
             <div class="row costado">
-                <span>Nombre: </span><input class="col-4 form-control" type="text" name="nombre" value="<?php echo $usuario->nombre; ?>">
+                <span>Nombre: </span><input class="col-4 form-control" type="text" name="nombre" value="<?php echo $usuario->nombre; ?>" required>
             </div>
             <div class="row costado">
-                <span>Apellido: </span> <input class="col-4 form-control" type="text" name="apellido" value="<?php echo $usuario->apellido; ?>">
+                <span>Apellido: </span> <input class="col-4 form-control" type="text" name="apellido" value="<?php echo $usuario->apellido; ?>" required>
             </div>
             <div class="row costado">
-                <span>e-mail: </span> <input class="col-4 form-control" type="text" name="mail" value="<?php echo $usuario->mail; ?>">
+                <span>e-mail: </span> <input class="col-4 form-control" type="text" name="mail" value="<?php echo $usuario->mail; ?>" required>
             </div>
             <div class="row costado">
-                <span>Cumpleaños: </span> <input class="form-control col-4" type="date" name="bd" value="<?php echo date("Y-m-d");?>">
+                <span>Cumpleaños: </span> <input class="form-control col-4" type="date" name="bd" value="<?php echo date("Y-m-d");?>" required>
             </div>
             <div class="row costado">
-                <span>Nacionalidad: </span> <select class="col-4 form-control" name="country" size=1>
+                <span>Nacionalidad: </span> <select class="col-4 form-control" name="country" size=1 required>
                 <?php foreach($paises as $pais) {
                     if($usuario->pais==$pais->id){
                         echo "<option value=".$pais->id." selected>".$pais->nombre."</option>";
@@ -80,12 +80,12 @@
                 <span>Foto de perfil: </span> <input class="col-4 form-control" type="file" name="profilePic" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
             <div class="row costado">
-                <span>Confirmar: </span> <input class="col-4 form-control" type="password" name="pass" placeholder="Password to confirm">
+                <span>Confirmar: </span> <input class="col-4 form-control" type="password" name="pass" placeholder="Password to confirm" required>
             </div>
             <div class="row costado">
                 <div class="offset-md-2">
-                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>" class="btn btn-outline-info">Cancelar</button>
                     <input type="submit" value="Actualizar" name="update" class="btn btn-outline-info">
+                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>" class="btn btn-outline-info">Cancelar</button>
                 </div>
             </div>
         </form>

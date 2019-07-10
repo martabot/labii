@@ -8,7 +8,7 @@ class DenunciaCom extends EntidadBase{
     private $fechaMod;
     
     public function __construct($adapter) {
-        $table="denuncia_com";
+        $table="denunciaCom";
         parent::__construct($table, $adapter);
     }
     

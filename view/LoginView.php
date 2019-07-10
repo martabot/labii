@@ -25,10 +25,10 @@
             </div>
             <form method="POST" style="padding-top: 20px" action="<?php echo $helper->url("usuario","ingresar"); ?>">
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="username" placeholder="Username">
+                <input class="col-4 form-control" type="text" name="username" placeholder="Username" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="password" name="pass" placeholder="Password">
+                <input class="col-4 form-control" type="password" name="pass" placeholder="Password" required>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">

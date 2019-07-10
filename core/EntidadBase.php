@@ -77,7 +77,7 @@ class EntidadBase{
         return $resultSet;
     }
     public function getUnseen($id){
-        $query=$this->db->query("SELECT * FROM notificacion WHERE user2=$id and 'status'=0 ORDER BY fecha DESC;");
+        $query=$this->db->query("SELECT * FROM notificacion WHERE user2=$id and `status`=0 ORDER BY fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;
@@ -111,13 +111,14 @@ class EntidadBase{
     }
     
     public function getById($id){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id");
+        $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id;");
 
         if($row = $query->fetch_object()) {
            $resultSet=$row;
-        }
-        
-        $resultSet=isset($resultSet)?$resultSet:NULL;
+        }/*
+        if($this->db()->error){
+            $resultSet=$this->db()->error;
+        }*/
         return $resultSet;
     }
     
@@ -141,9 +142,19 @@ class EntidadBase{
         
         return $resultSet;
     }
+    public function getTodos($id){
+        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id or user2=$id) and status=1;");
 
-    public function getByFecha($column,$value){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value' ORDER BY fecha DESC;");
+        while($row = $query->fetch_object()) {
+           $resultSet[]=$row;
+        }
+        
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    public function getByFecha($id){
+        $query=$this->db->query("SELECT * FROM post p WHERE privacidad=1 and p.user<>$id and p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user not in (SELECT u.id FROM amigo a JOIN usuario u ON(u.id=a.user1 OR u.id=a.user2) WHERE (a.user1=$id or a.user2=$id) and a.status=1) ORDER BY fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;
@@ -163,8 +174,8 @@ class EntidadBase{
         return $resultSet;
     }
 
-    public function getAmistad($id,$id2){
-        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id and user2=$id2) or(user2=$id and user1=$id2) and status=0;");
+    public function getAmistad($id,$id2,$s){
+        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id and user2=$id2) or(user2=$id and user1=$id2) and status=$s ORDER BY fecha DESC LIMIT 1;");
 
         if($row=$query->fetch_object()){
             $resultSet=$row;
@@ -175,8 +186,7 @@ class EntidadBase{
 
 
     public function getPostDeAmigos($id){
-        $query=$this->db->query("SELECT p.* FROM post p WHERE p.user IN (
-            SELECT u.id FROM usuario u,amigo a WHERE ((a.user1=$id and a.user2=u.id) or (a.user2=$id and a.user1=u.id)) and a.status=1) ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.* FROM post p WHERE p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user IN (SELECT u.id FROM usuario u,amigo a WHERE ((a.user1=$id and a.user2=u.id) or (a.user2=$id and a.user1=u.id)) and a.status=1) ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;
@@ -187,9 +197,9 @@ class EntidadBase{
     }
 
     public function getAmigos($id1,$id2){
-        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id1 and user2=$id2) or (user2=$id1 and user1=$id2);");
+        $query=$this->db->query("SELECT * FROM amigo WHERE (user1=$id1 and user2=$id2) or (user2=$id1 and user1=$id2) ORDER BY fecha DESC LIMIT 1;");
 
-        while($row = $query->fetch_object()) {
+        if($row = $query->fetch_object()) {
            $resultSet=$row;
         }
         

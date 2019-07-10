@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-07-2019 a las 04:52:03
+-- Tiempo de generación: 10-07-2019 a las 00:50:51
 -- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
 -- Versión de PHP: 7.0.30-0+deb9u1
 
@@ -64,7 +64,6 @@ CREATE TABLE `amigo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-
 -- --------------------------------------------------------
 
 --
@@ -87,10 +86,10 @@ CREATE TABLE `comentario` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denuncia_com`
+-- Estructura de tabla para la tabla `denunciaCom`
 --
 
-CREATE TABLE `denuncia_com` (
+CREATE TABLE `denunciaCom` (
   `idCom` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
@@ -102,10 +101,10 @@ CREATE TABLE `denuncia_com` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denuncia_post`
+-- Estructura de tabla para la tabla `denunciaPost`
 --
 
-CREATE TABLE `denuncia_post` (
+CREATE TABLE `denunciaPost` (
   `idPost` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `idModerador` int(11) DEFAULT NULL,
@@ -113,6 +112,7 @@ CREATE TABLE `denuncia_post` (
   `motivo` varchar(50) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -451,6 +451,7 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+
 -- --------------------------------------------------------
 
 --
@@ -502,17 +503,17 @@ ALTER TABLE `comentario`
   ADD KEY `post` (`post`);
 
 --
--- Indices de la tabla `denuncia_com`
+-- Indices de la tabla `denunciaCom`
 --
-ALTER TABLE `denuncia_com`
+ALTER TABLE `denunciaCom`
   ADD PRIMARY KEY (`idCom`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
 
 --
--- Indices de la tabla `denuncia_post`
+-- Indices de la tabla `denunciaPost`
 --
-ALTER TABLE `denuncia_post`
+ALTER TABLE `denunciaPost`
   ADD PRIMARY KEY (`idPost`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
@@ -610,7 +611,7 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,;
 --
 -- Restricciones para tablas volcadas
 --
@@ -630,20 +631,20 @@ ALTER TABLE `comentario`
   ADD CONSTRAINT `usuario` FOREIGN KEY (`user`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denuncia_com`
+-- Filtros para la tabla `denunciaCom`
 --
-ALTER TABLE `denuncia_com`
-  ADD CONSTRAINT `denuncia_com_ibfk_1` FOREIGN KEY (`idCom`) REFERENCES `comentario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `denuncia_com_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `denuncia_com_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE `denunciaCom`
+  ADD CONSTRAINT `denunciaCom_ibfk_1` FOREIGN KEY (`idCom`) REFERENCES `comentario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `denunciaCom_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `denunciaCom_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denuncia_post`
+-- Filtros para la tabla `denunciaPost`
 --
-ALTER TABLE `denuncia_post`
-  ADD CONSTRAINT `denuncia_post_ibfk_1` FOREIGN KEY (`idPost`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `denuncia_post_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `denuncia_post_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE `denunciaPost`
+  ADD CONSTRAINT `denunciaPost_ibfk_1` FOREIGN KEY (`idPost`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `denunciaPost_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `denunciaPost_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `interes`

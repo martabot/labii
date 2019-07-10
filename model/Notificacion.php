@@ -65,9 +65,7 @@ class Notificacion extends EntidadBase{
             
 
         } else if($this->status){
-            $query= "UPDATE 'notificacion' set 
-                        'status'=$this->status 
-                    WHERE id=$this->id";
+            $query= "UPDATE `notificacion` SET `status`=".$this->status." WHERE id=".$this->id.";";
 			
 			$save=$this->db()->query($query);
             //$this->db()->error;

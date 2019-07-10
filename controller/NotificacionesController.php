@@ -45,22 +45,19 @@ class NotificacionesController extends ControladorBase{
     public function actualizar(){
         $notificacion=new Notificacion($this->adapter);
         $n1=new Notificacion($this->adapter);
-        $usuario=new usuario($this->adapter);
-        $post=new Post($this->adapter);
-        $com=new Comentario($this->adapter);
-        $notificacion=$notificacion->getByUsers($_GET['id'],$_SESSION['id']);
-        $n1->__set("id",$notificacion->id);
+        $id=$notificacion->getOneBy("id",$_GET['id']);
+        $_SESSION['visitante']=$id['user1'];
+        $n1->__set("id",$id['id']);
         $n1->__set("status",1);
         $save=$n1->save();
-        if($p=$n1->__get("post")){
+        if($p=$id['post']){
             $_SESSION['unico']=$p;
             $this->redirect("usuario","verPost");
-        } if($comentario=$n1->__get("comentario")){
+        } if($comentario=$id['comentario']){
             $p=$this->getPostDelComentario($comentario);
             $_SESSION['unico']=$p['id'];
             $this->redirect("usuario","verPost");
-        } if($n1->__get("amigo")){
-            $_SESSION['visitante']=$_GET['id'];
+        } if($id['amigo']){
             $this->redirect("usuario","verMuro");
         }
     }
@@ -70,8 +67,9 @@ class NotificacionesController extends ControladorBase{
         $ns=$notificacion->getAllFrom($_SESSION['id']);
         $usuario=new usuario($this->adapter);
         $u1=$usuario->getById($_SESSION['id']);
+        $n=sizeof($usuario->getUnseen($_SESSION["id"]));
         $this->view("Notificaciones",array(
-            "notis"=>0,
+            "notis"=>$n,
             "ns"=>$ns,
             "usuario"=>$u1
         ));

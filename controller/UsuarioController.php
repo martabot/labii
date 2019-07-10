@@ -21,7 +21,7 @@ class UsuarioController extends ControladorBase{
 				$id=$_SESSION["id"];
 				$obj=$ud->getById($id);
 				$post=new Post($this->adapter);
-				$allPosts=$post->getByFecha("privacidad",1);
+				$allPosts=$post->getByFecha($id);
 				$amiguis=$post->getPostDeAmigos($id);
 				$cant=$post->getAllCom();
 				$duenios=$post->getPublicadores();
@@ -157,7 +157,10 @@ class UsuarioController extends ControladorBase{
 					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
 				} else {$amigo=NULL;}
 				$notificaciones=sizeof($post->getUnseen($_SESSION["id"]));
+				$asa=new Amigo($this->adapter);
+				$todos=sizeof($asa->getTodos($_SESSION['id']));
 				$this->view("Perfil",array(
+					"todos"=>$todos,
 					"notis"=>$notificaciones,
 					"amigo"=>$amigo,
 					"usuario"=>$usuario,
@@ -175,7 +178,7 @@ class UsuarioController extends ControladorBase{
 		public function aceptarSolicitud(){
 			$amigo=new Amigo($this->adapter);
 			$ad=new Amigo($this->adapter);
-			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"]);
+			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"],0);
 			$amigo->__set("id",$ad->id);
 			$amigo->__set("status",1);
 			$_SESSION['nAmigo']=" aceptó tu solicitud de amistad";
@@ -183,15 +186,25 @@ class UsuarioController extends ControladorBase{
 			$this->redirect("notificaciones","crear");
 		}
 
+		public function eliminarAmigo(){
+			$amigo=new Amigo($this->adapter);
+			$ad=new Amigo($this->adapter);
+			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"],1);
+			$amigo->__set("id",$ad->id);
+			$amigo->__set("status",2);
+			$_SESSION['nAmigo']=" te elimino como amigo";
+			$save=$amigo->save();
+			$this->redirect("notificaciones","crear");
+		}
+
 		public function cancelarSolicitud(){
 			$amigo=new Amigo($this->adapter);
 			$ad=new Amigo($this->adapter);
-			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"]);
+			$ad=$ad->getAmistad($_SESSION["visitante"],$_SESSION["id"],0);
 			$amigo->__set("id",$ad->id);
 			$amigo->__set("status",2);
 			$_SESSION['nAmigo']=" rechazó tu solicitud de amistad";
 			$save=$amigo->save();
-			echo $save;
 			$this->redirect("notificaciones","crear");
 		}
 

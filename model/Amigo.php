@@ -43,7 +43,9 @@ class Amigo extends EntidadBase{
                 $us1,$us2,NOW());";
 
 			$save=$this->db()->query($query);
-			//$this->db()->error;
+			/*if($this->db()->error){
+                $save=$this->db()->error;
+            }*/
 			return $save;
 		}	
     }

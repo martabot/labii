@@ -53,13 +53,13 @@
     <h2>Nuevo Post: <?php echo $usuario->username; ?></h2>
     <form method="POST" action="<?php echo $helper->url("post","crear"); ?>" enctype="multipart/form-data">
             <div class="row costado">
-                <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo">
+                <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo" required>
             </div>
             <div class="row costado">
-                <span>Etiquetas: </span> <input class="col-4 form-control" type="text" name="palabras">
+                <span>Etiquetas: </span> <input class="col-4 form-control" type="text" name="palabras" placeholder="Hasta 3 palabras separadas por #">
             </div>
             <div class="row costado">
-                <span>Cuerpo: </span> <textarea rows="5" class="col-4 form-control" name="cuerpo" lenght="5000"></textarea>
+                <span>Cuerpo: </span> <textarea rows="5" class="col-4 form-control" name="cuerpo" lenght="5000" required></textarea>
             </div>
             <div class="row costado">
                 <span>Agregar fotos: </span> <input class="col-4 form-control" type="file" name="img1" accept="image/png, image/jpeg, image/gif, image/png">
