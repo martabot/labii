@@ -36,6 +36,25 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getById($id){
+        $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id;");
+
+        if($row = $query->fetch_object()) {
+           $resultSet=$row;
+        }
+        
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    /*
+     * Aqui podemos agregar otros métodos que nos ayuden
+     * a hacer operaciones con la base de datos de la entidad
+     * 
+     * ok, GRACIAS!
+     */
+    
+
     public function getAllPost($persona){
         $query=$this->db->query("SELECT * from post where user=$persona and status=1 ORDER BY fecha DESC;");
 
@@ -142,8 +161,6 @@ class EntidadBase{
         return $resultSet;
     }
 
-
-
     public function getComentarios($id){
         $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id) ORDER BY c.fecha DESC;");
 
@@ -155,21 +172,6 @@ class EntidadBase{
         return $resultSet;
     }
 
-    public function getById($id){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id;");
-
-        if($row = $query->fetch_object()) {
-           $resultSet=$row;
-        }
-        
-        $resultSet=isset($resultSet)?$resultSet:NULL;
-        return $resultSet;
-    }
-
-    public function usuariosModeradores(){
-        $query=$this->db->query();
-    }
-    
     public function getOneBy($column,$value){
         $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value';");
 
@@ -236,6 +238,23 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getPostsDenunciados(){
+        $query=$this->db->query("SELECT * FROM post p join denunciaPost d on(p.id=d.idPost) where d.fechaMod is NULL order by d.dFecha DESC;");
+        while($row=$query->fetch_assoc()){
+            $resultSet[]=$row;
+        }
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    public function getComDenunciados(){
+        $query=$this->db->query("SELECT * FROM comentario c join denunciaCom d on(c.id=d.idCom) where d.fechaMod is NULL order by d.dFecha DESC;");
+        while($row=$query->fetch_assoc()){
+            $resultSet[]=$row;
+        }
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
 
     public function getPostDeAmigos($id){
         $query=$this->db->query("SELECT p.* FROM post p WHERE p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user IN (SELECT u.id FROM usuario u,amigo a WHERE ((a.user1=$id and a.user2=u.id) or (a.user2=$id and a.user1=u.id)) and a.status=1 and u.status=1) ORDER BY p.fecha DESC;");
@@ -268,23 +287,5 @@ class EntidadBase{
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
-
-    
-    public function deleteById($id){
-        $query=$this->db->query("DELETE FROM $this->table WHERE id=$id"); 
-        return $query;
-    }
-    
-    public function deleteBy($column,$value){
-        $query=$this->db->query("DELETE FROM $this->table WHERE $column='$value'"); 
-        return $query;
-    }
-    
-
-    /*
-     * Aqui podemos agregar otros métodos que nos ayuden
-     * a hacer operaciones con la base de datos de la entidad
-     */
-    
 }
 ?>

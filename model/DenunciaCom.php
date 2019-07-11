@@ -2,7 +2,7 @@
 class DenunciaCom extends EntidadBase{
     private $comentario;
     private $user;
-    private $fecha;
+    private $dFecha;
     private $moderador;
     private $motivo;
     private $fechaMod;
@@ -29,10 +29,10 @@ class DenunciaCom extends EntidadBase{
             $mod=$this->moderador->__get('id');
 			$query= "UPDATE `denunciaCom` SET 
                             `idModerador`=$mod,
-						    `fechaMod`='$this->fechaMod',
+						    `fechaMod`=NOW()
 					where 'idCom' = $com 
                             and 'idUsuario'=$us 
-                            and 'fecha'='$this->fecha';";
+                            and 'dFecha'='$this->dFecha';";
 					
 			$save=$this->db()->query($query);
 			//$this->db()->error;
@@ -42,7 +42,7 @@ class DenunciaCom extends EntidadBase{
 		else{
         $us=$this->user->__get('id');
         $com=$this->comentario->__get('id');
-            $query= "INSERT INTO `denunciaCom`(`idCom`, `idUsuario`, `fecha`, `motivo`) VALUES (
+            $query= "INSERT INTO `denunciaCom`(`idCom`, `idUsuario`, `dFecha`, `motivo`) VALUES (
                  $com,$us,NOW(),'Hay un motivo para todo');";
 			$save=$this->db()->query($query);
             

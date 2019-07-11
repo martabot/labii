@@ -3,7 +3,7 @@ class DenunciaPost extends EntidadBase{
     private $post;
     private $user;
     private $moderador;
-    private $fecha;
+    private $dFecha;
     private $motivo;
     private $fechaMod;
     
@@ -34,7 +34,7 @@ class DenunciaPost extends EntidadBase{
 						    `fechaMod`='$this->fechaMod',
 					where 'idPost' = $poo 
                             and 'idUsuario'=$us 
-                            and 'fecha'='$this->fecha';";
+                            and 'dFecha'='$this->dFecha';";
 					
 			$save=$this->db()->query($query);
 			//$this->db()->error;
@@ -44,7 +44,7 @@ class DenunciaPost extends EntidadBase{
 		else{
             $us=$this->user->__get('id');
             $poo=$this->post->__get('id');
-            $query= "INSERT INTO `denunciaPost`(`idPost`, `idUsuario`, `fecha`, `motivo`) VALUES ( $poo, $us, NOW(),'$this->motivo');";
+            $query= "INSERT INTO `denunciaPost`(`idPost`, `idUsuario`, `dFecha`, `motivo`) VALUES ( $poo, $us, NOW(),'$this->motivo');";
 			$save=$this->db()->query($query);
 			$this->db()->error;
 			return $save;

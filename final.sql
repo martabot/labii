@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 10-07-2019 a las 23:25:53
+-- Tiempo de generación: 11-07-2019 a las 09:48:09
 -- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
 -- Versión de PHP: 7.0.30-0+deb9u1
 
@@ -54,7 +54,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `pass`, `salt`, `fechaAlta`, `adminUltMod`, `fechaUltMod`, `mail`, `status`) VALUES
-(1, 'admin', 'admin', NULL, '2019-07-10', NULL, '2019-07-10', 'this@mail.com', 1);
+(1, 'admin', 'admin', NULL, '2019-07-10 00:00:00', NULL, '2019-07-10 00:00:00', 'this@mail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -98,9 +98,9 @@ CREATE TABLE `comentario` (
 CREATE TABLE `denunciaCom` (
   `idCom` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
-  `fecha` datetime NOT NULL,
+  `dFecha` datetime NOT NULL,
   `idModerador` int(11) DEFAULT NULL,
-  `motivo` varchar(50) NOT NULL,
+  `motivo` varchar(100) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -115,8 +115,8 @@ CREATE TABLE `denunciaPost` (
   `idPost` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `idModerador` int(11) DEFAULT NULL,
-  `fecha` datetime NOT NULL,
-  `motivo` varchar(50) NOT NULL,
+  `dFecha` datetime NOT NULL,
+  `motivo` varchar(100) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -151,6 +151,7 @@ CREATE TABLE `moderador` (
   `fechaUltMod` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 -- --------------------------------------------------------
 
 --
@@ -169,9 +170,6 @@ CREATE TABLE `notificacion` (
   `amigo` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `notificacion`
---
 
 -- --------------------------------------------------------
 
@@ -485,6 +483,7 @@ CREATE TABLE `usuario` (
   `pais` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 --
 -- Índices para tablas volcadas
 --
@@ -515,7 +514,7 @@ ALTER TABLE `comentario`
 -- Indices de la tabla `denunciaCom`
 --
 ALTER TABLE `denunciaCom`
-  ADD PRIMARY KEY (`idCom`,`idUsuario`,`fecha`),
+  ADD PRIMARY KEY (`idCom`,`idUsuario`,`dFecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
 
@@ -523,7 +522,7 @@ ALTER TABLE `denunciaCom`
 -- Indices de la tabla `denunciaPost`
 --
 ALTER TABLE `denunciaPost`
-  ADD PRIMARY KEY (`idPost`,`idUsuario`,`fecha`),
+  ADD PRIMARY KEY (`idPost`,`idUsuario`,`dFecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
 

@@ -65,5 +65,38 @@ class DenunciaController extends ControladorBase{
         }
     }
 
+    public function moderar(){
+        if(isset($_POST['permitirP'])){
+            $this->permitirP();
+        } else if(isset($_POST['denegarP'])){
+            $this->denegarP();
+        } else if(isset($_POST['permitirC'])){
+            $this->permitirC();
+        } else if(isset($_POST['denegarC'])){
+            $this->denegarC();
+        }
+    }
+
+    public function permitirP(){
+        //actualizar denuncia con idModerador y dFecha
+        
+    }
+
+    public function denegarP(){
+        //save post con status 0
+        //actualizar denuncia con id moderador
+
+    }
+
+    public function permitirC(){
+        //
+
+    }
+
+    public function denegarC(){
+        //save com con status 0
+        //actualizar denuncia con id moderador
+    }
+
 }
 ?>

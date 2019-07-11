@@ -16,18 +16,21 @@ class AdminController extends ControladorBase{
     public function index(){
         if(isset($_SESSION["id"])){
             unset($_SESSION["visitante"]);
-            $ad=new Admin($this->adapter);
-            $id=$_SESSION["id"];
-            $obj=$ad->getById($id);
             $ud=new Usuario($this->adapter);
             $allUsers=$ud->getAll();
-            //if($ud->getUnseen($_SESSION['id'])){
-            //    $notificaciones=sizeof($ud->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
-            $mod=$ad->getMod();
+            $posts=$ud->getPostsDenunciados();
+            $coms=$ud->getComDenunciados();
+            $cant=0;
+            if(isset($coms)){
+                $cant+=sizeof($coms);
+            }
+            if(isset($posts)){
+                $cant+=sizeof($posts);
+            }
+            $mod=$ud->getMod();
             $this->view("Admin",array(
-                //"notis"=>$notificaciones,
+                "cant"=>$cant,
                 "mod"=>$mod,
-                "usuario"=>$obj,
                 "allUsers"=>$allUsers
             ));
         }else{
@@ -103,4 +106,26 @@ class AdminController extends ControladorBase{
         }
         $this->index();
     }
+
+    public function denunciados(){
+        $ad=new Admin($this->adapter);
+        $posts=$ad->getPostsDenunciados();
+        $coms=$ad->getComDenunciados();
+        $ud=new Usuario($this->adapter);
+        $usuarios=$ud->getAll();
+        $cant=0;
+        if(isset($coms)){
+            $cant+=sizeof($coms);
+        }
+        if(isset($posts)){
+            $cant+=sizeof($posts);
+        }
+        $this->view("Moderar",array(
+            "usuarios"=>$usuarios,
+            "cant"=>$cant,
+            "posts"=>$posts,
+            "coms"=>$coms
+        ));
+    }
+
 }

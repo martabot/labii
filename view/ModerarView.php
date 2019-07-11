@@ -1,4 +1,10 @@
-<?php ini_get('register_globals'); ?>
+<?php ini_get('register_globals'); 
+if(isset($_SESSION['moderador'])){
+    $helper->url("denuncia","moderar");
+} else if(isset($_SESSION['admin'])){
+    $helper->url("admin","index");
+}
+?>
 <!doctype html>
 <html lang="es">
   <head>
@@ -15,16 +21,19 @@
                     document.getElementById("v").textContent="v";
             }else{document.getElementById("v").textContent="<";}
         }
-
-            function denunciar(par){
-                var x = document.getElementById(par);
-                x.classList.toggle("d-none");
+            function cambiarAP(){
+                document.getElementById("id2").style.display="none";
+                document.getElementById("id1").style.display="block";
             }
 
+            function cambiarAC(){
+                document.getElementById("id1").style.display="none";
+                document.getElementById("id2").style.display="block";
+            }
+
+
     </script>
-    <style>
-    html {overflow-x: hidden}a{outline:0;text-decoration:none}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}
-    </style>
+    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -34,13 +43,13 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Post</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","index"); ?>">Usuarios</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("denuncia","listarCom"); ?>">Comentarios</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","denunciados"); ?>">Denunciados</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("denuncia","perfil"); ?>">Perfil</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","todo"); ?>">Todo el contenido</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -51,118 +60,89 @@
         </div>
     </nav>
 <div class="row todo">
-    
-<div class="col-lg-6">
-<?php  $i=0; 
-        foreach($allPost as $post){
-            foreach($cant as $c){
-                if($c['id']==$post->id){
-                $t=$c['cant'];
-                }
-            }
-                
-            foreach($duenios as $you){
-                if($you['id']==$post->id){
-                $name=$you['username'];
-                }
-            } $i++; $den="denuncia".$i;
-               ?>
+    <div class="col-lg-12">
+        <div class="row op justify-content-center">
+            <b><button id="f" class="btn btn-outline-dark" onClick="cambiarAP()">Posts denunciados</button></b>
+            <b><button id="f" class="btn btn-outline-dark" onClick="cambiarAC()">Comentarios denunciados</button></b>
+        <form id="id1" method="POST" action="<?php echo $helper->url("denuncia","moderar"); ?>">
+            <center>
         <div class="row post">
-            <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
-                <div class="card-body">
-                    <span class="d" style="float: right;margin-bottom:5px">
-                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
-                                <span id="nombre">@<?php echo $name; ?></span></a>
-                            <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
-                            </span><br>
-                    <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
-                        <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
-                          <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
-                        </form>
-                        <h5 class="card-title" style="margin-top:10px"><b><?php echo $post->titulo;?></b></h5>
-                            <hr>
-                            <?php
-                            for($i = 1; $i < 4; ++$i) {
-                                $each="palabra".$i;
-                                if($post->$each){
-                                    echo '<span id="eti">'.$post->$each.'</span>';
+            <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
+                <div class="card-body space ">
+               <div style="float:left;color:grey">
+                    <span>*Nota: Los post denunciados con adjunto se identifican por un círculo a la izquierda. Al autorizar un post permanece invisible para quien lo ocultó, al denegarlo se oculta para todos.</span>
+                    </div>
+                    <table class="table" cellpadding="15px" bordercolor="grey">
+                    <tr align="center"><td></td><tH>MODERAR
+                    </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>TITULO</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th></tr>
+                    <?php 
+                    if(isset($posts)){
+                    foreach($posts as $post){
+                        if(isset($usuarios)){
+                            $unP="";
+                            $unD="";
+                            foreach($usuarios as $usuario){
+                                if($usuario->id==$post['user']){
+                                    $unP=$usuario->username;
+                                }
+                                if($usuario->id==$post['idUsuario']){
+                                    $unD=$usuario->username;
                                 }
                             }
-                            echo '<br>
-                            <p class="card-text">'.$post->cuerpo.'</p>';
-                            for($i = 1; $i < 4; ++$i) {
-                                $each="img".$i;
-                                if($post->$each){
-                                    echo '<img src="'.$post->$each.'" alt="Imagen de post">';
-                                }
+                        }
+
+                        if(isset($post['img1'])||isset($post['img2'])||isset($post['img3'])){$x="●";}else{$x="";}
+                        
+            echo "<tr align='center'><td>$x</td><td>";?>
+                    <input type="submit" name="aprobarP" class="btn btn-success" value="✔">
+                    <input type="submit" name="banearP" class="btn btn-danger" value="✘">
+           <?php echo "</td><td>$unP</td><td>$unD</td><td>".$post['titulo']."</td><td>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td></tr>";                        
                             }
-                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
-                                $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
-                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
-                                $t=0;
-                           echo' </div>
-                        </div>
-                    </div>';
-        }?>
+                        }?></table>
+                </div>
+            </div>
         </div>
-    <div class="col-lg-6">
-    <?php 
-     if(!isset($amiguis)){
-            echo '<div class="row r justify-content-center align-middle"><span class="alert alert-info">Los post de tus amigos aparecerán en esta seccion.</span></div>';
-     }else{$i=0;
-           foreach($amiguis as $post){
-            foreach($cant as $c){
-                if($c['id']==$post->id){
-                $t=$c['cant'];
-                }
-            }
-            foreach($duenios as $you){
-                if($you['id']==$post->id){
-                $name=$you['username'];
-                }
-            }$i++; $den="denu".$i;
-               ?>
-            <div class="row post">
-                    <div class="r card shadow-sm p-1 mb-3 bg-white rounded p">
-                        <div class="card-body">
-                        <span class="d" style="float: right;margin-bottom:5px">
-                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
-                                <span id="nombre">@<?php echo $name; ?></span></a>
-                                <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
-                            </span><br>
-                    <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
-                        <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
-                          <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
-                        </form>
-                        <h5 class="card-title" style="margin-top:10px"><b><?php echo $post->titulo;?></b></h5>
-                            <hr>
-                            <?php
-                            for($i = 1; $i < 4; ++$i) {
-                                $each="palabra".$i;
-                                if($post->$each){
-                                    echo '<span id="eti">'.$post->$each.'</span>';
+        </center></form>
+<form id="id2" style="display:none" method="POST" action="<?php echo $helper->url("denuncia","moderar"); ?>">
+            <center>
+        <div class="row post">
+            <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
+                <div class="card-body space ">
+               <div style="float:left;color:grey">
+                    <span>*Nota: Los comentarios no serán visibles para ningún usuario hasta obtener moderación.</span>
+                    </div>
+                    <table class="table" cellpadding="15px" bordercolor="grey">
+                    <tr align="center"><tH>MODERAR
+                    </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th></tr>
+                    <?php 
+                    if(isset($coms)){
+                    foreach($coms as $com){
+                        if(isset($usuarios)){
+                            $unP="";
+                            $unD="";
+                            foreach($usuarios as $usuario){
+                                if($usuario->id==$com['user']){
+                                    $unP=$usuario->username;
+                                }
+                                if($usuario->id==$com['idUsuario']){
+                                    $unD=$usuario->username;
                                 }
                             }
-                            echo '<br>
-                            <p class="card-text">'.$post->cuerpo.'</p>';
-                            for($i = 1; $i < 4; ++$i) {
-                                $each="img".$i;
-                                if($post->$each){
-                                    echo '<img src="'.$post->$each.'" alt="Imagen de post">';
-                                }
+                        }
+                        
+            echo "<tr align='center'><td>";?>
+                    <input type="submit" name="aprobarC" class="btn btn-success" value="✔">
+                    <input type="submit" name="banearC" class="btn btn-danger" value="✘">
+           <?php echo "</td><td>$unP</td><td>$unD</td><td>".$com['cuerpo']."</td><td>".$com['fecha']."</td><td>".$com['dFecha']."</td><td>".$com['motivo']."</td></tr>";                        
                             }
-                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
-                                $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
-                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
-                                $t=0;
-                           echo' </div>
-                        </div>
-                    </div>';
-        }}?>
-           </div>
+                        }?></table>
+                </div>
+            </div>
+        </div>
+        </center></form>
     </div>
+    </div>
+</div>
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

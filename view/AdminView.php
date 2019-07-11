@@ -41,10 +41,7 @@ if(isset($_SESSION['moderador'])){
                     <a class="nav-link" href="<?php echo $helper->url("admin","index"); ?>">Usuarios</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("admin","moderadores"); ?>">Moderadores</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("admin","denunciados"); ?>">Denunciados</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","denunciados"); ?>">Denunciados(<?php echo (int)$cant; ?>)</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("admin","todo"); ?>">Todo el contenido</a>
