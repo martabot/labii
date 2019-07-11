@@ -1,9 +1,15 @@
 <?php
     if(isset($_SESSION['incorrecto'])){
         echo '<script language="javascript">';
-        echo 'alert("Nombre de usuario o contraseña incorrecto");';
+        echo 'alert("Nombre de usuario o contraseña incorrecto.");';
         echo '</script>';
         unset($_SESSION['incorrecto']);
+    }
+    if(isset($_SESSION['banned'])){
+        echo '<script language="javascript">';
+        echo 'alert("La cuenta de usuario ha sido inhabilitada.");';
+        echo '</script>';
+        unset($_SESSION['banned']);
     }
 ?>
 

@@ -47,6 +47,17 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getBanned($id){
+        $query=$this->db->query("SELECT * from usuario where status=0 and id=$id;");
+
+        while ($row = $query->fetch_object()) {
+           $resultSet[]=$row;
+        }
+        
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
     public function getCountCom($id){
         $query=$this->db->query("SELECT p.id,count(c.id) as cant,u.username as username FROM post p,comentario c,usuario u WHERE p.user=$id and p.id=c.post and p.user=u.id and c.id not in (SELECT c.id FROM comentario c JOIN denunciaCom ON(c.id=idCom)) GROUP by p.id ORDER BY p.fecha DESC;");
 

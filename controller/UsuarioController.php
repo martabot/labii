@@ -134,9 +134,14 @@ class UsuarioController extends ControladorBase{
 				$saltedPass = $pw.$salt;
 				$hashedPass = hash('sha256', $saltedPass);	
 				if($usuario['pass']==$hashedPass){
+					if($ud->getBanned($usuario['id'])==NULL){
 						$_SESSION["id"]=$usuario['id'];
 						$_SESSION['username']=$un;
 						$this->index();
+					}else{
+						$_SESSION['banned']="La cuenta de usuario ha sido banneada por un administrador.";
+						$this->view("Login","");
+					}
 				}else{
 					$ad=new Admin($this->adapter);
 					if(!NULL==$ad->getOneBy("username", $un)){
