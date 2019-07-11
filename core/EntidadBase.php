@@ -48,7 +48,7 @@ class EntidadBase{
     }
 
     public function getMod(){
-        $query=$this->db->query("SELECT u.id from usuario u JOIN moderador m on(u.mail=m.mail);");
+        $query=$this->db->query("SELECT u.id,m.status from usuario u JOIN moderador m on(u.mail=m.mail);");
         while ($row = $query->fetch_assoc()) {
             $resultSet[]=$row;
          }
@@ -58,12 +58,23 @@ class EntidadBase{
 
     }
 
+    public function getModByUser($id){
+        $query=$this->db->query("SELECT m.* from usuario u JOIN moderador m on(u.mail=m.mail) where u.id=$id;");
+        if ($row = $query->fetch_object()) {
+            $resultSet=$row;
+         }
+         
+         $resultSet=isset($resultSet)?$resultSet:NULL;
+         return $resultSet;
+
+    }
+
     public function yaExiste($id){
-        $query=$this->db->query("SELECT count(m.mail) FROM moderador m,usuario u where u.mail=m.mail and u.id=$id;");
+        $query=$this->db->query("SELECT count(m.mail) as c FROM moderador m,usuario u where u.mail=m.mail and u.id=$id;");
         if($row=$query->fetch_assoc()){
             $resultSet=$row;
         }
-        return $resultSet['id']>0?true:false;
+        return $resultSet['c']>0?true:false;
     }
 
     public function getBanned($id){

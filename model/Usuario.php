@@ -33,7 +33,7 @@ class Usuario extends EntidadBase{
 	
     public function save(){
         
-		if($this->status){
+		if($this->id&&!$this->nombre){
 			$query= "UPDATE usuario set status=$this->status WHERE id = $this->id;";
 
 			$save=$this->db()->query($query);

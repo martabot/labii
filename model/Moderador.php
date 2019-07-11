@@ -29,16 +29,8 @@ class Moderador extends EntidadBase{
     public function save(){
 		
 		if($this->id){
-			
-			$query= "UPDATE 'moderador' set 
-						`username`='$this->username',
-						`pass`='$this->pass',
-						`fechaAlta`='$this->fechaAlta',
-						`adminUltMod`=$ad,
-						`fechaUltMod`='$this->fechaUltMod',
-						`mail`='$this->mail',
-						`status`='$this->status'
-					where 'id' = $this->id";
+			$ad=$this->adminUltMod->__get('id');
+			$query= "UPDATE `moderador` SET `status`=$this->status, `adminUltMod`=$ad,`fechaUltMod`=NOW() WHERE id=$this->id;";
 			
 			$save=$this->db()->query($query);
 			//$this->db()->error;

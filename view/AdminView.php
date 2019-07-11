@@ -28,7 +28,7 @@ if(isset($_SESSION['moderador'])){
             }
 
     </script>
-    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.space{justify-content:space-around}#f{width:200px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
+    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -62,14 +62,15 @@ if(isset($_SESSION['moderador'])){
         <div class="row op">
         <form method="POST" action="<?php echo $helper->url("admin","otro"); ?>">
             <center>
-            <b><input id="f" type="submit" name="mod" class="btn btn-outline-dark" value="Hacer moderador"></b>
-            <b><input id="f" type="submit" name="hab" class="btn btn-outline-dark" value="Habilitar"></b>
-            <b><input id="f" type="submit" name="des" class="btn btn-outline-dark" value="Deshabilitar"></b>
-
+            <b><input id="f" type="submit" name="mod" class="btn btn-outline-dark" value="Cambiar estado moderador"></b>
+            <b><input id="f" type="submit" name="hab" class="btn btn-outline-dark" value="Cambiar estado usuario"></b>
         <div class="row post">
             <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
                 <div class="card-body space ">
-                    <table cellpadding="15px" border="1" bordercolor="grey">
+               <div style="float:left;color:grey">
+                    <span>*Nota: Los usuarios moderadores activos se muestran con fondo resaltado.</span>
+                    </div>
+                    <table class="table" cellpadding="15px" bordercolor="grey">
                     <tr align="center"><td><input type="reset" class="btn btn-dark" value="Clear">
                     </td><th>USERNAME</th><th>NOMBRE Y APELLIDO</th><th>MAIL</th><th>NACIMIENTO</th><th>INGRESA</th><th>ULTIMA MODIFICACION</th><th>ESTADO DE CUENTA</th></tr>
                     <?php 
@@ -78,7 +79,7 @@ if(isset($_SESSION['moderador'])){
                         $flag=false;
                         if(isset($mod)){
                             foreach($mod as $m){
-                                if($user->id==$m['id']){
+                                if($user->id==$m['id']&&$m['status']==1){
                                     $flag=true;
                                 }
                             }

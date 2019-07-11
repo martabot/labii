@@ -40,8 +40,6 @@ class AdminController extends ControladorBase{
             $this->hacerModerador();
         }else if(isset($_POST['hab'])){
             $this->habilitar();
-        }else if(isset($_POST['des'])){
-            $this->deshabilitar();
         }
     }
 
@@ -65,6 +63,20 @@ class AdminController extends ControladorBase{
                 $md->__set("adminUltMod",$obj);
                 $md->__set("mail",$usuario->mail);
                 $save=$md->save();
+            } else {
+                $moderador=$mod->getModByUser($_POST['id']);
+                $ad->__set("id",$_SESSION['id']);
+                if($moderador->status==1){
+                    $mod->__set("id",$moderador->id);
+                    $mod->__set("adminUltMod",$ad);
+                    $mod->__set("status",0);
+                    $mod->save();
+                } else {
+                    $mod->__set("id",$moderador->id);
+                    $mod->__set("adminUltMod",$ad);
+                    $mod->__set("status",1);
+                    $mod->save();
+                }
             }
         }
         $this->index();
@@ -81,15 +93,7 @@ class AdminController extends ControladorBase{
             $usuario->__set("id",$_POST['id']);
             $usuario->__set("status",1);
             $usuario->save();
-        }
-        $this->index();
-    }
-
-    public function deshabilitar(){
-        //actualizar estado de usuario 1
-        $ud=new Usuario($this->adapter);
-        $usuario=$ud->getById($_POST['id']);
-        if($usuario->status==1){
+        } else {
             $ad=new Admin($this->adapter);
             $obj=$ad->__set("id",$_SESSION['id']);
             $usuario=new Usuario($this->adapter);
