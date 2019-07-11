@@ -25,7 +25,7 @@
                 <H2>¡BIENVENIDO!</H2>
             </div>
             <div class="row justify-content-center">
-                <h4>Unete a nuestra red para amantes de mascotas</h4>
+                <h4>Unite a nuestra red para amantes de mascotas</h4>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">

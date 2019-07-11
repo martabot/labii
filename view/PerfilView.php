@@ -16,39 +16,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>
-    .todo{font-family: 'Assistant', sans-serif;}
-        html{scrollbar-face-color: orangered}
-    .b{margin: 10px 10px 10px 10px}
-    .ult{padding-top:30px;padding-bottom:30px}
-    img{height: 220px; width: 60%; overflow: hidden;padding-top: 20px}
-    .x{padding-left: 10px}
-    section div.t{margin-top: 7px}
-    .t,.t a{color: orangered}
-    .t span, .x a{color: grey}
-    .card{margin-top:15px }
-    .post span{
-        background-color: #fefbde; padding:3px;margin:5px;color:grey
-    }
-
-    #img{
-        padding-left:10px
-    }
-    .card p{
-        padding-top:10px
-    }
-    .post{
-        width:100%
-    }
-    .post img{
-        width:100%;
-        height:auto
-    }
-    .p {
-        width:100%
-    }
-}
-    </style>
+    <style>.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{height: 220px;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -79,7 +47,7 @@
         <div class="row">
             <div class="col-lg-3" style="position:fixed">
                 <div class="row justify-content-center" style="padding-top: 10px">
-                   <img src='<?php echo $usuario->profilePic; ?>' alt="foto de perfil"> 
+                   <img id="this" class="fb-image-profile" src='<?php echo $usuario->profilePic; ?>' alt="foto de perfil"> 
                 </div>
                 <div class="row justify-content-center" style="padding-top: 23px">
                     <h2 style="width:100%" class="card-header-title text-center"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2>
@@ -98,7 +66,7 @@
                                         <a href="<?php echo $helper->url("usuario","editar"); ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">INTERESES<span>&nbsp(30)</span></a>
+                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">INTERESES<span>&nbsp(0)</span></a>
                                     </div>
                                     <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp(<?php echo (int)$todos; ?>)</span></a>

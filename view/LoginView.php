@@ -7,9 +7,15 @@
     }
     if(isset($_SESSION['banned'])){
         echo '<script language="javascript">';
-        echo 'alert("La cuenta de usuario ha sido inhabilitada.");';
+        echo 'alert("La cuenta de usuario ha sido deshabilitada.");';
         echo '</script>';
         unset($_SESSION['banned']);
+    }
+    if(isset($_SESSION['vacio'])){
+        echo '<script language="javascript">';
+        echo 'alert("El nombre de usuario debe contener caracteres.");';
+        echo '</script>';
+        unset($_SESSION['vacio']);
     }
 ?>
 

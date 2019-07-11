@@ -22,7 +22,7 @@ if($usuario->id!=$_SESSION['id']){
     }
     </script>
     <style>
-    .todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}img{height: 220px; width: 60%; overflow: hidden;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}
+    .todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{height: 220px;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}
     </style>
   </head>
   <body>
@@ -55,7 +55,7 @@ if($usuario->id!=$_SESSION['id']){
         <div class="row">
             <div class="col-lg-3" style="position:fixed">
                 <div class="row justify-content-center" style="padding-top: 10px">
-                   <img src='<?php echo $usuario->profilePic; ?>' alt="foto de perfil"> 
+                   <img id="this" class="fb-image-profile" src='<?php echo $usuario->profilePic; ?>' alt="foto de perfil"> 
                 </div>
                 <div class="row justify-content-center" style="padding-top: 23px">
                     <p><h2 class="card-header-title text-center p"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2></p><br>
@@ -74,7 +74,7 @@ if($usuario->id!=$_SESSION['id']){
                                         <a href="<?php echo $helper->url("usuario","editar") ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar") ?>">INTERESES<span>&nbsp(30)</span></a>
+                                    <a href="<?php echo $helper->url("usuario","editar") ?>">INTERESES<span>&nbsp(0)</span></a>
                                     </div>
                                     <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp(<?php echo (int)$todos; ?>)</span></a>
@@ -125,7 +125,7 @@ if($usuario->id!=$_SESSION['id']){
                                                 ?>
                                                 
                                                 <form method="POST" action="<?php echo $helper->url("post","comentar"); ?>&idUser=<?php echo $usuario->id; ?>&idPost=<?php echo $post->id;?>">
-                                                            <textarea style="width:100%" rows="3" placeholder="Deje aquí su comentario" name="txt"></textarea>
+                                                            <textarea style="width:100%;margin:7px" class="form-control" rows="3" placeholder="Deje aquí su comentario" name="txt"></textarea>
                                                             <input type="submit" value="Comentar" class="derecha btn btn-outline-info my-2 my-sm-0">
                                                         </form>
                                                 <hr style="margin-top:60px">

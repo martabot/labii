@@ -76,41 +76,46 @@ class UsuarioController extends ControladorBase{
 
 		//Procesa los datos del formulario de inserción
 		public function crear(){
-			if(isset($_POST["username"])){
+			if(isset($_POST["username"])&&trim($_POST['username'])!=""){
 				$pass1=isset($_POST['pass'])?$_POST['pass']:"";
 				$pass2=isset($_POST['pass1'])?$_POST['pass1']:"";
 				if($pass1!=$pass2){
-					$strError="Las contraseñas no coinciden";
-					echo $strError;
+					$_SESSION['error']="Las contraseñas no coinciden.";
+					$this->registrarse();
 				}else{            
 				//Creamos un usuario
 				$usuario=new Usuario($this->adapter);
 				$val=$usuario->getOneBy("username",$_POST['username']);
+				$valMail=$usuario->getOneBy("mail",$_POST['mail']);
 				if($val){
-					$strError="Nombre de usuario no disponible.";
-					echo $strError;
+					$_SESSION['error']="Nombre de usuario no disponible.";
+					$this->registrarse();
+				}else if (substr_count($_POST['username']," ")>0){
+					$_SESSION['error']="El nombre de usuario no debe contener espacios";
+					$this->registrarse();
+				}else if($valMail){
+					$_SESSION['error']="El mail ya se encuntra registrado";
+					$this->registrarse();
 				}else{
-				$nom=isset($_POST["nombre"])?$_POST['nombre']:NULL;
-				$ap=isset($_POST["apellido"])?$_POST['apellido']:NULL;
+				$nom=NULL!=trim($_POST["nombre"])?$_POST['nombre']:NULL;
+				$ap=NULL!=trim($_POST["apellido"])?$_POST['apellido']:NULL;
+				$bd=NULL!=$_POST['bd']?$_POST['bd']:NULL;
 				$mail=isset($_POST["mail"])?$_POST["mail"]:NULL;
 				$si=filter_var($mail, FILTER_VALIDATE_EMAIL);
-				if(!$nom||!$ap||!$si){
-					$strError="Datos faltantes";
-					echo $strError;
+				if(!$nom||!$ap||!$si||$bd){
+					$_SESSION['error']="Datos personales incorrectos.";
+					$this->registrarse();
 				}else{
 								$usuario->__set('username',$_POST['username']);
 								$salt = bin2hex(random_bytes(32));
 								$usuario->__set("salt",$salt);
 								$password=$_POST['pass'].$salt;
                 $usuario->__set('pass',hash('sha256', $password));
-								$hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
-                $usuario->__set('fechaAlta',$hoy);
-                $usuario->__set('fechaUltMod',$hoy);
 								$usuario->__set("nombre",$nom);
 								$usuario->__set("apellido",$ap);
 								$usuario->__set("mail",$mail);
 								$usuario->__set("profilePic","https://data.whicdn.com/images/332357097/large.jpg");
-								$usuario->__set("bday",$_POST["bd"]);
+								$usuario->__set("bday",$bd);
 								$pais = new Pais($this->adapter);
 								$pais->__set("id",$_POST["country"]);
 								$usuario->__set("pais",$pais);
