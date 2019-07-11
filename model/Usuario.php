@@ -33,16 +33,24 @@ class Usuario extends EntidadBase{
 	
     public function save(){
         
-		if($this->id){
+		if($this->status){
 			$query= "UPDATE usuario set status=$this->status WHERE id = $this->id;";
 
 			$save=$this->db()->query($query);
             //return $this->db()->error;
             return $save;
 			
-			
 		}
-		else{
+		else if($this->id){
+            $num=$this->pais->__get('id');
+			$query= "UPDATE usuario set fechaUltMod = '$this->fechaUltMod', nombre ='$this->nombre',
+                        apellido='$this->apellido', bday='$this->bday', profilePic='$this->profilePic',
+                        pais= $num, mail='$this->mail'
+                    WHERE id = '$this->id';";
+			$save=$this->db()->query($query);
+            //return $this->db()->error;
+            return $save;
+        }else{
             $num=$this->pais->__get('id');
 			$query= "INSERT INTO `usuario`(`username`, `pass`, `salt`, `fechaAlta`, `fechaUltMod`, `nombre`, `apellido`, `bday`, `mail`, `profilePic`, `pais`) VALUES (
 						   '".$this->username."',

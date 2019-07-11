@@ -23,8 +23,10 @@ class AdminController extends ControladorBase{
             $allUsers=$ud->getAll();
             //if($ud->getUnseen($_SESSION['id'])){
             //    $notificaciones=sizeof($ud->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
+            $mod=$ad->getMod();
             $this->view("Admin",array(
                 //"notis"=>$notificaciones,
+                "mod"=>$mod,
                 "usuario"=>$obj,
                 "allUsers"=>$allUsers
             ));
@@ -47,20 +49,23 @@ class AdminController extends ControladorBase{
         //insertar un moderador
         $ad=new Admin($this->adapter);
         $ud=new Usuario($this->adapter);
+        $mod=new Moderador($this->adapter);
         
         //hacer cartelito
         if($ud->getById($_POST['id'])==!NULL){
-            $usuario=$ud->getById($_POST['id']);
-            $obj=$ad->__set("id",$_SESSION['id']);
-            $md=new Moderador($this->adapter);
-            $md->__set("username","moderador");
-            $salt = bin2hex(random_bytes(32));
-            $password="12345".$salt;
-            $md->__set("salt",$salt);
-            $md->__set("pass",$password);
-            $md->__set("adminUltMod",$obj);
-            $md->__set("mail",$usuario->mail);
-            $save=$md->save();
+            if(!$mod->yaExiste($_POST['id'])){
+                $usuario=$ud->getById($_POST['id']);
+                $obj=$ad->__set("id",$_SESSION['id']);
+                $md=new Moderador($this->adapter);
+                $md->__set("username","moderador");
+                $salt = bin2hex(random_bytes(32));
+                $password="12345".$salt;
+                $md->__set("salt",$salt);
+                $md->__set("pass",$password);
+                $md->__set("adminUltMod",$obj);
+                $md->__set("mail",$usuario->mail);
+                $save=$md->save();
+            }
         }
         $this->index();
     }

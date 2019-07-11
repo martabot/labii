@@ -47,6 +47,25 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getMod(){
+        $query=$this->db->query("SELECT u.id from usuario u JOIN moderador m on(u.mail=m.mail);");
+        while ($row = $query->fetch_assoc()) {
+            $resultSet[]=$row;
+         }
+         
+         $resultSet=isset($resultSet)?$resultSet:NULL;
+         return $resultSet;
+
+    }
+
+    public function yaExiste($id){
+        $query=$this->db->query("SELECT count(m.mail) FROM moderador m,usuario u where u.mail=m.mail and u.id=$id;");
+        if($row=$query->fetch_assoc()){
+            $resultSet=$row;
+        }
+        return $resultSet['id']>0?true:false;
+    }
+
     public function getBanned($id){
         $query=$this->db->query("SELECT * from usuario where status=0 and id=$id;");
 

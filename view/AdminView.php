@@ -28,9 +28,7 @@ if(isset($_SESSION['moderador'])){
             }
 
     </script>
-    <style>
-    html {overflow-x: hidden}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.space{justify-content:space-around}#f{width:200px;margin:40px 15px 0px 15px}
-    </style>
+    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.space{justify-content:space-around}#f{width:200px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -40,13 +38,16 @@ if(isset($_SESSION['moderador'])){
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Usuarios</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","index"); ?>">Usuarios</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Moderadores</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","moderadores"); ?>">Moderadores</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Denunciados</a>
+                    <a class="nav-link" href="<?php echo $helper->url("admin","denunciados"); ?>">Denunciados</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo $helper->url("admin","todo"); ?>">Todo el contenido</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -71,14 +72,25 @@ if(isset($_SESSION['moderador'])){
                     <table cellpadding="15px" border="1" bordercolor="grey">
                     <tr align="center"><td><input type="reset" class="btn btn-dark" value="Clear">
                     </td><th>USERNAME</th><th>NOMBRE Y APELLIDO</th><th>MAIL</th><th>NACIMIENTO</th><th>INGRESA</th><th>ULTIMA MODIFICACION</th><th>ESTADO DE CUENTA</th></tr>
-                            <?php foreach($allUsers as $user){ 
+                    <?php 
+                    if(isset($allUsers)){
+                    foreach($allUsers as $user){ 
+                        $flag=false;
+                        if(isset($mod)){
+                            foreach($mod as $m){
+                                if($user->id==$m['id']){
+                                    $flag=true;
+                                }
+                            }
+                        }
+                        if($flag){
+            echo "<tr id='mod'><td align='center'><input type='radio' name='id' value='$user->id'>
+                </td><td>$user->username</td><td>$user->nombre $user->apellido</td><td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td><td>$user->fechaUltMod</td><td align='center'>$user->status</td></tr>";
+                            }else{
             echo "<tr><td align='center'><input type='radio' name='id' value='$user->id'>
-            </td><td>$user->username</td><td>$user->nombre $user->apellido</td><td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td><td>$user->fechaUltMod</td><td align='center'>$user->status</td></tr>";
-                        
-                            ?>
-                        
-                        
-            <?php }?></table>
+                </td><td>$user->username</td><td>$user->nombre $user->apellido</td><td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td><td>$user->fechaUltMod</td><td align='center'>$user->status</td></tr>";                        
+                            }
+                        }}?></table>
                 </div>
             </div>
         </div>

@@ -21,6 +21,7 @@ class UsuarioController extends ControladorBase{
 				$id=$_SESSION["id"];
 				$obj=$ud->getById($id);
 				$post=new Post($this->adapter);
+				
 				$allPosts=$post->getByFecha($id);
 				$amiguis=$post->getPostDeAmigos($id);
 				$cant=$post->getAllCom();
@@ -102,7 +103,7 @@ class UsuarioController extends ControladorBase{
 				$bd=NULL!=$_POST['bd']?$_POST['bd']:NULL;
 				$mail=isset($_POST["mail"])?$_POST["mail"]:NULL;
 				$si=filter_var($mail, FILTER_VALIDATE_EMAIL);
-				if(!$nom||!$ap||!$si||$bd){
+				if(!$nom||!$ap||!$si){
 					$_SESSION['error']="Datos personales incorrectos.";
 					$this->registrarse();
 				}else{
@@ -114,7 +115,7 @@ class UsuarioController extends ControladorBase{
 								$usuario->__set("nombre",$nom);
 								$usuario->__set("apellido",$ap);
 								$usuario->__set("mail",$mail);
-								$usuario->__set("profilePic","https://data.whicdn.com/images/332357097/large.jpg");
+								$usuario->__set("profilePic","https://data.whicdn.com/images/325337009/large.jpg");
 								$usuario->__set("bday",$bd);
 								$pais = new Pais($this->adapter);
 								$pais->__set("id",$_POST["country"]);
