@@ -1,4 +1,7 @@
-<?php ini_get('register_globals'); ?>
+<?php 
+ini_get('register_globals'); 
+unset($_SESSION['visitante']);
+?>
 
 <!doctype html>
 <html lang="es">

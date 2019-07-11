@@ -48,7 +48,7 @@ class EntidadBase{
     }
 
     public function getCountCom($id){
-        $query=$this->db->query("SELECT p.id,count(c.id) as cant,u.username as username FROM post p,comentario c,usuario u WHERE p.user=$id and p.id=c.post and p.user=u.id GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant,u.username as username FROM post p,comentario c,usuario u WHERE p.user=$id and p.id=c.post and p.user=u.id and c.id not in (SELECT c.id FROM comentario c JOIN denunciaCom ON(c.id=idCom)) GROUP by p.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -113,20 +113,24 @@ class EntidadBase{
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
-    
+
     public function getById($id){
         $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id;");
 
         if($row = $query->fetch_object()) {
            $resultSet=$row;
         }
-
+        
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
+
+    public function usuariosModeradores(){
+        $query=$this->db->query();
+    }
     
     public function getOneBy($column,$value){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value'");
+        $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value';");
 
         if($row = $query->fetch_assoc()) {
            $resultSet=$row;
@@ -159,7 +163,7 @@ class EntidadBase{
     }
 
     public function getByFecha($id){
-        $query=$this->db->query("SELECT * FROM post p WHERE privacidad=1 and p.user<>$id and p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user not in (SELECT u.id FROM amigo a JOIN usuario u ON(u.id=a.user1 OR u.id=a.user2) WHERE (a.user1=$id or a.user2=$id) and a.status=1) ORDER BY fecha DESC;");
+        $query=$this->db->query("SELECT p.* FROM post p,usuario u WHERE privacidad=1 and p.user<>$id and p.user=u.id and u.status=1 and p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user not in (SELECT u.id FROM amigo a JOIN usuario u ON(u.id=a.user1 OR u.id=a.user2) WHERE (a.user1=$id or a.user2=$id) and a.status=1) ORDER BY fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;
@@ -193,7 +197,7 @@ class EntidadBase{
 
 
     public function getPostDeAmigos($id){
-        $query=$this->db->query("SELECT p.* FROM post p WHERE p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user IN (SELECT u.id FROM usuario u,amigo a WHERE ((a.user1=$id and a.user2=u.id) or (a.user2=$id and a.user1=u.id)) and a.status=1) ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.* FROM post p WHERE p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user IN (SELECT u.id FROM usuario u,amigo a WHERE ((a.user1=$id and a.user2=u.id) or (a.user2=$id and a.user1=u.id)) and a.status=1 and u.status=1) ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;

@@ -1,8 +1,8 @@
 <?php ini_get('register_globals'); 
 if(isset($_SESSION['moderador'])){
-    $helper->url("denuncia","moderar");
+    $this->redirect("denuncia","moderar");
 } else if(isset($_SESSION['admin'])){
-    $helper->url("admin","index");
+    $this->redirect("admin","index");
 }
 ?>
 <!doctype html>

@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.6.6deb4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 10-07-2019 a las 21:14:10
--- Versión del servidor: 10.1.36-MariaDB
--- Versión de PHP: 7.2.10
+-- Servidor: localhost:3306
+-- Tiempo de generación: 10-07-2019 a las 23:25:53
+-- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
+-- Versión de PHP: 7.0.30-0+deb9u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -44,12 +42,19 @@ CREATE TABLE `admin` (
   `username` varchar(50) NOT NULL,
   `pass` varchar(50) NOT NULL,
   `salt` varchar(500) DEFAULT NULL,
-  `fechaAlta` date NOT NULL,
+  `fechaAlta` datetime NOT NULL,
   `adminUltMod` int(11) DEFAULT NULL,
-  `fechaUltMod` date NOT NULL,
+  `fechaUltMod` datetime NOT NULL,
   `mail` varchar(500) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `admin`
+--
+
+INSERT INTO `admin` (`id`, `username`, `pass`, `salt`, `fechaAlta`, `adminUltMod`, `fechaUltMod`, `mail`, `status`) VALUES
+(1, 'admin', 'admin', NULL, '2019-07-10', NULL, '2019-07-10', 'this@mail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -64,6 +69,7 @@ CREATE TABLE `amigo` (
   `status` int(11) NOT NULL DEFAULT '0',
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -82,13 +88,14 @@ CREATE TABLE `comentario` (
   `privacidad` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denunciacom`
+-- Estructura de tabla para la tabla `denunciaCom`
 --
 
-CREATE TABLE `denunciacom` (
+CREATE TABLE `denunciaCom` (
   `idCom` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
@@ -97,13 +104,14 @@ CREATE TABLE `denunciacom` (
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `denunciapost`
+-- Estructura de tabla para la tabla `denunciaPost`
 --
 
-CREATE TABLE `denunciapost` (
+CREATE TABLE `denunciaPost` (
   `idPost` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `idModerador` int(11) DEFAULT NULL,
@@ -111,6 +119,7 @@ CREATE TABLE `denunciapost` (
   `motivo` varchar(50) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -159,6 +168,10 @@ CREATE TABLE `notificacion` (
   `comentario` int(11) DEFAULT NULL,
   `amigo` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `notificacion`
+--
 
 -- --------------------------------------------------------
 
@@ -448,6 +461,7 @@ CREATE TABLE `post` (
   `votos` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 -- --------------------------------------------------------
 
 --
@@ -460,12 +474,12 @@ CREATE TABLE `usuario` (
   `pass` varchar(500) NOT NULL,
   `salt` varchar(500) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  `fechaAlta` date NOT NULL,
+  `fechaAlta` datetime NOT NULL,
   `adminUltMod` int(11) DEFAULT NULL,
-  `fechaUltMod` date NOT NULL,
+  `fechaUltMod` datetime NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
-  `bday` datetime NOT NULL,
+  `bday` date NOT NULL,
   `mail` varchar(500) NOT NULL,
   `profilePic` varchar(500) NOT NULL,
   `pais` int(11) DEFAULT NULL
@@ -498,17 +512,17 @@ ALTER TABLE `comentario`
   ADD KEY `post` (`post`);
 
 --
--- Indices de la tabla `denunciacom`
+-- Indices de la tabla `denunciaCom`
 --
-ALTER TABLE `denunciacom`
+ALTER TABLE `denunciaCom`
   ADD PRIMARY KEY (`idCom`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
 
 --
--- Indices de la tabla `denunciapost`
+-- Indices de la tabla `denunciaPost`
 --
-ALTER TABLE `denunciapost`
+ALTER TABLE `denunciaPost`
   ADD PRIMARY KEY (`idPost`,`idUsuario`,`fecha`),
   ADD KEY `idModerador` (`idModerador`),
   ADD KEY `idUsuario` (`idUsuario`);
@@ -566,56 +580,47 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `amigo`
 --
 ALTER TABLE `amigo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `interes`
 --
 ALTER TABLE `interes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT de la tabla `moderador`
 --
 ALTER TABLE `moderador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT de la tabla `notificacion`
 --
 ALTER TABLE `notificacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
-
 --
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -635,17 +640,17 @@ ALTER TABLE `comentario`
   ADD CONSTRAINT `usuario` FOREIGN KEY (`user`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denunciacom`
+-- Filtros para la tabla `denunciaCom`
 --
-ALTER TABLE `denunciacom`
+ALTER TABLE `denunciaCom`
   ADD CONSTRAINT `denunciaCom_ibfk_1` FOREIGN KEY (`idCom`) REFERENCES `comentario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaCom_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaCom_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `denunciapost`
+-- Filtros para la tabla `denunciaPost`
 --
-ALTER TABLE `denunciapost`
+ALTER TABLE `denunciaPost`
   ADD CONSTRAINT `denunciaPost_ibfk_1` FOREIGN KEY (`idPost`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaPost_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `denunciaPost_ibfk_3` FOREIGN KEY (`idModerador`) REFERENCES `moderador` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
@@ -683,7 +688,6 @@ ALTER TABLE `post`
 ALTER TABLE `usuario`
   ADD CONSTRAINT `modifica` FOREIGN KEY (`adminUltMod`) REFERENCES `admin` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`pais`) REFERENCES `pais` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

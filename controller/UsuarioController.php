@@ -25,8 +25,8 @@ class UsuarioController extends ControladorBase{
 				$amiguis=$post->getPostDeAmigos($id);
 				$cant=$post->getAllCom();
 				$duenios=$post->getPublicadores();
-				if($post->getUnseen($id)==!NULL){
-				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
+				if($post->getUnseen($_SESSION['id'])==!NULL){
+				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$this->view("Index",array(
 					"notis"=>$notificaciones,
 					"usuario"=>$obj,
@@ -143,12 +143,12 @@ class UsuarioController extends ControladorBase{
 					$usuario=$ad->getOneBy("username", $un);
 					$salt = $usuario['salt'];
 					$saltedPass = $pw.$salt;
-					$hashedPass = hash('sha256', $saltedPass);	
-					if($usuario['pass']==$hashedPass){
+					$hashedPass = hash('sha256', $saltedPass);
+					
 							$_SESSION["id"]=$usuario['id'];
 							$_SESSION['username']=$un;
 							$_SESSION['admin']="si";
-							$this->redirect("admin","index");}
+							$this->index();
 				} else {
 					$md=new Moderador($this->adapter);
 					if(!NULL==$md->getOneBy("username", $un)){
@@ -184,10 +184,11 @@ class UsuarioController extends ControladorBase{
 				if(isset($_SESSION["visitante"])){
 					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
 				} else {$amigo=NULL;}
-				if($post->getUnseen($id)==!NULL){
-				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
+				if($post->getUnseen($_SESSION['id'])==!NULL){
+				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$asa=new Amigo($this->adapter);
-				$todos=sizeof($asa->getTodos($id));
+				if($asa->getTodos($id)==!NULL){
+					$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
 				$this->view("Perfil",array(
 					"todos"=>$todos,
 					"notis"=>$notificaciones,

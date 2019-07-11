@@ -3,6 +3,7 @@ class Moderador extends EntidadBase{
     private $id;
     private $username;
 	private $pass;
+	private $salt;
 	private $fechaAlta;
 	private $adminUltMod;
 	private $fechaUltMod;
@@ -26,8 +27,6 @@ class Moderador extends EntidadBase{
     } 
 	
     public function save(){
-		require_once "Admin.php";
-		$ad=$this->admin->__get('id');
 		
 		if($this->id){
 			
@@ -47,15 +46,14 @@ class Moderador extends EntidadBase{
 			
 		}
 		else{
-			$query= "INSERT INTO `moderador`(`username`, `pass`, `fechaAlta`, `adminUltMod`, `fechaUltMod`, `mail`) VALUES (
-						   '$this->username',
-						   '$this->pass',
-						   '$this->fechaAlta',
-						    $ad,
-						   '$this->fechaUltMod',
-						   '$this->mail');";
+
+			$ad=$this->adminUltMod->__get('id');
+			$query= "INSERT INTO `moderador`(`username`, `pass`, `salt`, `mail`, `fechaAlta`, `adminUltMod`, `fechaUltMod`) VALUES (
+				'$this->username','$this->pass','$this->salt','$this->mail',NOW(),$ad,NOW())";
 			$save=$this->db()->query($query);
-			//$this->db()->error;
+			if($this->db()->error){
+				$save=$this->db()->error;
+			}
 			return $save;
 		}	
     }

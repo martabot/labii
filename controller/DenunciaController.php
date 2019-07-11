@@ -50,7 +50,8 @@ class DenunciaController extends ControladorBase{
             $amiguis=$post->getPostDeAmigos($id);
             $cant=$post->getAllCom();
             $duenios=$post->getPublicadores();
-            $notificaciones=sizeof($post->getUnseen($id));
+            if($post->getUnseen($_SESSION['id'])==!NULL){
+            $notificaciones=sizeof($post->getUnseen($_SESSION['id']));} else {$notificaciones=0;}
             $this->view("ModerarView",array(
                 "notis"=>$notificaciones,
                 "usuario"=>$obj,
