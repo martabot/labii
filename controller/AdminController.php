@@ -58,11 +58,9 @@ class AdminController extends ControladorBase{
                 $usuario=$ud->getById($_POST['id']);
                 $obj=$ad->__set("id",$_SESSION['id']);
                 $md=new Moderador($this->adapter);
-                $md->__set("username","moderador");
-                $salt = bin2hex(random_bytes(32));
-                $password="12345".$salt;
-                $md->__set("salt",$salt);
-                $md->__set("pass",$password);
+                $md->__set("username",$usuario->mail);
+                $md->__set("salt",NULL);
+                $md->__set("pass","12345");
                 $md->__set("adminUltMod",$obj);
                 $md->__set("mail",$usuario->mail);
                 $save=$md->save();
@@ -107,25 +105,9 @@ class AdminController extends ControladorBase{
         $this->index();
     }
 
-    public function denunciados(){
-        $ad=new Admin($this->adapter);
-        $posts=$ad->getPostsDenunciados();
-        $coms=$ad->getComDenunciados();
-        $ud=new Usuario($this->adapter);
-        $usuarios=$ud->getAll();
-        $cant=0;
-        if(isset($coms)){
-            $cant+=sizeof($coms);
-        }
-        if(isset($posts)){
-            $cant+=sizeof($posts);
-        }
-        $this->view("Moderar",array(
-            "usuarios"=>$usuarios,
-            "cant"=>$cant,
-            "posts"=>$posts,
-            "coms"=>$coms
-        ));
+    public function todo(){
+        $this->view("Full","");
     }
+
 
 }

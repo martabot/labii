@@ -25,21 +25,17 @@ class DenunciaCom extends EntidadBase{
 	
     public function save(){
         
-		if($this->fechaMod){
+		if($this->moderador){
             $mod=$this->moderador->__get('id');
-			$query= "UPDATE `denunciaCom` SET 
-                            `idModerador`=$mod,
-						    `fechaMod`=NOW()
-					where 'idCom' = $com 
-                            and 'idUsuario'=$us 
-                            and 'dFecha'='$this->dFecha';";
+            $us=$this->user->__get('id');
+            $com=$this->comentario->__get('id');
+
+			$query= "UPDATE `denunciaCom` SET `idModerador`=$mod,`fechaMod`=NOW() WHERE `idCom`= $com and `idUsuario`= $us and `dFecha`= '$this->dFecha';";
 					
-			$save=$this->db()->query($query);
-			//$this->db()->error;
-			return $save;
-			
-		}
-		else{
+            $save=$this->db()->query($query);
+            return $save;
+            
+		}else{
         $us=$this->user->__get('id');
         $com=$this->comentario->__get('id');
             $query= "INSERT INTO `denunciaCom`(`idCom`, `idUsuario`, `dFecha`, `motivo`) VALUES (

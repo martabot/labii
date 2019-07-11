@@ -20,7 +20,7 @@ unset($_SESSION['visitante']);
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}h2{padding: 30px 20px 10px 20px}#noti{width:100%}</style>
+    <style>aa{outline:0;text-decoration:none;text-shadow:0px 0px 1px silver}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}h2{padding: 30px 20px 10px 20px}#noti{width:100%}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -36,7 +36,7 @@ unset($_SESSION['visitante']);
                     <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Notificaciones(<?php echo (int)$notis; ?>)</a>
+                    <a class="nav-link" href="#">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

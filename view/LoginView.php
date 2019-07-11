@@ -1,21 +1,11 @@
 <?php
-    if(isset($_SESSION['incorrecto'])){
+    ini_get('register_globals'); 
+    if(isset($_SESSION['error'])){
         echo '<script language="javascript">';
-        echo 'alert("Nombre de usuario o contraseña incorrecto.");';
+        $error=$_SESSION['error'];
+        echo "alert('$error');";
         echo '</script>';
-        unset($_SESSION['incorrecto']);
-    }
-    if(isset($_SESSION['banned'])){
-        echo '<script language="javascript">';
-        echo 'alert("La cuenta de usuario ha sido deshabilitada.");';
-        echo '</script>';
-        unset($_SESSION['banned']);
-    }
-    if(isset($_SESSION['vacio'])){
-        echo '<script language="javascript">';
-        echo 'alert("El nombre de usuario debe contener caracteres.");';
-        echo '</script>';
-        unset($_SESSION['vacio']);
+        unset($_SESSION['error']);
     }
 ?>
 
@@ -29,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet"> 
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.col-2{text-align: center;padding: 26px 20px 18px 20px}h2{padding-top: 50px;font-family: 'Kalam', cursive;}.col-4{margin: 4px}.form-control{border: 1px solid  #ffb617 }</style>
+    <style>a{outline:0;text-decoration:none;text-shadow:0px 0px 1px silver}nav a:hover{text-shadow:0px 0px 1px yellow}.col-2{text-align: center;padding: 26px 20px 18px 20px}h2{padding-top: 50px;font-family: 'Kalam', cursive;}.col-4{margin: 4px}.form-control{border: 1px solid  #ffb617 }</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">

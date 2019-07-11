@@ -34,19 +34,13 @@ class Post extends EntidadBase{
     public function save(){
 
 		if($this->id){
-            if($this->votos){
-                $query= "UPDATE `post` SET `votos`=$this->votos where 'id' = $this->id;";
+                $query= "UPDATE `post` SET `status`=$this->status where `id` = $this->id;";
             
                 $save=$this->db()->query($query);
-                //$this->db()->error;
+				
+				//$this->db()->error;
                 return $save;
-            }else if($this->status){
-                $query= "UPDATE `post` SET `status`=$this->status where 'id' = $this->id;";
-            
-                $save=$this->db()->query($query);
-                //$this->db()->error;
-                return $save;
-            } else{
+        /*} else{
 			$query= "UPDATE `post` SET 
 						`cuerpo`='$this->cuerpo',
 						`fecha`= '$this->fecha',
@@ -64,9 +58,8 @@ class Post extends EntidadBase{
 			$save=$this->db()->query($query);
 			//$this->db()->error;
 			return $save;
-            }
-		}
-		else{
+            */
+		}else{
 			$query= "INSERT INTO `post`(`user`, `cuerpo`, `fecha`, `titulo`, `img1`, `img2`, `img3`, `adjunto`, `palabra1`, `palabra2`, `palabra3`) VALUES (
 				".$this->user->__get('id').",
 				'$this->cuerpo',

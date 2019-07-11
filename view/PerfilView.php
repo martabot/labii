@@ -16,7 +16,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
+    <style>a{outline:0;text-decoration:none;text-shadow:0px 0px 0.5px silver}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones(<?php echo (int)$notis; ?>)</a>
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -66,10 +66,10 @@
                                         <a href="<?php echo $helper->url("usuario","editar"); ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
                                     <div class="row t">
-                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">INTERESES<span>&nbsp(0)</span></a>
+                                    <a href="<?php echo $helper->url("usuario","editar"); ?>">INTERESES <span>&nbsp 0</span></a>
                                     </div>
                                     <div class="row t">
-                                        <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp(<?php echo (int)$todos; ?>)</span></a>
+                                        <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp <?php echo (int)$todos; ?></span></a>
                                     </div>
                                     <div class="row t">
                                     <a href="<?php echo $helper->url("usuario","editar"); ?>">ORDENAR POR DESTACADOS</a>

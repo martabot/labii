@@ -41,29 +41,30 @@ class DenunciaController extends ControladorBase{
 
     public function moderador(){
         if(isset($_SESSION["id"])){
-            unset($_SESSION["visitante"]);
-            $ud=new Moderador($this->adapter);
-            $id=$_SESSION["id"];
-            $obj=$ud->getById($id);
-            $post=new Post($this->adapter);
-            $allPosts=$post->getByFecha($id);
-            $amiguis=$post->getPostDeAmigos($id);
-            $cant=$post->getAllCom();
-            $duenios=$post->getPublicadores();
-            if($post->getUnseen($_SESSION['id'])==!NULL){
-            $notificaciones=sizeof($post->getUnseen($_SESSION['id']));} else {$notificaciones=0;}
-            $this->view("ModerarView",array(
-                "notis"=>$notificaciones,
-                "usuario"=>$obj,
-                "allPost"=>$allPosts,
+            $ad=new Moderador($this->adapter);
+            $posts=$ad->getPostsDenunciados();
+            $coms=$ad->getComDenunciados();
+            $ud=new Usuario($this->adapter);
+            $usuarios=$ud->getAll();
+            $cant=0;$t=0;
+            if(isset($coms)){
+                $cant+=sizeof($coms);
+            }
+            if(isset($posts)){
+                $t+=sizeof($posts);
+            }
+            $this->view("Moderar",array(
+                "usuarios"=>$usuarios,
                 "cant"=>$cant,
-                "amiguis"=>$amiguis,
-                "duenios"=>$duenios
+                "t"=>$t,
+                "posts"=>$posts,
+                "coms"=>$coms
             ));
         }else{
             $this->view("Bienvenida","");
         }
     }
+
 
     public function moderar(){
         if(isset($_POST['permitirP'])){
@@ -79,23 +80,58 @@ class DenunciaController extends ControladorBase{
 
     public function permitirP(){
         //actualizar denuncia con idModerador y dFecha
-        
+
+        $dd=new DenunciaPost($this->adapter);
+        $moderador=new Moderador($this->adapter);
+        $moderador->__set("id",$_SESSION['id']);
+        $us=new Usuario($this->adapter);
+        $us->__set("id",$_POST['idD']);
+        $pd=new Post($this->adapter);
+        $pd->__set("id",$_POST['idP']);
+        $dd->__set("post",$pd);
+        $dd->__set("user",$us);
+        $dd->__set("dFecha",$_POST['fecha']);
+        $dd->__set("moderador",$moderador);
+        $dd->save();
+        $this->moderador();
     }
 
     public function denegarP(){
         //save post con status 0
         //actualizar denuncia con id moderador
-
+        $pd=new Post($this->adapter);
+        $pd->__set("id",$_POST['idP']);
+        $pd->__set("status",0);
+        $pd->save();
+        $this->permitirP();
     }
 
     public function permitirC(){
-        //
-
+        $dd=new DenunciaCom($this->adapter);
+        $moderador=new Moderador($this->adapter);
+        $moderador->__set("id",$_SESSION['id']);
+        $us=new Usuario($this->adapter);
+        $us->__set("id",$_POST['idDen']);
+        $pd=new Comentario($this->adapter);
+        $pd->__set("id",$_POST['idC']);
+        $dd->__set("comentario",$pd);
+        $dd->__set("user",$us);
+        $dd->__set("dFecha",$_POST['fechax']);
+        $dd->__set("moderador",$moderador);
+        $save=$dd->save();
+        $_SESSION['aca']="vengo de comentario, habilitame el js";
+        $this->moderador();
     }
 
     public function denegarC(){
         //save com con status 0
         //actualizar denuncia con id moderador
+
+        $cd=new Comentario($this->adapter);
+        $cd->__set("id",$_POST['idC']);
+        $cd->__set("status",0);
+        $cd->save();
+        $this->permitirC();
     }
 
 }

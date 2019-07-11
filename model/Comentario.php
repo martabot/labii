@@ -29,11 +29,6 @@ class Comentario extends EntidadBase{
 
 		if($this->id){
             $query= "UPDATE `comentario` SET 
-                `user`= $us,
-                `post`= $poo,
-                `cuerpo`= '$this->cuerpo',
-                `fecha`= '$this->fecha',
-                `votos`= '$this->votos',
                 `status`= '$this->status' 
                 WHERE `id`=$this->id;";
 			

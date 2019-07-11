@@ -108,7 +108,7 @@ class EntidadBase{
     }
 
     public function getCountCom($id){
-        $query=$this->db->query("SELECT p.id,count(c.id) as cant,u.username as username FROM post p,comentario c,usuario u WHERE p.user=$id and p.id=c.post and p.user=u.id and c.id not in (SELECT c.id FROM comentario c JOIN denunciaCom ON(c.id=idCom)) GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant,u.username as username FROM post p,comentario c,usuario u WHERE p.user=$id and p.id=c.post and c.status=1 and p.user=u.id and c.id not in (SELECT c.id FROM comentario c JOIN denunciaCom ON(c.id=idCom and fechaMod is null)) GROUP by p.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -118,8 +118,19 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function maxId(){
+        $query=$this->db->query("SELECT MAX(id) as 'top' FROM $this->table;");
+
+        if($row = $query->fetch_assoc()) {
+           $resultSet=$row;
+        }
+        
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
     public function getAllCom(){
-        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id) GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post AND c.id and c.status=1 not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod is null) GROUP by p.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -151,7 +162,7 @@ class EntidadBase{
     }
 
     public function getPublicadores(){
-        $query=$this->db->query("SELECT p.id,u.username FROM post p,usuario u WHERE p.user=u.id GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,u.username FROM post p,usuario u WHERE p.user=u.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -162,7 +173,7 @@ class EntidadBase{
     }
 
     public function getComentarios($id){
-        $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id) ORDER BY c.fecha DESC;");
+        $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id and c.status=1 AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod IS NULL) ORDER BY c.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;

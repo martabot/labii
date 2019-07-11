@@ -1,10 +1,4 @@
-<?php ini_get('register_globals'); 
-if(isset($_SESSION['moderador'])){
-    $helper->url("denuncia","moderar");
-} else if(isset($_SESSION['admin'])){
-    $helper->url("admin","index");
-}
-?>
+<?php ini_get('register_globals'); ?>
 <!doctype html>
 <html lang="es">
   <head>
@@ -28,7 +22,7 @@ if(isset($_SESSION['moderador'])){
             }
 
     </script>
-    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
+    <style>a{outline:0;text-decoration:none;text-shadow:0px 0px 1px silver}html{overflow-x: hidden}li a:hover{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -39,9 +33,6 @@ if(isset($_SESSION['moderador'])){
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("admin","index"); ?>">Usuarios</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("admin","denunciados"); ?>">Denunciados(<?php echo (int)$cant; ?>)</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("admin","todo"); ?>">Todo el contenido</a>
