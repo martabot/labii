@@ -16,7 +16,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
+    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{font-size:16pt;color: rgb(252, 159, 84)}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}.card-text{margin-left:5px}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -103,16 +103,20 @@
                             }
                             if(isset($allPost)){
                             foreach($allPost as $post){
-                                if($post->privacidad==1||$amigo->status==1||!isset($_SESSION['visitante'])){
-                                echo '<div class="row post">
+                                if($post->privacidad==1||$amigo->status==1||!isset($_SESSION['visitante'])){?>
+                                    <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
-                                                <h4 class="card-title">'.$post->titulo.'</h4>
-                                                <hr>';
+                                            <span style="float: right;margin-bottom:5px">
+                                                    <a class="btn btn-outline-danger btn-sm" href="<?php echo $helper->url("post","desactivar"); ?>"><b>x</b></a>
+                                                </span>
+                                                <?php echo '<b class="card-title x">'.$post->titulo.'</b><br>
+                                                            <span id="fecha">'.$post->fecha.'</span>
+                                                            <hr>';
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="palabra".$i;
                                                     if($post->$each){
-                                                        echo '<span>'.$post->$each.'</span>';
+                                                        echo '<span id="bordeau">'.$post->$each.'</span>';
                                                     }
                                                 }
                                                 echo '<p class="card-text">'.$post->cuerpo.'</p>';

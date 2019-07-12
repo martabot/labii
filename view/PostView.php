@@ -21,7 +21,7 @@ if($usuario->id!=$_SESSION['id']){
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}</style>
+    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.x{font-size:16pt;color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}#fecha{color:silver}.card-text{margin-left:5px}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -100,23 +100,23 @@ if($usuario->id!=$_SESSION['id']){
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
                                 
-                                    <?php echo ' <h4 class="card-title">'.$post->titulo.'</h4>
-                                                <hr>';
+                                    <?php echo '<b class="card-title x">'.$post->titulo.'</b><br>
+                                                            <span id="fecha">'.$post->fecha.'</span>
+                                                            <hr>';
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="palabra".$i;
                                                     if($post->$each){
-                                                        echo '<span id="eti">'.$post->$each.'</span>';
+                                                        echo '<span id="bordeau">'.$post->$each.'</span>';
                                                     }
                                                 }
-                                                echo '<br>
-                                                <p class="card-text">'.$post->cuerpo.'</p>';
+                                                echo '<p class="card-text">'.$post->cuerpo.'</p>';
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="img".$i;
                                                     if($post->$each){
                                                         echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                                     }
-                                                }
-                                                echo '<hr><a href="#">'.(int)$cant.' Comentarios</a>';
+                                                }   echo '<hr>';
+                                                echo '<p style="color: #2f82db">'.(int)$cant.' Comentarios</p>';
                                                 ?>
                                                 
                                                 <form method="POST" action="<?php echo $helper->url("post","comentar"); ?>&idUser=<?php echo $usuario->id; ?>&idPost=<?php echo $post->id;?>">
