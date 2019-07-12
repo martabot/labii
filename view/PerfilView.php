@@ -103,7 +103,7 @@
                             }
                             if(isset($allPost)){
                             foreach($allPost as $post){
-                                if((isset($_SESSION['visitante'])&&in_array($post,$postsVisitante))||isset($amigo)||!isset($_SESSION['visitante'])){
+                                if($post->privacidad==1||$amigo->status==1||!isset($_SESSION['visitante'])){
                                 echo '<div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
@@ -121,8 +121,7 @@
                                                     if($post->$each){
                                                         echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                                     }
-                                                }
-                                                    echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                                }   echo '<hr>';
                                                     if(isset($cant)){
                                                     foreach($cant as $c){
                                                         if($c['id']==$post->id){

@@ -103,7 +103,7 @@ if(isset($_SESSION['moderador'])){
                                     echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                 }
                             }
-                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                echo '<hr>';
                                 $t=isset($t)?$t:0;
                                 $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
                                 echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
@@ -163,7 +163,7 @@ if(isset($_SESSION['moderador'])){
                                     echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                 }
                             }
-                                echo '<hr><a href="#!">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp';
+                                echo '<hr>';
                                 $t=isset($t)?$t:0;
                                 $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
                                 echo'<a href="'.$link.'">'.$t.' Comentarios</a>';

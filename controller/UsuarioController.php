@@ -173,7 +173,7 @@ class UsuarioController extends ControladorBase{
 						$saltedPass = $pw.$salt;
 						$hashedPass = hash('sha256', $saltedPass);	
 						if($usuario['pass']==$hashedPass||$usuario['pass']=="12345"){
-							if($usuario['satatus']==0){
+							if($usuario['status']==0){
 								$_SESSION['error']="La cuenta moderadora ha sido cancelada por un administrador.";
 								$this->view("Login","");
 							} else{
@@ -205,16 +205,15 @@ class UsuarioController extends ControladorBase{
 				$allPosts=$post->getAllPost($id);
 				$cant=$post->getCountCom($id);
 				if(isset($_SESSION["visitante"])){
-					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
-					$postsVisitante=$post->getBy("privacidad",1);
-				} else {$amigo=NULL;$postsVisitante=NULL;}
+					$ad=new Amigo($this->adapter);
+					$amigo=$ad->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
+				} else {$amigo=NULL;}
 				if($post->getUnseen($_SESSION['id'])==!NULL){
 				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$asa=new Amigo($this->adapter);
 				if($asa->getTodos($id)==!NULL){
 					$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
 				$this->view("Perfil",array(
-					"postsVisitante"=>$postsVisitante,
 					"todos"=>$todos,
 					"notis"=>$notificaciones,
 					"amigo"=>$amigo,

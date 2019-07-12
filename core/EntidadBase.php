@@ -195,7 +195,7 @@ class EntidadBase{
     }
     
     public function getBy($column,$value){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value'");
+        $query=$this->db->query("SELECT * FROM $this->table WHERE $column=$value");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;

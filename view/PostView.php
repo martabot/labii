@@ -116,10 +116,7 @@ if($usuario->id!=$_SESSION['id']){
                                                         echo '<img src="'.$post->$each.'" alt="Imagen de post">';
                                                     }
                                                 }
-                                                echo '<hr><a href="#">'.$post->votos.' Votos</a>&nbsp&nbsp&nbsp&nbsp
-                                                        <a href="#">'.(int)$cant.' Comentarios</a>';
-
-                                               
+                                                echo '<hr><a href="#">'.(int)$cant.' Comentarios</a>';
                                                 ?>
                                                 
                                                 <form method="POST" action="<?php echo $helper->url("post","comentar"); ?>&idUser=<?php echo $usuario->id; ?>&idPost=<?php echo $post->id;?>">

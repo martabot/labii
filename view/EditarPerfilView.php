@@ -70,7 +70,7 @@
             </div>
             <input type="hidden" value="<?php echo $usuario->profilePic; ?>" name="actual">
             <div class="row costado">
-                <span>Foto de perfil: </span> <input class="col-4 form-control" type="file" name="profilePic" accept="image/png, image/jpeg, image/gif, image/png">
+                <span>Foto de perfil: </span> <input class="col-4" type="file" name="profilePic" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
             <div class="row costado">
                 <span>Confirmar: </span> <input class="col-4 form-control" type="password" name="pass" placeholder="Password to confirm" required>
