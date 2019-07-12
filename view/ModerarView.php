@@ -63,8 +63,7 @@
                     <table class="table" cellpadding="15px" bordercolor="grey">
                     <tr align="center"><td></td><tH>MODERAR
                     </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>TITULO</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th></tr>
-                    <?php 
-                    
+                    <?php $tal=0;
                     if(isset($posts)){
                     foreach($posts as $post){
                         if(isset($usuarios)){
@@ -81,14 +80,15 @@
                         }
 
                         if(isset($post['img1'])||isset($post['img2'])||isset($post['img3'])){$x="●";}else{$x="";}
-                        
+                        $tal+=1;
+                        $_SESSION['t']=$t;
             echo "<tr align='center'><td>$x</td><td>";?>
 
-                    <input type="hidden" name="idP" value="<?php echo $post['id']; ?>">
-                    <input type="hidden" name="idD" value="<?php echo $post['idUsuario']; ?>">
-                    <input type="hidden" name="fecha" value="<?php echo $post['dFecha']; ?>">
-                    <input type="submit" name="permitirP" class="btn btn-success" value="✔">
-                    <input type="submit" name="denegarP" class="btn btn-danger" value="✘">
+                    <input type="hidden" name="<?php echo "p".$tal; ?>" value="<?php echo $post['id']; ?>">
+                    <input type="hidden" name="<?php echo "r".$tal; ?>" value="<?php echo $post['idUsuario']; ?>">
+                    <input type="hidden" name="<?php echo "fec".$tal; ?>" value="<?php echo $post['dFecha']; ?>">
+                    <input type="submit" name="<?php echo "si".$tal; ?>" class="btn btn-success" value="✔">
+                    <input type="submit" name="<?php echo "nono".$tal; ?>" class="btn btn-danger" value="✘">
            <?php echo "</td><td>$unP</td><td>$unD</td><td>".$post['titulo']."</td><td>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td></tr>";                        
                             }
                         }?></table>
@@ -101,13 +101,15 @@
         <div class="row post">
             <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
                 <div class="card-body space ">
-               <div style="float:left;color:grey">
+                <div style="float:left;color:grey">
                     <span>*Nota: Los comentarios no serán visibles para ningún usuario hasta obtener moderación.</span>
                     </div>
                     <table class="table" cellpadding="15px" bordercolor="grey">
                     <tr align="center"><tH>MODERAR
                     </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th></tr>
-                    <?php 
+            <?php 
+                    $tal=0;
+                    $_SESSION['c']=$cant;
                     if(isset($coms)){
                     foreach($coms as $com){
                         if(isset($usuarios)){
@@ -123,12 +125,14 @@
                             }
                         }
                         
-            echo "<tr align='center'><td>";?>
-                    <input type="hidden" name="idC" value="<?php echo $com['id']; ?>">
-                    <input type="hidden" name="idDen" value="<?php echo $com['idUsuario']; ?>">
-                    <input type="hidden" name="fechax" value="<?php echo $com['dFecha']; ?>">
-                    <input type="submit" name="permitirC" class="btn btn-success" value="✔">
-                    <input type="submit" name="denegarC" class="btn btn-danger" value="✘">
+            echo "<tr align='center'><td>";
+            $tal+=1;
+            ?>
+                    <input type="hidden" name="<?php echo "n".$tal; ?>" value="<?php echo $com['id']; ?>">
+                    <input type="hidden" name="<?php echo "d".$tal; ?>" value="<?php echo $com['idUsuario']; ?>">
+                    <input type="hidden" name="<?php echo "f".$tal; ?>" value="<?php echo $com['dFecha']; ?>">
+                    <input type="submit" name="<?php echo "s".$tal; ?>" class="btn btn-success" value="✔">
+                    <input type="submit" name="<?php echo "x".$tal; ?>" class="btn btn-danger" value="✘">
            <?php echo "</td><td>$unP</td><td>$unD</td><td>".$com['cuerpo']."</td><td>".$com['fecha']."</td><td>".$com['dFecha']."</td><td>".$com['motivo']."</td></tr>";                        
                             }
                         }?></table>
@@ -138,7 +142,18 @@
         </center></form>
     </div>
     </div>
-</div>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div> 
+
+<?php
+    if(isset($_SESSION['aca'])){
+        echo '<script languaje="javascript">';
+        echo "cambiaAC();";
+        echo '</script>';
+        unset($_SESSION['aca']);
+    }
+?>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    
+ </script>
   </body>
 </html>
