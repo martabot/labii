@@ -103,6 +103,7 @@
                             }
                             if(isset($allPost)){
                             foreach($allPost as $post){
+                                if((isset($_SESSION['visitante'])&&in_array($post,$postsVisitante))||isset($amigo)||!isset($_SESSION['visitante'])){
                                 echo '<div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
@@ -135,7 +136,7 @@
                                                echo' </div>
                                             </div>
                                         </div>';
-                            }}
+                            }}}
                             ?>
                             </div>  
                         </div>

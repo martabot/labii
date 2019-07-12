@@ -206,7 +206,7 @@ class UsuarioController extends ControladorBase{
 				$cant=$post->getCountCom($id);
 				if(isset($_SESSION["visitante"])){
 					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
-					$postsVisitante=$post->soloPublicos();
+					$postsVisitante=$post->getBy("privacidad",1);
 				} else {$amigo=NULL;$postsVisitante=NULL;}
 				if($post->getUnseen($_SESSION['id'])==!NULL){
 				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}

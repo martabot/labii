@@ -117,6 +117,7 @@ class PostController extends ControladorBase{
         $com->__set("post",$post);
         $save=$com->save();
         $allComentarios=$com->getComentarios($_GET['idPost']);
+        
         $this->verPost($_GET['idUser'],$_GET['idPost']);
     }
 }
