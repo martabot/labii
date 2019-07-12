@@ -217,7 +217,7 @@ class EntidadBase{
     }
 
     public function getByFecha($id){
-        $query=$this->db->query("SELECT p.* FROM post p,usuario u WHERE privacidad=1 and p.user<>$id and p.user=u.id and u.status=1 and p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user not in (SELECT u.id FROM amigo a JOIN usuario u ON(u.id=a.user1 OR u.id=a.user2) WHERE (a.user1=$id or a.user2=$id) and a.status=1) ORDER BY fecha DESC;");
+        $query=$this->db->query("SELECT p.* FROM post p,usuario u WHERE p.user<>$id and p.user=u.id and u.status=1 and p.privacidad=1 and p.id not in (SELECT d.idPost FROM denunciaPost d WHERE d.idUsuario=$id) and p.user not in (SELECT u.id FROM amigo a JOIN usuario u ON(u.id=a.user1 OR u.id=a.user2) WHERE (a.user1=$id or a.user2=$id) and a.status=1) ORDER BY fecha DESC;");
 
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;

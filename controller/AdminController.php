@@ -86,19 +86,15 @@ class AdminController extends ControladorBase{
     public function habilitar(){
         //actualizar estado de usuario 1
         $ud=new Usuario($this->adapter);
-        $usuario=$ud->getById($_POST['id']);
-        if($usuario->status==0){
-            $ad=new Admin($this->adapter);
-            $obj=$ad->__set("id",$_SESSION['id']);
-            $usuario=new Usuario($this->adapter);
-            $usuario->__set("id",$_POST['id']);
+        $usu=$ud->getById($_POST['id']);
+        $ad=new Admin($this->adapter);
+        $obj=$ad->__set("id",$_SESSION['id']);
+        $usuario=new Usuario($this->adapter);
+        $usuario->__set("id",$_POST['id']);
+        if($usu->status==0){
             $usuario->__set("status",1);
             $usuario->save();
         } else {
-            $ad=new Admin($this->adapter);
-            $obj=$ad->__set("id",$_SESSION['id']);
-            $usuario=new Usuario($this->adapter);
-            $usuario->__set("id",$_POST['id']);
             $usuario->__set("status",0);
             $usuario->save();
         }

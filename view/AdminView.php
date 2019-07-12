@@ -60,7 +60,7 @@
                     </div>
                     <table class="table" cellpadding="15px" bordercolor="grey">
                     <tr align="center"><td><input type="reset" class="btn btn-dark" value="Clear">
-                    </td><th>USERNAME</th><th>NOMBRE Y APELLIDO</th><th>MAIL</th><th>NACIMIENTO</th><th>INGRESA</th><th>ULTIMA MODIFICACION</th><th>ESTADO DE CUENTA</th></tr>
+                    </td><th>USERNAME</th><th>NOMBRE Y APELLIDO</th><th>MAIL</th><th>NACIMIENTO</th><th>INGRESA</th><th>ULTIMA MODIFICACION</th><th>ESTADO</th><th>POSTS</th></tr>
                     <?php 
                     if(isset($allUsers)){
                     foreach($allUsers as $user){ 
@@ -73,13 +73,18 @@
                             }
                         }
                         if($flag){
-            echo "<tr id='mod'><td align='center'><input type='radio' name='id' value='$user->id'>
-                </td><td>$user->username</td><td>$user->nombre $user->apellido</td><td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td><td>$user->fechaUltMod</td><td align='center'>$user->status</td></tr>";
-                            }else{
-            echo "<tr><td align='center'><input type='radio' name='id' value='$user->id'>
-                </td><td>$user->username</td><td>$user->nombre $user->apellido</td><td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td><td>$user->fechaUltMod</td><td align='center'>$user->status</td></tr>";                        
-                            }
-                        }}?></table>
+                            echo "<tr id='mod'>";
+                        }else{
+                            echo "<tr>";
+                        }
+                        echo "<td align='center'><input type='radio' name='id' value='$user->id'></td>
+                            <td>$user->username</td><td>$user->nombre $user->apellido</td>
+                            <td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td>
+                            <td>$user->fechaUltMod</td><td align='center'>$user->status</td>
+                            <td align='center'>$todos</td></tr>";
+                        }
+                    }?>
+                    </table>
                 </div>
             </div>
         </div>

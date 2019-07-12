@@ -13,6 +13,7 @@ class Post extends EntidadBase{
 	private $palabra2;
 	private $palabra3;
 	private $status;
+	private $privacidad;
 	private $votos;
     
     public function __construct($adapter) {
@@ -60,7 +61,7 @@ class Post extends EntidadBase{
 			return $save;
             */
 		}else{
-			$query= "INSERT INTO `post`(`user`, `cuerpo`, `fecha`, `titulo`, `img1`, `img2`, `img3`, `adjunto`, `palabra1`, `palabra2`, `palabra3`) VALUES (
+			$query= "INSERT INTO `post`(`user`, `cuerpo`, `fecha`, `titulo`, `img1`, `img2`, `img3`, `adjunto`, `palabra1`, `palabra2`, `palabra3`, `privacidad`) VALUES (
 				".$this->user->__get('id').",
 				'$this->cuerpo',
 				 NOW(),
@@ -71,9 +72,14 @@ class Post extends EntidadBase{
 				'$this->adjunto',
 				'$this->palabra1',
 				'$this->palabra2',
-				'$this->palabra3');";
+				'$this->palabra3',
+				$this->privacidad);";
+
 			$save=$this->db()->query($query);
-			//$this->db()->error;
+			/*if($this->db()->error){
+				$save=$this->db()->error;
+			}*/
+			
 			return $save;
 		}	
     }

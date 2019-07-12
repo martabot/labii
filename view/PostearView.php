@@ -15,7 +15,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none;text-shadow:0px 0px 1px silver}}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h2{padding: 30px 20px 10px 20px}.todo span{width:100px}</style>
+    <style>a,input{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h2{padding: 30px 20px 10px 20px}.todo span{width:100px}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -45,6 +45,11 @@
     <div class="todo">
     <h2>Nuevo Post: <?php echo $usuario->username; ?></h2>
     <form method="POST" action="<?php echo $helper->url("post","crear"); ?>" enctype="multipart/form-data">
+            <div style="margin-left:35px">
+                <span style="margin-left:125px"></span>
+                        <input class="col-1" type="radio" name="privacidad" value="1" checked>Público  
+                        <input class="col-1" type="radio" name="privacidad" value="0"> Privado
+            </div>
             <div class="row costado">
                 <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo" required>
             </div>
@@ -55,17 +60,17 @@
                 <span>Cuerpo: </span> <textarea rows="5" class="col-4 form-control" name="cuerpo" lenght="5000" required></textarea>
             </div>
             <div class="row costado">
-                <span>Agregar fotos: </span> <input class="col-4 form-control" type="file" name="img1" accept="image/png, image/jpeg, image/gif, image/png">
+                <span>Agregar fotos: </span> <input class="col-4" type="file" name="img1" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
             <div class="row costado">
-                <span></span> <input class="col-4 form-control" type="file" name="img2" accept="image/png, image/jpeg, image/gif, image/png">
+                <span></span> <input class="col-4" type="file" name="img2" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
             <div class="row costado">
-                <span></span> <input class="col-4 form-control" type="file" name="img3" accept="image/png, image/jpeg, image/gif, image/png">
+                <span></span> <input class="col-4" type="file" name="img3" accept="image/png, image/jpeg, image/gif, image/png">
             </div>
             <div class="row costado">
                 <div class="offset-md-2">
-                    <button style="margin-right:10px" type="submit" formaction="<?php echo $helper->url("usuario","verMuro"); ?>" class="btn btn-outline-info">Cancelar</button>
+                    <input style="margin-right:10px" type="reset" value="Limpiar" class="btn btn-outline-info">
                     <input type="submit" value="Publicar" name="update" class="btn btn-outline-info">
                 </div>
             </div>

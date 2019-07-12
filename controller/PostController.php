@@ -57,6 +57,7 @@ class PostController extends ControladorBase{
             $post=new Post($this->adapter);
             $user=new Usuario($this->adapter);
             $user->__set("id",$_SESSION['id']);
+            $privacidad=(int)$_POST["privacidad"];
             $titulo=isset($_POST["titulo"])?$_POST['titulo']:NULL;
             $cuerpo=isset($_POST["cuerpo"])?$_POST['cuerpo']:NULL;
             $palabras=isset($_POST["palabras"])?$_POST["palabras"]:NULL;
@@ -67,6 +68,7 @@ class PostController extends ControladorBase{
                 echo $strError;
             }else{
                     $post->__set('user',$user);
+                    $post->__set('privacidad',$privacidad);
                     $post->__set('cuerpo',$cuerpo);
                     $post->__set("titulo",$titulo);
                     $i=1;
@@ -98,22 +100,7 @@ class PostController extends ControladorBase{
                         $i++;
                     }
                 $save=$post->save();
-                $id=(int)$_SESSION["id"];
-				$usuario = $user->getById($id);
-				$pd=new Pais($this->adapter);
-				$pais=$pd->getById($usuario->pais);
-				$post=new Post($this->adapter);
-                $allPosts=$post->getAllPost($id);
-                $cant=$post->getCountCom($id);
-                if($post->getUnseen($id)==!NULL){
-				$notificaciones=sizeof($post->getUnseen($id));}else{$notificaciones=0;}
-				$this->view("Perfil",array(
-                    "notis"=>$notificaciones,
-					"usuario"=>$usuario,
-					"pais"=>$pais,
-                    "allPost"=>$allPosts,
-                    "cant"=>$cant
-				));
+                $this->redirect("usuario","verMuro");
             }
         }
     }

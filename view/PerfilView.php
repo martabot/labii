@@ -16,7 +16,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none;text-shadow:0px 0px 0.5px silver}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
+    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{padding-left: 10px}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }.post span{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}</style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -56,8 +56,6 @@
                 
                 <!-- Card -->
                 <div class="b card card-cascade shadow-sm p-1 mb-3 bg-white rounded">
-
-                    <!-- Card content -->
                     <div class="ult card-body card-body-cascade text-center">
             
                                 <section class="container-fluid">
@@ -80,9 +78,7 @@
             </div>
             <div class="col-lg-9 offset-md-3" style="padding-top: 15px">
                 <div class="row">
-                    <div class="col-lg-1">
-                    
-                    </div>
+                    <div class="col-lg-1"></div>
                     <div class="col-lg-7">
                         <div class="row" style="margin:30px 0px 30px -10px">
                     <?php if($usuario->id==$_SESSION["id"]){ ?>
@@ -118,8 +114,7 @@
                                                         echo '<span>'.$post->$each.'</span>';
                                                     }
                                                 }
-                                                echo '<br>
-                                                <p class="card-text">'.$post->cuerpo.'</p>';
+                                                echo '<p class="card-text">'.$post->cuerpo.'</p>';
                                                 for($i = 1; $i < 4; ++$i) {
                                                     $each="img".$i;
                                                     if($post->$each){

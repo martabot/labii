@@ -150,7 +150,7 @@ class UsuarioController extends ControladorBase{
 							$_SESSION['username']=$un;
 							$this->index();
 						}else{
-							$_SESSION['error']="La cuenta de usuario ha sido banneada por un administrador.";
+							$_SESSION['error']="La cuenta de usuario ha sido cancelada por un administrador.";
 							$this->view("Login","");
 						}}
 					}else{
@@ -173,10 +173,15 @@ class UsuarioController extends ControladorBase{
 						$saltedPass = $pw.$salt;
 						$hashedPass = hash('sha256', $saltedPass);	
 						if($usuario['pass']==$hashedPass||$usuario['pass']=="12345"){
+							if($usuario['satatus']==0){
+								$_SESSION['error']="La cuenta moderadora ha sido cancelada por un administrador.";
+								$this->view("Login","");
+							} else{
 								$_SESSION["id"]=$usuario['id'];
 								$_SESSION['username']=$usuario['username'];
 								$_SESSION['moderador']="si";
 								$this->redirect("denuncia","moderador");}
+							}
 						}else{
 							$_SESSION['error']="Nombre de usuario o contraseña incorrecto";
 							$this->view("Login","");
@@ -201,13 +206,15 @@ class UsuarioController extends ControladorBase{
 				$cant=$post->getCountCom($id);
 				if(isset($_SESSION["visitante"])){
 					$amigo=$post->getAmigos($_SESSION["visitante"],$_SESSION["id"]);
-				} else {$amigo=NULL;}
+					$postsVisitante=$post->soloPublicos();
+				} else {$amigo=NULL;$postsVisitante=NULL;}
 				if($post->getUnseen($_SESSION['id'])==!NULL){
 				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$asa=new Amigo($this->adapter);
 				if($asa->getTodos($id)==!NULL){
 					$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
 				$this->view("Perfil",array(
+					"postsVisitante"=>$postsVisitante,
 					"todos"=>$todos,
 					"notis"=>$notificaciones,
 					"amigo"=>$amigo,
