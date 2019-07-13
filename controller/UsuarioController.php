@@ -97,7 +97,7 @@ class UsuarioController extends ControladorBase{
 				if($pass1!=$pass2){
 					$_SESSION['error']="Las contraseñas no coinciden.";
 					$this->registrarse();
-				}else{            
+				}else{
 				//Creamos un usuario
 				$usuario=new Usuario($this->adapter);
 				$val=$usuario->getOneBy("username",$_POST['username']);

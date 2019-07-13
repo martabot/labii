@@ -80,7 +80,7 @@ if(isset($_SESSION['moderador'])){
                     <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
                         <div class="card-body">
                         <span class="d" style="float: right;margin-bottom:5px">
-                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verMuro') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
                                 @<?php echo $name; ?></a>
                                 <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span>
@@ -107,7 +107,7 @@ if(isset($_SESSION['moderador'])){
                             }
                                 echo '<hr>';
                                 $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$usuario->id."&unico=".$post->id; 
+                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id; 
                                 if($t>1||$t==0){
                                     echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
                                 } else {
@@ -146,7 +146,7 @@ if(isset($_SESSION['moderador'])){
                     <div class="r card shadow-sm p-1 mb-3 bg-white rounded p">
                         <div class="card-body">
                         <span class="d" style="float: right;margin-bottom:5px">
-                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verMuro') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
                                @<?php echo $name; ?></a>
                                 <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span>
@@ -173,7 +173,7 @@ if(isset($_SESSION['moderador'])){
                             }
                                 echo '<hr>';
                                 $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$usuario->id."&unico=".$post->id; 
+                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id; 
                                 if($t>1||$t==0){
                                     echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
                                 } else {
