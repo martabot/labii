@@ -24,48 +24,21 @@ class PostController extends ControladorBase{
 		));
     }
 
-    public function verPost($id,$unico){
-            $usuario = new Usuario($this->adapter);
-            $usuario = $usuario->getById($id);
-            $pd=new Pais($this->adapter);
-            $pais=$pd->getById($usuario->pais);
-            $post=new Post($this->adapter);
-            $post=$post->getById($unico);
-            $com=new Comentario($this->adapter);
-            $allComentarios=$com->getComentarios($unico);
-            $cant=sizeof($allComentarios);
-            if($pd->getUnseen($_SESSION['id'])==!NULL){
-            $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
-            $asa=new Amigo($this->adapter);
-            if($asa->getTodos($id)==!NULL){
-			$todos=sizeof($asa->getTodos($id));}else{$todos=0;}
-            $this->view("Post",array(
-                "todos"=>$todos,
-                "notis"=>$notificaciones,
-                "usuario"=>$usuario,
-                "pais"=>$pais,
-                "post"=>$post,
-                "cant"=>$cant,
-                "com"=>$allComentarios
-            ));
-        }
-
-
-
     public function crear(){
         if(isset($_SESSION['id'])){
             $post=new Post($this->adapter);
             $user=new Usuario($this->adapter);
             $user->__set("id",$_SESSION['id']);
-            $privacidad=(int)$_POST["privacidad"];
+            $privacidad=(int)$_POST["privacidad"]==0||(int)$_POST["privacidad"]==0?(int)$_POST["privacidad"]:1;
             $titulo=isset($_POST["titulo"])?$_POST['titulo']:NULL;
             $cuerpo=isset($_POST["cuerpo"])?$_POST['cuerpo']:NULL;
             $palabras=isset($_POST["palabras"])?$_POST["palabras"]:NULL;
+            $palabras=substr($palabras,1);
             $si=explode("#",$palabras);
             $fotos=array($_FILES['img1'],$_FILES['img2'],$_FILES['img3']);
             if(!$titulo||!$cuerpo){
-                $strError="Datos faltantes";
-                echo $strError;
+                $_SESSION['error']="El post debe tener al menos un titulo y una descripción";
+                $this->redirect("post","");
             }else{
                     $post->__set('user',$user);
                     $post->__set('privacidad',$privacidad);
@@ -95,12 +68,71 @@ class PostController extends ControladorBase{
                                 if($result=move_uploaded_file($tmpName, $filePath)){
                                     $post->__set($rec,$serverName);
                                 }else{
-                                    echo "no se subio";exit;
+                                    $_SESSION['error']="No se pudo cargar la imagen ".$fileName;
+                                    $this->redirect("post","");
                                 }}
                         $i++;
                     }
                 $save=$post->save();
                 $this->redirect("usuario","verMuro");
+            }
+        }
+    }
+
+    public function actualizar(){
+        $pd=new Post($this->adapter);
+        $post=$pd->getById($_GET['id']);
+        $ud=new Usuario($this->adapter);
+        $usuario=$ud->getById($_SESSION['id']);
+        if($ud->getUnseen($_SESSION['id'])==!NULL){
+            $notificaciones=sizeof($ud->getUnseen($_SESSION["id"]));}else{$notificaciones=0;}
+        $this->view("EditarPost",array(
+            "notis"=>$notificaciones,
+            "post"=>$post,
+            "usuario"=>$usuario
+        ));
+
+    }
+
+    public function enviar(){
+        $post=new Post($this->adapter);
+        $user=new Usuario($this->adapter);
+        $user->__set("id",$_SESSION['id']);
+        $id=$_POST['id'];
+        $post->__set("id",$id);
+        if(isset($_POST['eliminar'])){
+            $post->__set("status",0);
+            $post->__set("porMi","si");
+            $post->save();
+            $this->redirect("usuario","verMuro");
+        } else {
+            $privacidad=(int)$_POST["privacidad"]==1||(int)$_POST["privacidad"]==0?(int)$_POST["privacidad"]:1;
+            $titulo=isset($_POST["titulo"])?$_POST['titulo']:NULL;
+            $cuerpo=isset($_POST["cuerpo"])?$_POST['cuerpo']:NULL;
+            $palabra1=isset($_POST["palabra1"])?substr($_POST["palabra1"],1):NULL;
+            $palabra2=isset($_POST["palabra2"])?substr($_POST["palabra2"],1):NULL;
+            $palabra3=isset($_POST["palabra3"])?substr($_POST["palabra3"],1):NULL;
+            for($i=1;$i<4;$i++){
+                $img="img".$i;
+                if(isset($_POST["imagenes"][$i-1])){
+                    $post->__set($img," ");
+                } else{
+                    $post->__set($img,(String)$_POST[$img]);
+                }
+            }
+            if(!$cuerpo||!$titulo){
+                $_SESSION['error']="No se pudo actualizar el post";
+                $this->redirect("usuario","verMuro");
+            } else {
+            $post->__set("user",$user);
+            $post->__set("privacidad",$privacidad);
+            $post->__set("titulo",$titulo);
+            $post->__set("palabra1",$palabra1);
+            $post->__set("palabra2",$palabra2);
+            $post->__set("palabra3",$palabra3);
+            $post->__set("cuerpo",$cuerpo);
+            $save=$post->save();
+            $this->redirect("usuario","verMuro");
             }
         }
     }
@@ -117,8 +149,9 @@ class PostController extends ControladorBase{
         $com->__set("post",$post);
         $save=$com->save();
         $allComentarios=$com->getComentarios($_GET['idPost']);
-        
-        $this->verPost($_GET['idUser'],$_GET['idPost']);
+        $_SESSION['unico']=$_GET['idPost'];
+        $_SESSION['nCom']=$save;
+        $this->redirect('notificaciones','crear');
     }
 }
 ?>

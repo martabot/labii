@@ -45,10 +45,8 @@ class Comentario extends EntidadBase{
                  $poo,
                 '$this->cuerpo',
                  NOW());";
-			$save=$this->db()->query($query);
-			if(!$save){
-                return $this->db()->error;
-            }else{
+			if($this->db()->query($query)){
+                $save=$this->db()->insert_id;
 			return $save;}
 		}	
     }

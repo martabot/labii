@@ -2,7 +2,7 @@
 return array(
     "driver"    =>"mysql",
     "host"      =>"localhost",
-    "user"      =>"cursophp",
+    "user"      =>"root",
     "pass"      =>"",
     "database"  =>"final",
     "charset"   =>"utf8"

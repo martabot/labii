@@ -27,50 +27,32 @@ class Notificacion extends EntidadBase{
     } 
 
     public function save(){
-        
-        
-		if($this->post){
-            $us1=$this->user1->__get('id');
-            $us2=$this->user2->__get('id');
-            $post=$this->post->__get('id');
-
-            $query= "INSERT INTO notificacion (`user1`, `user2`, `fecha`,`descripcion`,`post`) VALUES (
-                $us1,$us2,NOW(),'$this->descripcion',$post);";
-
-			$save=$this->db()->query($query);
-			//$this->db()->error;
-			return $save;
-
-        } else if ($this->comentario){
+        if($this->comentario){
             $us1=$this->user1->__get('id');
             $us2=$this->user2->__get('id');
             $com=$this->comentario->__get('id');
 
-            $query= "INSERT INTO notificacion (`user1`, `user2`, `fecha`,`descripcion`,`comentario`) VALUES (
+            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, comentario) VALUES (
                 $us1,$us2,NOW(),'$this->descripcion',$com);";
 
-			$save=$this->db()->query($query);
-			//$this->db()->error;
-			return $save;
-
-        } else if($this->amigo){
+            $save=$this->db()->query($query);
+            if($this->db()->error){
+                $save=$this->db()->error;
+            }
+            return $save;
+        }else if($this->amigo){
             $us1=$this->user1->__get('id');
             $us2=$this->user2->__get('id');
-            $query= "INSERT INTO notificacion (`user1`, `user2`, `fecha`,`descripcion`,`amigo`) VALUES (
+            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, comentario) VALUES (
                 $us1,$us2,NOW(),'$this->descripcion',1);";
 
-			$save=$this->db()->query($query);
-            //$this->db()->error;
-			return $save;
-            
+            $save=$this->db()->query($query);
+            return $save;
+        } else if($this->id){
+            $query="UPDATE notificacion SET status=".$this->status." WHERE id=".$this->id.";";
 
-        } else if($this->status){
-            $query= "UPDATE `notificacion` SET `status`=".$this->status." WHERE id=".$this->id.";";
-			
-			$save=$this->db()->query($query);
-            //$this->db()->error;
-            
-			return $save;
+            $save=$this->db()->query($query);
+            return $save;
         }
     }
 }

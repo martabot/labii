@@ -1,4 +1,3 @@
-
 <?php
     ini_get('register_globals'); 
     if(isset($_SESSION['error'])){
@@ -23,10 +22,14 @@
         function rotar(){
             if(document.getElementById("v").textContent=="<"){
                 document.getElementById("v").textContent="v";
-        }else{document.getElementById("v").textContent="<";}
-    }
+            }else{document.getElementById("v").textContent="<";}
+        }
+        function confirmar(){
+            var pregunta="Desea eliminar el post "+<?php $post->titulo;?>;
+            return confirm(pregunta);
+        }
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a,input{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h2{padding: 30px 20px 10px 20px}.todo span{width:100px}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a,input{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h3{padding: 30px 20px 10px 20px}.todo span{width:100px}#izq{color: rgb(252, 159, 84)}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -54,39 +57,48 @@
     </nav>
 
     <div class="todo">
-    <h2>Nuevo Post de: <?php echo $usuario->username; ?></h2>
-    <form method="POST" action="<?php echo $helper->url("post","crear"); ?>" enctype="multipart/form-data">
+        <h3 id="izq">Editar Post de: <?php echo $usuario->username; ?></h3>
+        
+    <form method="POST" action="<?php echo $helper->url("post","enviar"); ?>">
+    <input type="hidden" name="id" value="<?php echo $post->id;?>">
             <div style="margin-left:35px">
                 <span style="margin-left:100px"></span>
                         <input class="col-1" type="radio" name="privacidad" value="1" checked>Público  
                         <input class="col-1" type="radio" name="privacidad" value="0"> Privado
             </div>
             <div class="row costado">
-                <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo" required>
+                <span>Titulo: </span><input class="col-4 form-control" type="text" name="titulo" value="<?php echo $post->titulo;?>" required>
             </div>
+        <?php for($i=1;$i<4;$i++){  
+            $palabra="palabra".$i;
+            echo '<div class="row costado">';
+                echo '<span>Etiqueta '.$i.': </span> <input class="col-4 form-control" type="text" name="'.$palabra.'" value="#'.$post->$palabra.'">
+                </div>';
+        } ?>
             <div class="row costado">
-                <span>Etiquetas: </span> <input class="col-4 form-control" type="text" name="palabras" placeholder="Máximo 3 hashtags">
+                <span>Descripción: </span> <textarea rows="3" class="col-4 form-control" name="cuerpo" lenght="5000" required>  <?php echo $post->cuerpo;?></textarea>
+            </div> 
+    <?php if(!NULL==$post->img1){ ?><p style="color:#c91b1b;padding-left:135px">*NOTA: La imagenes seleccionadas se eliminaran del post.</p> <?php }?>
+            <div class="row costado">
+        <?php for($i=1;$i<4;$i++){
+                    $imagen="img".$i;
+                    if(!NULL==$post->$imagen){
+                        echo '<input type="checkbox" name="imagenes[]" style="margin:0px 15px 0px 70px">';
+                        echo '<img src="'.$post->$imagen.'" style="max-height: 28px"/>';
+                        echo '<input type="hidden" name="'.$imagen.'" value="'.$post->$imagen.'">';
+                    }
+                }
+            ?>
             </div>
-            <div class="row costado">
-                <span>Descripción: </span> <textarea rows="3" class="col-4 form-control" name="cuerpo" lenght="5000"></textarea>
-            </div>
-            <div class="row costado">
-                <span>Agregar fotos: </span> <input class="col-4" type="file" name="img1" accept="image/png, image/jpeg, image/gif, image/png">
-            </div>
-            <div class="row costado">
-                <span></span> <input class="col-4" type="file" name="img2" accept="image/png, image/jpeg, image/gif, image/png">
-            </div>
-            <div class="row costado">
-                <span></span> <input class="col-4" type="file" name="img3" accept="image/png, image/jpeg, image/gif, image/png">
-            </div>
-            <div class="row costado">
-                <div class="offset-md-2">
-                    <input style="margin-right:30px" type="reset" value="Limpiar" class="btn btn-outline-info">
-                    <input type="submit" value="Publicar" name="update" class="btn btn-outline-info">
+            <div class="row costado"></div>
+                <div class="offset-md-1" style="padding-left: 65px">
+                    <input style="margin-right:10px" type="submit" value="Actualizar" name="update" class="btn btn-outline-info">
+                    <input style="margin-right:10px" type="reset" value="Limpiar" class="btn btn-outline-info">
+                    <input type="submit" value="ELIMINAR POST" name="eliminar" class="btn btn-outline-danger">
+
                 </div>
-            </div>
         </form>
-    </div>
+    <div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

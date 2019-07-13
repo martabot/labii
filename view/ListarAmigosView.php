@@ -13,6 +13,9 @@ unset($_SESSION['visitante']);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Assistant&display=swap" rel="stylesheet"> 
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script language="javascript">
         function rotar(){
             if(document.getElementById("v").textContent=="<"){
@@ -20,7 +23,38 @@ unset($_SESSION['visitante']);
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}h2{padding: 30px 20px 10px 20px}#noti{width:100%}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.x{font-size:16pt;color: rgb(252, 159, 84)}#noti{width:100%}
+
+.people-nearby .google-maps{
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #f1f2f2;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.people-nearby .google-maps .map{
+  height: 300px;
+  width: 100%;
+  border: none;
+}
+
+.people-nearby .nearby-user{
+  padding: 20px 0;
+  border-top: 1px solid #f1f2f2;
+  border-bottom: 1px solid #f1f2f2;
+  margin-bottom: 20px;
+}
+
+img.profile-photo-lg{
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+
+                                    
+    
+    </style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -36,7 +70,7 @@ unset($_SESSION['visitante']);
                     <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
+                <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -48,29 +82,38 @@ unset($_SESSION['visitante']);
     </nav>
 
     <div class="todo">
-    
-    <h2>Notificaciones de: <?php echo $usuario->username; ?></h2>
-    <div class="col-lg-1"></div>
-    <div class="col-lg-6">
-    <?php 
-    if(isset($ns)){
-    foreach($ns as $notificacion){
-        if($notificacion->status==0){
-            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
-            <div class="row">
-                <a href="<?php echo $link; ?>">
-                    <span id="noti" class="alert alert-warning"><?php echo $notificacion->descripcion;?></span>
-                    </a>
-                </div><br><?php } else { 
-                $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
+    <div class="container">
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-8">
+            <div class="people-nearby">
+            <?php 
+                    if(isset($amigos)){
+                        foreach($amigos as $amigo){
+                            $link=$helper->url("usuario","verMuro")."&id=".$amigo['id']; ?>
+
+
+              <div class="nearby-user">
                 <div class="row">
-                    <a href="<?php echo $link; ?>">
-                        <span id="noti" class="alert alert-light"><?php echo $notificacion->descripcion;?></span>
-                        </a>
-                    </div><br><?php }}}?>
+                  <div class="col-md-2 col-sm-2">
+                    <img src="<?php echo $amigo['foto'];?>" alt="user" class="profile-photo-lg">
                   </div>
-            <div class="col-lg-5">
+                  <div class="col-md-7 col-sm-7">
+                    <h5><a href="#" class="profile-link"></a></h5>
+                    <p>@<?php echo $amigo['username'];?></p>
+                    <p class="text-muted">Amigos desde: <?php echo $amigo['fecha'];?></p>
+                  </div>
+                  <div class="col-md-3 col-sm-3">
+                  <a href="<?php echo $link;?>" class="btn btn-outline-warning btn-sm pull-right"><i class="fa fa-plus">VER PERFIL</i></a>
+                  </div>
+                </div>
+              </div>
+             
+              <?php } }?>
             </div>
+    	</div>
+	</div>
+</div>
+
         </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>

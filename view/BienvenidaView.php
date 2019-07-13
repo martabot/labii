@@ -18,9 +18,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet"> 
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.col-2{text-align: center;padding: 40px 20px 20px 20px}h2{padding-top: 50px}h2, h4{color: rgb(63, 63, 63); font-family: 'Kalam', cursive;}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.col-2{text-align: center;padding: 40px 20px 20px 20px}h2{padding-top: 50px}h2, h4{color: rgb(63, 63, 63); font-family: 'Kalam', cursive;}</style>
   </head>
-  <body>
+  <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
         <a class="navbar-brand" href="#"><b>StackOverPets</b></a>
     </nav>

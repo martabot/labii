@@ -15,6 +15,7 @@ class Post extends EntidadBase{
 	private $status;
 	private $privacidad;
 	private $votos;
+	private $porMi;
     
     public function __construct($adapter) {
         $table="post";
@@ -34,32 +35,42 @@ class Post extends EntidadBase{
 	
     public function save(){
 
-		if($this->id){
-                $query= "UPDATE `post` SET `status`=$this->status where `id` = $this->id;";
+		if($this->id&&!$this->titulo){
+			if($this->porMi){
+                $query= "UPDATE `post` SET `status`=$this->status,`porMi`=1 where `id` = $this->id;";
             
                 $save=$this->db()->query($query);
 				
 				//$this->db()->error;
-                return $save;
-        /*} else{
+				return $save;
+			}else{
+				$query= "UPDATE `post` SET `status`=$this->status where `id` = $this->id;";
+            
+                $save=$this->db()->query($query);
+				
+				//$this->db()->error;
+				return $save;
+			}
+        } else if($this->id&&$this->titulo){
 			$query= "UPDATE `post` SET 
 						`cuerpo`='$this->cuerpo',
-						`fecha`= '$this->fecha',
+						`fecha`= NOW(),
 						`titulo`= '$this->titulo',
-						`imgUno`= '$this->imgUno',
-						`imgDos`= '$this->imgDos',
-						`imgTres`= '$this->imgTres',
-						`adjunto`= '$this->adjunto',
-						`palabraUno`= '$this->palabraUno',
-						`palabraDos`= '$this->palabraDos',
-						`palabraTres`= '$this->palabraTres',
-						`status`= $this->status
-					where 'id' = $this->id;";
+						`img1`= '$post->img1',
+						`img2`= '$post->img2',
+						`img3`= '$post->img3',
+						`palabra1`= '$this->palabra1',
+						`palabra2`= '$this->palabra2',
+						`palabra3`= '$this->palabra3',
+						`privacidad`= $this->privacidad
+					where `id` = $this->id;";
 					
 			$save=$this->db()->query($query);
+			if($this->db()->error){
+				$save=$this->db()->error;
+			}
 			//$this->db()->error;
 			return $save;
-            */
 		}else{
 			$query= "INSERT INTO `post`(`user`, `cuerpo`, `fecha`, `titulo`, `img1`, `img2`, `img3`, `adjunto`, `palabra1`, `palabra2`, `palabra3`, `privacidad`) VALUES (
 				".$this->user->__get('id').",

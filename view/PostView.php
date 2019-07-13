@@ -21,9 +21,10 @@ if($usuario->id!=$_SESSION['id']){
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.x{font-size:16pt;color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}#fecha{color:silver}.card-text{margin-left:5px}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.x{font-size:16pt;color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}#fecha{color:silver}.card-text{margin-left:5px}#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#famoso{color:#4290e4}#famoso:hover{color:#2b64a1;text-decoration:none}</style>
   </head>
-  <body>
+  <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
+
         <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
             <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -59,15 +60,37 @@ if($usuario->id!=$_SESSION['id']){
                     <p><h2 class="card-header-title text-center p"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2></p><br>
                     <p><h4 class="mb-1 pb-4 pt-0 text-center"><?php echo $pais->nombre; ?></h4></p>
                 </div>
-                
+                <div class="row justify-content-center" style="padding:15px 0px 15px 0px">
+                    <?php if($_SESSION['visitante']!=$_SESSION['id']){ 
+                            if(isset($amigo)){ 
+                                $estado=(int)$amigo->status;
+                                if($estado==0&&$amigo->user2==$_SESSION["id"]){?>
+                                    <a class="btn btn-outline-success my-2 my-sm-0" href="<?php echo $helper->url("usuario","aceptarSolicitud"); ?>">Aceptar Solicitud</a>                            
+                                    <a class="btn btn-outline-danger my-2 my-sm-0" href="<?php echo $helper->url("usuario","cancelarSolicitud"); ?>">Cancelar Solicitud</a><?php 
+                                 }else if ($estado==0&&$amigo->user2==$_SESSION["visitante"]){?>
+                                    <a class="btn btn-outline-danger my-2 my-sm-0" href="<?php echo $helper->url("usuario","cancelarSolicitud"); ?>">Cancelar Solicitud</a><?php
+                                 }else if ($estado==1){?>
+                                     <a class="btn btn-outline-success my-2 my-sm-0" href="<?php echo $helper->url("usuario","eliminarAmigo"); ?>">Amigos</a><?php 
+                                    } else {
+                                 ?> 
+                                        <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a><?php
+                                    }
+                                }else {
+                                        ?> 
+                                               <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a><?php
+                                           }
+                            }
+                                 ?>
+                </div>
+
                 <!-- Card -->
                 <div class="b card card-cascade shadow-sm p-1 mb-3 bg-white rounded">
 
                     <!-- Card content -->
                     <div class="ult card-body card-body-cascade text-center">
             
-                                <section class="container-fluid">
-                                <?php if($_SESSION['id']==$usuario->id){ ?>
+                            <section class="container-fluid">
+                            <?php if($_SESSION['id']==$usuario->id){ ?>
                                 <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","editar") ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
@@ -90,10 +113,10 @@ if($usuario->id!=$_SESSION['id']){
                     
                     </div>
                     <div class="col-lg-7">
-                        <div class="row" style="margin:30px 0px 30px -10px">
-                        <span style="float: right">
-                            <a style="padding-right:10px" href="<?php echo $helper->url("usuario","verMuro"); ?>">
-                                ⇦ Ver muro
+                        <div class="row" style="margin:20px 0px 30px -10px">
+                        <span>
+                            <a id="famoso" style="padding-right:10px;font-size:16pt" href="<?php echo $helper->url("usuario","verMuro"); ?>">
+                                Ver muro de <?php echo $usuario->username; ?>
                                 </a>
                             </span>
                             <div class="row post">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 11-07-2019 a las 09:48:09
+-- Tiempo de generación: 13-07-2019 a las 14:44:02
 -- Versión del servidor: 10.1.26-MariaDB-0+deb9u1
 -- Versión de PHP: 7.0.30-0+deb9u1
 
@@ -88,7 +88,6 @@ CREATE TABLE `comentario` (
   `privacidad` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 -- --------------------------------------------------------
 
 --
@@ -103,7 +102,6 @@ CREATE TABLE `denunciaCom` (
   `motivo` varchar(100) NOT NULL,
   `fechaMod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 -- --------------------------------------------------------
 
@@ -163,11 +161,11 @@ CREATE TABLE `notificacion` (
   `user1` int(11) NOT NULL,
   `user2` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `descripcion` varchar(500) NOT NULL,
   `post` int(11) DEFAULT NULL,
   `comentario` int(11) DEFAULT NULL,
-  `amigo` tinyint(1) NOT NULL DEFAULT '0'
+  `amigo` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -456,9 +454,9 @@ CREATE TABLE `post` (
   `palabra3` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `privacidad` tinyint(1) NOT NULL DEFAULT '1',
-  `votos` int(11) NOT NULL DEFAULT '0'
+  `votos` int(11) NOT NULL DEFAULT '0',
+  `porMi` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 -- --------------------------------------------------------
 
@@ -482,7 +480,6 @@ CREATE TABLE `usuario` (
   `profilePic` varchar(500) NOT NULL,
   `pais` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 --
 -- Índices para tablas volcadas
@@ -584,12 +581,12 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de la tabla `amigo`
 --
 ALTER TABLE `amigo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT de la tabla `interes`
 --

@@ -28,9 +28,9 @@ if(isset($_SESSION['moderador'])){
             }
 
     </script>
-    <style>a{outline:0;text-decoration:none}html{overflow-x: hidden}nav a:hover{text-shadow:0px 0px 1px yellow}.d{color: rgb(252, 159, 84)}.x{font-size:16pt;color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}nav a:hover{text-shadow:0px 0px 1px yellow}.d{color: rgb(252, 159, 84)}.x{font-size:16pt;color: rgb(252, 159, 84)}.x:hover{color:#4290e4;text-decoration:none}#nombre:hover{color:#4290e4;text-decoration:none}#nombre{color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}</style>
   </head>
-  <body>
+  <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
         <a class="navbar-brand" href="#"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -55,9 +55,10 @@ if(isset($_SESSION['moderador'])){
         </div>
     </nav>
 <div class="row todo">
-    
+
 <div class="col-lg-6">
-<?php  $i=0; 
+<i class="letras row" style="margin:40px 0px -15px 60px">Publicos:</i>
+<?php  $a=0; 
     if(isset($allPost)){
         foreach($allPost as $post){
             if(isset($cant)){
@@ -68,25 +69,26 @@ if(isset($_SESSION['moderador'])){
                 }
             }
             if(isset($duenios)){
-            foreach($duenios as $you){
-                if($you['id']==$post->id){
-                $name=$you['username'];
+                foreach($duenios as $you){
+                    if($you['id']==$post->id){
+                    $name=$you['username'];
+                    }
                 }
-            }} $i++; $den="denuncia".$i;
-               ?>
+            } 
+            $a++; $den="denuncia".$a; ?>
             <div class="row post">
                     <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
                         <div class="card-body">
                         <span class="d" style="float: right;margin-bottom:5px">
-                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
-                                <span id="nombre">@<?php echo $name; ?></span></a>
+                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                                @<?php echo $name; ?></a>
                                 <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span>
                     <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
                         <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
                           <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
                         </form>
-                        <span class="x" class="card-title"><b><?php echo $post->titulo;?></b></span><br>
+                        <a class="x" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>"><b><?php echo $post->titulo;?></b></a><br>
                         <span id="fecha"><?php echo $post->fecha; ?></span>
                             <hr>
                             <?php
@@ -96,7 +98,7 @@ if(isset($_SESSION['moderador'])){
                                     echo '<span id="eti">'.$post->$each.'</span>';
                                 }
                             }
-                            echo '<p class="card-text">'.$post->cuerpo.'</p>';
+                            echo '<p class="card-text" style="margin-left:5px">'.$post->cuerpo.'</p>';
                             for($i = 1; $i < 4; ++$i) {
                                 $each="img".$i;
                                 if($post->$each){
@@ -105,8 +107,12 @@ if(isset($_SESSION['moderador'])){
                             }
                                 echo '<hr>';
                                 $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
-                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                $link=$helper->url('usuario','verPost')."&id=".$usuario->id."&unico=".$post->id; 
+                                if($t>1||$t==0){
+                                    echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                } else {
+                                    echo'<a href="'.$link.'">'.$t.' Comentario</a>';
+                                }
                                 $t=0;
                            echo' </div>
                         </div>
@@ -114,39 +120,41 @@ if(isset($_SESSION['moderador'])){
         }}?>
         </div>
     <div class="col-lg-6">
+    <i class="letras row" style="margin:40px 0px -15px 10px">De amigos:</i>
     <?php 
      if(!isset($amiguis)){
             echo '<div class="row r justify-content-center align-middle"><span class="alert alert-info">Los post de tus amigos aparecerán en esta seccion.</span></div>';
-     }else{$i=0;}
+     }else{$a=0;}
         if(isset($amiguis)){
            foreach($amiguis as $post){
                 if(isset($cant)){
-                foreach($cant as $c){
-                    if($c['id']==$post->id){
-                    $t=$c['cant'];
+                    foreach($cant as $c){
+                        if($c['id']==$post->id){
+                        $t=$c['cant'];
+                        }
                     }
                 }
-            }
-            if(isset($duenios)){
-            foreach($duenios as $you){
-                if($you['id']==$post->id){
-                $name=$you['username'];
+                if(isset($duenios)){
+                    foreach($duenios as $you){
+                        if($you['id']==$post->id){
+                        $name=$you['username'];
+                        }
+                    }
                 }
-            }}$i++; $den="denu".$i;
-               ?>
+                $a++; $den="denu".$a;?>
             <div class="row post">
                     <div class="r card shadow-sm p-1 mb-3 bg-white rounded p">
                         <div class="card-body">
                         <span class="d" style="float: right;margin-bottom:5px">
-                            <a style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
-                                <span id="nombre">@<?php echo $name; ?></span></a>
+                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                               @<?php echo $name; ?></a>
                                 <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span>
                     <form id="<?php echo $den; ?>" class="d-none" method="POST" action="<?php echo $helper->url("denuncia","denunciarPost"); ?>&id=<?php echo $post->id; ?>">
                         <textarea class="form-control" style="margin-bottom:5px" name="motivo" rows="3" placeholder="Indique el motivo de su denuncia" required></textarea>     
                           <input class="btn btn-outline-info" style="float: right" type="submit" value="Enviar" name="submit">
                         </form>
-                        <span class="x" class="card-title"><b><?php echo $post->titulo;?></b></span><br>
+                        <a class="x" href="<?php echo $helper->url('usuario','verPost') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>"><b><?php echo $post->titulo;?></b></a><br>
                         <span id="fecha"><?php echo $post->fecha; ?></span>
                             <hr>
                             <?php
@@ -156,7 +164,7 @@ if(isset($_SESSION['moderador'])){
                                     echo '<span id="eti">'.$post->$each.'</span>';
                                 }
                             }
-                            echo '<p class="card-text">'.$post->cuerpo.'</p>';
+                            echo '<p class="card-text" style="margin-left:5px">'.$post->cuerpo.'</p>';
                             for($i = 1; $i < 4; ++$i) {
                                 $each="img".$i;
                                 if($post->$each){
@@ -165,8 +173,12 @@ if(isset($_SESSION['moderador'])){
                             }
                                 echo '<hr>';
                                 $t=isset($t)?$t:0;
-                                $link=$helper->url('usuario','verPost')."&id=".$post->user."&unico=".$post->id;
-                                echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                $link=$helper->url('usuario','verPost')."&id=".$usuario->id."&unico=".$post->id; 
+                                if($t>1||$t==0){
+                                    echo'<a href="'.$link.'">'.$t.' Comentarios</a>';
+                                } else {
+                                    echo'<a href="'.$link.'">'.$t.' Comentario</a>';
+                                }
                                 $t=0;
                            echo' </div>
                         </div>
