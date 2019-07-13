@@ -30,14 +30,17 @@ class NotificacionesController extends ControladorBase{
         if (isset($_SESSION['nCom'])){
             $com->__set("id",$_SESSION['nCom']);
             $notificacion->__set("comentario",$com);
-            $notificacion->__set("descripcion","@".$_SESSION['username']." ha comentado tu post");
-            unset($_SESSION['nCom']);
+            if($_SESSION['id']!=$_SESSION['visitante']){
+                $notificacion->__set("descripcion","@".$_SESSION['username']." ha comentado tu post");
+                unset($_SESSION['nCom']);
+                $saveNot=$notificacion->save();
+            }
         }else if(isset($_SESSION['nAmigo'])){
             $notificacion->__set("amigo",1);
             $notificacion->__set("descripcion","@".$_SESSION['username'].$_SESSION['nAmigo']);
             unset($_SESSION['nAmigo']);
+            $saveNot=$notificacion->save();
         }
-        $saveNot=$notificacion->save();
         $this->redirect("usuario","verPost");
     }
 
