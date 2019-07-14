@@ -141,7 +141,7 @@ class EntidadBase{
     }
 
     public function getAllCom(){
-        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post AND c.id and c.status=1 not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod is null) GROUP by p.id ORDER BY p.fecha DESC;");
+        $query=$this->db->query("SELECT p.id,count(c.id) as cant FROM post p,comentario c WHERE p.id=c.post and c.status=1 and c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod is null) GROUP by p.id ORDER BY p.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;

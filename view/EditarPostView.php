@@ -78,17 +78,9 @@
             <div class="row costado">
                 <span>Descripción: </span> <textarea rows="3" class="col-4 form-control" name="cuerpo" lenght="5000" required>  <?php echo $post->cuerpo;?></textarea>
             </div> 
-    <?php if(!NULL==$post->img1){ ?><p style="color:#c91b1b;padding-left:135px">*NOTA: La imagenes seleccionadas se eliminaran del post.</p> <?php }?>
+    
             <div class="row costado altito">
-        <?php for($i=1;$i<4;$i++){
-                    $imagen="img".$i;
-                    if(!NULL==$post->$imagen){
-                        echo '<input type="checkbox" name="imagenes[]" style="margin: 0px 15px 0px 100px">';
-                        echo '<img src="'.$post->$imagen.'" style="max-height: 28px"/>';
-                        echo '<input type="hidden" name="'.$imagen.'" value="'.$post->$imagen.'">';
-                    }
-                }
-            ?>
+        
             </div>
                 <div class="offset-md-1" style="padding-left: 65px">
                 <input style="margin-right:10px" type="submit" name="eliminar" value="ELIMINAR POST" class="btn btn-outline-danger" id="submitBtn">

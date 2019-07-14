@@ -66,6 +66,7 @@ class NotificacionesController extends ControladorBase{
     }
 
     public function notificaciones(){
+        unset($_SESSION['visitante']);
         $notificacion=new Notificacion($this->adapter);
         $ns=$notificacion->getAllFrom($_SESSION['id']);
         $usuario=new usuario($this->adapter);

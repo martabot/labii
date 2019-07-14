@@ -112,14 +112,6 @@ class PostController extends ControladorBase{
             $palabra1=isset($_POST["palabra1"])?substr($_POST["palabra1"],1):NULL;
             $palabra2=isset($_POST["palabra2"])?substr($_POST["palabra2"],1):NULL;
             $palabra3=isset($_POST["palabra3"])?substr($_POST["palabra3"],1):NULL;
-            for($i=1;$i<4;$i++){
-                $img="img".$i;
-                if(isset($_POST["imagenes"][$i-1])){
-                    $post->__set($img," ");
-                } else{
-                    $post->__set($img,(String)$_POST[$img]);
-                }
-            }
             if(!$cuerpo||!$titulo){
                 $_SESSION['error']="No se pudo actualizar el post";
                 $this->redirect("usuario","verMuro");

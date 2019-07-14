@@ -75,11 +75,11 @@ class UsuarioController extends ControladorBase{
 				$u1=$usuario->getById($_SESSION['id']);
 				if($usuario->listarAmigos($_SESSION['id'])==!NULL){
 					$amigos=$usuario->listarAmigos($_SESSION['id']);
-				} else {$amigo=NULL;}
+				} else {$amigos=NULL;}
         if($usuario->getUnseen($_SESSION['id'])==!NULL){
-        $n=sizeof($usuario->getUnseen($_SESSION["id"]));}else{$n=0;}
+				$notis=sizeof($usuario->getUnseen($_SESSION["id"]));}else{$n=0;}
         $this->view("ListarAmigos",array(
-						"n"=>$n,
+						"notis"=>$notis,
             "amigos"=>$amigos,
             "usuario"=>$u1
         ));
@@ -355,7 +355,8 @@ class UsuarioController extends ControladorBase{
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
 				$paises=$pd->getAll();
-				$notificaciones=sizeof($pd->getUnseen($id));
+				if($post->getUnseen($_SESSION['id'])==!NULL){
+				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$this->view("EditarPerfil",array(
 					"notis"=>$notificaciones,
 					"paises"=>$paises,
