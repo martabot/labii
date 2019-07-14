@@ -184,7 +184,7 @@ class EntidadBase{
     }
 
     public function getComentarios($id){
-        $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id and c.status=1 AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod IS NULL) ORDER BY c.fecha DESC;");
+        $query=$this->db->query("SELECT c.id,u.username,c.cuerpo,c.post,u.id as user FROM comentario c, usuario u WHERE c.post=$id and c.user=u.id and c.status=1 AND c.id not in (SELECT c.id FROM denunciaCom d, comentario c WHERE d.idCom=c.id and d.fechaMod IS NULL) ORDER BY c.fecha DESC;");
 
         while($row = $query->fetch_assoc()) {
            $resultSet[]=$row;
@@ -270,7 +270,7 @@ class EntidadBase{
     }
 
     public function getComDenunciados(){
-        $query=$this->db->query("SELECT * FROM comentario c join denunciaCom d on(c.id=d.idCom) where d.fechaMod is NULL order by d.dFecha DESC;");
+        $query=$this->db->query("SELECT c.*,d.*,p.user as posteador FROM post p, comentario c join denunciaCom d on(c.id=d.idCom) where c.post=p.id and d.fechaMod is NULL order by d.dFecha DESC;");
         while($row=$query->fetch_assoc()){
             $resultSet[]=$row;
         }

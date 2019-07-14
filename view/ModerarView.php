@@ -29,10 +29,10 @@
 
 
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}nav a{text-shadow:0px 0px 1px #df9e31}#nan{padding:42px 25px 10px 25px;font-weight:bold;font-size:20px}</style>
+    <style>body{margin-top:35px}.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}nav a{text-shadow:0px 0px 1px #df9e31}#nan{padding:42px 25px 10px 25px;font-weight:bold;font-size:20px}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
-    <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
         <b class="navbar-brand">StackOverPets</b>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()"style="outline: none"><</button>
@@ -60,11 +60,11 @@
             <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
                 <div class="card-body space ">
                <div style="float:left;color:grey">
-                    <span>*Nota: Los post denunciados con adjunto se identifican por un círculo a la izquierda. Al autorizar un post permanece invisible para quien lo ocultó, al denegarlo se oculta para todos.</span>
+                    <span>*Nota: Los post denunciados con adjunto se identifican por un círculo a la derecha. Al autorizar un post permanece invisible para quien lo ocultó, al denegarlo se oculta para todos.</span>
                     </div>
                     <table class="table" cellpadding="15px" bordercolor="grey">
-                    <tr align="center"><td></td><tH>MODERAR
-                    </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>TITULO</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th></tr>
+                    <tr align="center"><tH>MODERAR
+                    </tH><th>CREADOR</th><th>DENUNCIANTE</th><th>TITULO</th><th>CUERPO</th><th>FECHA CREADO</th><th>FECHA DENUNCIADO</th><th>MOTIVO</th><th>IMG</th></tr>
                     <?php $tal=0;
                     if(isset($posts)){
                     foreach($posts as $post){
@@ -84,14 +84,16 @@
                         if(isset($post['img1'])||isset($post['img2'])||isset($post['img3'])){$x="●";}else{$x="";}
                         $tal+=1;
                         $_SESSION['t']=$t;
-            echo "<tr align='center'><td>$x</td><td>";?>
+            echo "<tr align='center'><td>";?>
 
                     <input type="hidden" name="<?php echo "p".$tal; ?>" value="<?php echo $post['id']; ?>">
                     <input type="hidden" name="<?php echo "r".$tal; ?>" value="<?php echo $post['idUsuario']; ?>">
                     <input type="hidden" name="<?php echo "fec".$tal; ?>" value="<?php echo $post['dFecha']; ?>">
-                    <input type="submit" name="<?php echo "si".$tal; ?>" class="btn btn-success" value="✔">
-                    <input type="submit" name="<?php echo "nono".$tal; ?>" class="btn btn-danger" value="✘">
-           <?php echo "</td><td>$unP</td><td>$unD</td><td>".$post['titulo']."</td><td>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td></tr>";                        
+                    <div class="btn-group d-flex" role="group" style="width:90px"><input type="submit" name="<?php echo "si".$tal; ?>" class="btn btn-success" value="✔">
+                    <span style="width:5px"></span><input type="submit" name="<?php echo "nono".$tal; ?>" class="btn btn-danger" value="✘"></div>
+            <?php echo "</td><td>$unP</td><td>$unD</td><td>
+            <a href='".$helper->url('usuario','verPost')."&id=".$post['user']."&unico=".$post['id']."'>".
+                $post['titulo']."</a></td><td>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td><td>$x</td></tr>";                        
                             }
                         }?></table>
                 </div>
@@ -130,12 +132,17 @@
             echo "<tr align='center'><td>";
             $tal+=1;
             ?>
-                    <input type="hidden" name="<?php echo "n".$tal; ?>" value="<?php echo $com['id']; ?>">
-                    <input type="hidden" name="<?php echo "d".$tal; ?>" value="<?php echo $com['idUsuario']; ?>">
-                    <input type="hidden" name="<?php echo "f".$tal; ?>" value="<?php echo $com['dFecha']; ?>">
-                    <input type="submit" name="<?php echo "s".$tal; ?>" class="btn btn-success" value="✔">
-                    <input type="submit" name="<?php echo "x".$tal; ?>" class="btn btn-danger" value="✘">
-           <?php echo "</td><td>$unP</td><td>$unD</td><td>".$com['cuerpo']."</td><td>".$com['fecha']."</td><td>".$com['dFecha']."</td><td>".$com['motivo']."</td></tr>";                        
+                <input type="hidden" name="<?php echo "n".$tal; ?>" value="<?php echo $com['id']; ?>">
+                <input type="hidden" name="<?php echo "d".$tal; ?>" value="<?php echo $com['idUsuario']; ?>">
+                <input type="hidden" name="<?php echo "f".$tal; ?>" value="<?php echo $com['dFecha']; ?>">
+        <div class="btn-group d-flex" role="group"  style="width:90px">
+            <input type="submit" name="<?php echo "s".$tal; ?>" class="btn btn-success" value="✔">
+                <span style="width:5px"></span>
+                    <input type="submit" name="<?php echo "x".$tal; ?>" class="btn btn-danger" value="✘"></div>
+                         <?php echo "</td><td>$unP</td>
+                                        <td>$unD</td><td>
+        <a href='".$helper->url('usuario','verPost')."&id=".$com['posteador']."&unico=".$com['post']."'>".$com['cuerpo']."</a>
+            </td><td>".$com['fecha']."</td><td>".$com['dFecha']."</td><td>".$com['motivo']."</td></tr>";                        
                             }
                         }?></table>
                 </div>

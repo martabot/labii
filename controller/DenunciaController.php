@@ -68,7 +68,8 @@ class DenunciaController extends ControladorBase{
 
     public function moderar(){
         if(isset($_SESSION['c'])){
-            for($i=1;$i<=$_SESSION['c'];$i++){
+            $c=(int)$_SESSION['c'];
+            for($i=1;$i<=$c;$i++){
                 $si="s".$i; $no="x".$i;
                 $idCom="n".$i;$denCom="d".$i;$fecCom="f".$i;
                 if(isset($_POST["$si"])){
@@ -80,7 +81,8 @@ class DenunciaController extends ControladorBase{
             }
         }
         if(isset($_SESSION['t'])){
-            for($i=1;$i<=$_SESSION['t'];$i++){
+            $t=(int)$_SESSION['t'];
+            for($i=1;$i<=$t;$i++){
                 $este="si".$i; $otro="nono".$i;
                 $idPos="p".$i;$denPos="r".$i;$fecPos="fec".$i;
                 if(isset($_POST["$este"])){

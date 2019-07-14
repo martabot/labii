@@ -28,10 +28,10 @@ if(isset($_SESSION['moderador'])){
             }
 
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}nav a:hover{text-shadow:0px 0px 1px yellow}.d{color: rgb(252, 159, 84)}.x{font-size:16pt;color: rgb(252, 159, 84)}.x:hover{color:#4290e4;text-decoration:none}#nombre:hover{color:#4290e4;text-decoration:none}#nombre{color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}nav a:hover{text-shadow:0px 0px 1px yellow}.d{color: rgb(252, 159, 84)}.x{font-size:16pt;color: rgb(252, 159, 84)}.x:hover{color:#4290e4;text-decoration:none}#nombre:hover{color:#4290e4;text-decoration:none}#nombre{color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}.letras{color:grey}#img{padding-left:10px}.l{margin:30px 7px 0px 60px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}</style>
   </head>
-  <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
-    <nav class="navbar navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
+  <body style="margin-top:30px; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
         <a class="navbar-brand" href="#"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()"style="outline: none"><</button>
@@ -44,7 +44,7 @@ if(isset($_SESSION['moderador'])){
                     <a class="nav-link" href="<?php echo $helper->url("usuario","verMuro"); ?>">Perfil</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo '&nbsp&nbsp<span class="badge badge-danger">'.$notis.'<span>';} ?></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -80,7 +80,7 @@ if(isset($_SESSION['moderador'])){
                     <div class="l card shadow-sm p-1 mb-3 bg-white rounded p">
                         <div class="card-body">
                         <span class="d" style="float: right;margin-bottom:5px">
-                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verMuro') ?>&id=<?php echo $post->user;?>&unico=<?php echo $post->id;?>" height="30px">
+                            <a id="nombre" style="padding-right:10px" href="<?php echo $helper->url('usuario','verMuro') ?>&id=<?php echo $post->user;?>" height="30px">
                                 @<?php echo $name; ?></a>
                                 <button class="btn btn-outline-danger btn-sm" onClick="denunciar('<?php echo $den; ?>')"><b>x</b></button>
                             </span>

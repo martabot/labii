@@ -26,10 +26,10 @@ if(isset($_SESSION['error'])){
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{font-size:16pt;color: rgb(252, 159, 84)}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}.card-text{margin-left:5px}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}.datos a:hover{color:#4290e4;text-decoration:none}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;}html{overflow-x:hidden;scrollbar-face-color: orangered}.b{margin: -5px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}.x{font-size:16pt;color: rgb(252, 159, 84)}section div.t{margin-top: 7px}.t,.t a{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px }#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#img{padding-left:10px}.card p{padding-top:10px}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}#fecha{color:silver}.card-text{margin-left:5px}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
-        <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
             <a class="navbar-brand" href="<?php echo $helper->url("usuario","index"); ?>"><b>StackOverPets</b></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation" id="v" onClick="rotar()" style="outline: none"><</button>
@@ -42,7 +42,7 @@ if(isset($_SESSION['error'])){
                     <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo "(".$notis.")";} ?></a>
+                    <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo '&nbsp&nbsp<span class="badge badge-danger">'.$notis.'<span>';} ?></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -79,7 +79,6 @@ if(isset($_SESSION['error'])){
                                     } else 
                                 { ?> 
                                         <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a><?php
-
                                     }
                                 }
                             }
@@ -87,7 +86,7 @@ if(isset($_SESSION['error'])){
                 </div>
 
                 <!-- Card -->
-                <div class="b card card-cascade shadow-sm p-1 mb-3 bg-white rounded">
+                <div class="b card card-cascade shadow-sm p-1 mb-3 bg-white rounded datos">
                     <div class="ult card-body card-body-cascade text-center">
             
                                 <section class="container-fluid">
@@ -95,9 +94,9 @@ if(isset($_SESSION['error'])){
                                 <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","editar"); ?>">EDITAR PERFIL</a>
                                 </div> <?php } ?>
-                                    <div class="row t">
+                                    <!--<div class="row t">
                                     <a href="">INTERESES <span>&nbsp 0</span></a>
-                                    </div>
+                                    </div> -->
                                 <?php if($_SESSION['id']==$usuario->id){ ?>
                                     <div class="row t">
                                         <a href="<?php echo $helper->url("usuario","listarAmigos");?>">AMIGOS <span>&nbsp <?php echo (int)$todos; ?></span></a>
@@ -107,14 +106,11 @@ if(isset($_SESSION['error'])){
                                         <a>AMIGOS <span>&nbsp <?php echo (int)$todos; ?></span></a>
                                     </div>
                                 <?php } ?>
-                                    <div class="row t">
-                                    <a href="">ORDENAR POR DESTACADOS</a>
-                                    </div>
                                 </section>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 offset-md-3" style="padding-top: 15px">
+            <div class="col-lg-10 offset-md-3" style="padding-top: 15px">
                 <div class="row">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-7">
@@ -126,7 +122,7 @@ if(isset($_SESSION['error'])){
                             foreach($allPost as $post){
                                 $pregunta=isset($amigo)?$amigo->status==1:false;
                                 if(($post->privacidad==1||$pregunta)||!isset($_SESSION['visitante'])||$usuario->id==$_SESSION["id"]){?>
-                                    <div class="row post">
+                                    <div class="row post datos">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
                                             <?php if($_SESSION['id']==$post->user){?>
