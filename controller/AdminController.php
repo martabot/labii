@@ -18,18 +18,9 @@ class AdminController extends ControladorBase{
             unset($_SESSION["visitante"]);
             $ud=new Usuario($this->adapter);
             $allUsers=$ud->getAll();
-            $posts=$ud->getPostsDenunciados();
-            $coms=$ud->getComDenunciados();
-            $cant=0;
-            if(isset($coms)){
-                $cant+=sizeof($coms);
-            }
-            if(isset($posts)){
-                $cant+=sizeof($posts);
-            }
             $mod=$ud->getMod();
             $this->view("Admin",array(
-                "cant"=>$cant,
+                "delUsuario"=>$delUsuario,
                 "mod"=>$mod,
                 "allUsers"=>$allUsers
             ));
@@ -39,11 +30,11 @@ class AdminController extends ControladorBase{
     }
 
     public function otro(){
-        if(isset($_POST['mod'])){
+        if(isset($_POST['mod'])&&isset($_POST['id'])){
             $this->hacerModerador();
-        }else if(isset($_POST['hab'])){
+        }else if(isset($_POST['hab'])&&isset($_POST['id'])){
             $this->habilitar();
-        }
+        } else {$this->index();}
     }
 
     public function hacerModerador(){

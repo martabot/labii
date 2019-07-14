@@ -22,7 +22,7 @@
             }
 
     </script>
-    <style>body{margin-top:35px}.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none;text-shadow:0px 0px 1px silver}html{overflow-x: hidden}li a{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
+    <style>body{margin-top:35px}.navbar-brand{text-shadow:0px 0px 1px yellow}#here{outline:0;text-decoration:none}#here:hover{text-shadow:0px 0px 2px grey}html{overflow-x: hidden}li a{text-shadow:0px 0px 1px black;font-weight:bold}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:20px 15px 0px 15px}#mod{background-color: #fcfbbe}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -50,9 +50,11 @@
         <div class="row op">
         <form method="POST" action="<?php echo $helper->url("admin","otro"); ?>">
             <center>
-            <b><input id="f" type="submit" name="mod" class="btn btn-outline-dark" value="Cambiar estado moderador"></b>
-            <b><input id="f" type="submit" name="hab" class="btn btn-outline-dark" value="Cambiar estado usuario"></b>
-        <div class="row post">
+            <div class="row fixed-top justify-content-center" style="background-color:white;width:100%;height:65px;margin-top:56px">
+                <b><input id="f" type="submit" name="mod" class="btn btn-outline-dark" value="Cambiar estado moderador"></b>
+                <b><input id="f" type="submit" name="hab" class="btn btn-outline-dark" value="Cambiar estado usuario"></b>
+            </div>
+        <div class="row post" style="margin-top:80px">
             <div class="l card shadow-sm p-1 mb-3 bg-white rounded p"> 
                 <div class="card-body space ">
                <div style="float:left;color:grey">
@@ -79,7 +81,7 @@
                         }
                         echo "<td align='center'><input type='radio' name='id' value='$user->id'></td>
                             <td>$user->username</td><td>$user->nombre $user->apellido</td>
-                            <td>$user->mail</td><td>$user->bday</td><td>$user->fechaAlta</td>
+                            <td><a id='here' href='mailto:$user->mail'>$user->mail</a></td><td>$user->bday</td><td>$user->fechaAlta</td>
                             <td>$user->fechaUltMod</td><td align='center'>$user->status</td>
                             <td align='center'>0</td></tr>";
                         }

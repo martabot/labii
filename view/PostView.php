@@ -21,7 +21,7 @@ if($usuario->id!=$_SESSION['id']){
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}.datos a:hover{color:#4290e4;text-decoration:none}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.x{font-size:16pt;color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}html{overflow-x:hidden;scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}#fecha{color:silver}.card-text{margin-left:5px}#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#famoso{color:#4290e4}#famoso:hover{color:#2b64a1;text-decoration:none}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}#datita:hover{color:#4290e4;text-decoration:none}a{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.x{font-size:16pt;color: rgb(252, 159, 84)}.todo{font-family: 'Assistant', sans-serif;}html{overflow-x:hidden;scrollbar-face-color: orangered}.b{margin: 10px 10px 10px 10px}.ult{padding-top:30px;padding-bottom:30px}#this{width:60%;padding-top: 20px}section div.t{margin-top: 7px}.t,.t a,.user{color: orangered}.t span, .x a{color: grey}.card{margin-top:15px}.post span#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}#persona{color:orangered}.post{width:100%}.post img{width:100%;height:auto}.p {width:100%}.derecha{float:right}.no{color:grey;text-decoration:none}.no:hover{color:red;text-decoration:none;border:1px solid red;border-radius:2px}#fecha{color:silver}.card-text{margin-left:5px}#bordeau{background-color: #fefbde; padding:3px;margin:5px;color:grey}#famoso{color:#4290e4}#famoso:hover{color:#2b64a1;text-decoration:none}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
 
@@ -124,7 +124,7 @@ if($usuario->id!=$_SESSION['id']){
                                 </a>
                             </span>
                     <?php }?>
-                            <div class="row post datos">
+                            <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
                                 
@@ -159,7 +159,7 @@ if($usuario->id!=$_SESSION['id']){
                                                     $link=$helper->url('denuncia','denunciarCom')."&id=".$comen['id']."&unico=".$comen['post'];
                                                     $irA=$helper->url('usuario','verMuro')."&id=".$comen['user'];
                                                     ?>
-                                                    <span ><a href="<?php echo $irA; ?>"><b id="persona">@<?php echo $comen['username']; ?></b></a> <i><?php echo $comen['cuerpo']; ?></i>
+                                                    <span ><a id="datita" href="<?php echo $irA; ?>"><b id="persona">@<?php echo $comen['username']; ?></b></a> <i><?php echo $comen['cuerpo']; ?></i>
                                                     <span class="derecha">
                                                         <a class="no" href="<?php echo $link;?>">&nbspx&nbsp</a>
                                                         </span> </span>
