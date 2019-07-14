@@ -26,7 +26,7 @@
         }else{document.getElementById("v").textContent="<";}
     }
     </script>
-    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a,input{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h2{padding: 30px 20px 10px 20px}.todo span{width:100px}</style>
+    <style>.navbar-brand{text-shadow:0px 0px 1px yellow}a,input{outline:0;text-decoration:none}nav a:hover{text-shadow:0px 0px 1px yellow}.todo{font-family: 'Assistant', sans-serif;overflow:hidden;}html{scrollbar-face-color: orangered}.costado {padding:10px 30px 10px 50px}h2{padding: 30px 20px 10px 20px;color:rgb(252, 159, 84)}.todo span{width:100px}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
         <nav class="navbar fixed-top navbar-expand-sm navbar-dark sticky-top" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">

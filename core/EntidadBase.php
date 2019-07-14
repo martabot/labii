@@ -299,5 +299,45 @@ class EntidadBase{
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
+
+    public function buscarPorclave($clave){
+        $query=$this->db()->query("SELECT * FROM post WHERE MATCH (palabra1, palabra2, palabra3) AGAINST ('$clave' IN BOOLEAN MODE);");
+       
+        while($row = $query->fetch_object()) {
+            $resultSet[]=$row;
+        }
+         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    public function buscarPorclaveTitulo($clave){
+        $query=$this->db()->query("SELECT * FROM post WHERE MATCH (titulo, cuerpo) AGAINST ('$clave' IN BOOLEAN MODE);");
+
+        while($row = $query->fetch_object()) {
+            $resultSet[]=$row;
+        }
+         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    public function buscarPersonas($persona){
+        $query=$this->db()->query("SELECT * FROM usuario WHERE MATCH (username, nombre, apellido) AGAINST ('$clave' IN BOOLEAN MODE);");
+
+        while($row = $query->fetch_object()) {
+            $resultSet[]=$row;
+        }
+         
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
 }
+
 ?>
+
+
+
+
+
+

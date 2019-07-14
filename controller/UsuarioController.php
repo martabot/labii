@@ -13,15 +13,12 @@ class UsuarioController extends ControladorBase{
         $this->adapter =$this->conectar->conexion();
     }
 
-		//Listar todos los Usuarios	
+		//Listar todos los post	
 		public function index(){
 			if(isset($_SESSION["id"])){
 				unset($_SESSION["visitante"]);
-				$ud=new Usuario($this->adapter);
 				$id=$_SESSION["id"];
-				$obj=$ud->getById($id);
 				$post=new Post($this->adapter);
-				
 				$allPosts=$post->getByFecha($id);
 				$amiguis=$post->getPostDeAmigos($id);
 				$cant=$post->getAllCom();
@@ -30,7 +27,6 @@ class UsuarioController extends ControladorBase{
 				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$this->view("Index",array(
 					"notis"=>$notificaciones,
-					"usuario"=>$obj,
 					"allPost"=>$allPosts,
 					"cant"=>$cant,
 					"amiguis"=>$amiguis,

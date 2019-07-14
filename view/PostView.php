@@ -35,7 +35,7 @@ if($usuario->id!=$_SESSION['id']){
                     <a class="nav-link" href="<?php echo $helper->url("usuario","index"); ?>">Inicio</a>
                 </li>
 
-            <?php if($usuario->id==$_SESSION['id']){  ?>              
+            <?php if(!strpos($_SESSION['username'],"@")){  ?>              
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $helper->url("usuario","mine"); ?>">Perfil</a>
                 </li>
@@ -159,7 +159,7 @@ if($usuario->id!=$_SESSION['id']){
                                                     $link=$helper->url('denuncia','denunciarCom')."&id=".$comen['id']."&unico=".$comen['post'];
                                                     $irA=$helper->url('usuario','verMuro')."&id=".$comen['user'];
                                                     ?>
-                                                    <span><a href="<?php echo $irA; ?>"><b id="persona">@<?php echo $comen['username']; ?></b></a> <i><?php echo $comen['cuerpo']; ?></i>
+                                                    <span ><a href="<?php echo $irA; ?>"><b id="persona">@<?php echo $comen['username']; ?></b></a> <i><?php echo $comen['cuerpo']; ?></i>
                                                     <span class="derecha">
                                                         <a class="no" href="<?php echo $link;?>">&nbspx&nbsp</a>
                                                         </span> </span>

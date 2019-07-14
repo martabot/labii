@@ -122,14 +122,14 @@ if(isset($_SESSION['error'])){
                             foreach($allPost as $post){
                                 $pregunta=isset($amigo)?$amigo->status==1:false;
                                 if(($post->privacidad==1||$pregunta)||!isset($_SESSION['visitante'])||$usuario->id==$_SESSION["id"]){?>
-                                    <div class="row post datos">
+                                    <div class="row post">
                                         <div class="card shadow-sm p-1 mb-3 bg-white rounded p">
                                             <div class="card-body">
                                             <?php if($_SESSION['id']==$post->user){?>
                                                 <span style="float: right;margin-bottom:5px">
                                                     <a class="btn btn-outline-danger btn-sm" href="<?php echo $helper->url("post","actualizar")."&id=".$post->id; ?>">Editar</a>
                                                 </span>
-                                            <?php } echo '<b class="card-title x">'.$post->titulo.'</b><br>
+                                            <?php } echo '<b class="card-title x datos">'.$post->titulo.'</b><br>
                                                             <span id="fecha">'.$post->fecha.'</span>
                                                             <hr>';
                                                 for($i = 1; $i < 4; ++$i) {
