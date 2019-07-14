@@ -285,13 +285,14 @@ class UsuarioController extends ControladorBase{
 				$id=(int)$_GET["id"];
 				$_SESSION['visitante']=$id;
 				$unico=$_GET["unico"];
-			}else if(isset($_SESSION['unico'])&&isset($_SESSION['visitante'])&&($_SESSION['visitante']!=$_SESSION['id'])){
+			}else if(isset($_SESSION['unico'])&&isset($_SESSION['visitante'])){
 				$id=$_SESSION['visitante'];
 				$unico=$_SESSION['unico'];
 			} else if (isset($_SESSION['unico'])&&isset($_SESSION['id'])){
 				$id=$_SESSION['id'];
 				$unico=$_SESSION['unico'];
 			}
+
 				$usuario = new Usuario($this->adapter);
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);

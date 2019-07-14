@@ -30,36 +30,37 @@ class NotificacionesController extends ControladorBase{
         if (isset($_SESSION['nCom'])){
             $com->__set("id",$_SESSION['nCom']);
             $notificacion->__set("comentario",$com);
+            $post->__set('id',$_SESSION['unico']);
+            $notificacion->__set("post",$post);
             if($_SESSION['id']!=$_SESSION['visitante']){
                 $notificacion->__set("descripcion","@".$_SESSION['username']." ha comentado tu post");
                 unset($_SESSION['nCom']);
                 $saveNot=$notificacion->save();
             }
+            $this->redirect("usuario","verPost");
         }else if(isset($_SESSION['nAmigo'])){
             $notificacion->__set("amigo",1);
             $notificacion->__set("descripcion","@".$_SESSION['username'].$_SESSION['nAmigo']);
             unset($_SESSION['nAmigo']);
             $saveNot=$notificacion->save();
+            $this->redirect("usuario","verMuro");
         }
-        $this->redirect("usuario","verPost");
     }
 
     public function actualizar(){
-        $notificacion=new Notificacion($this->adapter);
         $n1=new Notificacion($this->adapter);
-        $id=$notificacion->getOneBy("id",$_GET['id']);
-        $_SESSION['visitante']=$id['user2'];
-        $n1->__set("id",$id['id']);
-        $n1->__set("status",1);
-        $save=$n1->save();
-        if($id['comentario']){
-            $cd=new Comentario($this->adapter);
-            $comentario=$cd->getById($id['comentario']);
-            $pd=new Post($this->adapter);
-            $post=$pd->getById($comentario->post);
-            $_SESSION['unico']=$post->id;
+        $id=$n1->getById($_GET['id']);
+        $_SESSION['visitante']=$_GET['vis'];
+        if($id->comentario==!NULL){
+            $n1->__set("id",$id->id);
+            $n1->__set("status",1);
+            $save=$n1->save();
+            $_SESSION['unico']=$id->post;
             $this->redirect("usuario","verPost");
-        } if($id['amigo']){
+        } else {
+            $n1->__set("id",$id->id);
+            $n1->__set("status",1);
+            $save=$n1->save();
             $this->redirect("usuario","verMuro");
         }
     }

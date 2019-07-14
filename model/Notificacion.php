@@ -31,9 +31,10 @@ class Notificacion extends EntidadBase{
             $us1=$this->user1->__get('id');
             $us2=$this->user2->__get('id');
             $com=$this->comentario->__get('id');
+            $post=$this->post->__get('id');
 
-            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, comentario) VALUES (
-                $us1,$us2,NOW(),'$this->descripcion',$com);";
+            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, post, comentario) VALUES (
+                $us1,$us2,NOW(),'$this->descripcion',$post,$com);";
 
             $save=$this->db()->query($query);
             if($this->db()->error){
@@ -43,7 +44,7 @@ class Notificacion extends EntidadBase{
         }else if($this->amigo){
             $us1=$this->user1->__get('id');
             $us2=$this->user2->__get('id');
-            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, comentario) VALUES (
+            $query="INSERT INTO notificacion (user1, user2, fecha, descripcion, amigo) VALUES (
                 $us1,$us2,NOW(),'$this->descripcion',1);";
 
             $save=$this->db()->query($query);

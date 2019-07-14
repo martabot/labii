@@ -55,14 +55,18 @@ unset($_SESSION['visitante']);
     <?php 
     if(isset($ns)){
     foreach($ns as $notificacion){
+        if(isset($notificacion->comentario)){
+            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user2;
+        } else {
+            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1;
+        }
         if($notificacion->status==0){
-            $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
+            ?>
             <div class="row">
                 <a href="<?php echo $link; ?>">
                     <span id="noti" class="alert alert-warning"><?php echo $notificacion->descripcion;?></span>
                     </a>
-                </div><br><?php } else { 
-                $link=$helper->url("notificaciones","actualizar")."&id=".$notificacion->id."&vis=".$notificacion->user1; ?>
+                </div><br><?php } else { ?>
                 <div class="row">
                     <a href="<?php echo $link; ?>">
                         <span id="noti" class="alert alert-light"><?php echo $notificacion->descripcion;?></span>

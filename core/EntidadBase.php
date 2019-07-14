@@ -299,15 +299,5 @@ class EntidadBase{
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }
-
-    public function getPostDelComentario($id){
-        $query=$this->db->query("SELECT p.id from post p,comentario c where p.id=c.post;");
-        if($row=$query->fetch_assoc()){
-            $resultSet=$row;
-        }
-        
-        $resultSet=isset($resultSet)?$resultSet:NULL;
-        return $resultSet;
-    }
 }
 ?>
