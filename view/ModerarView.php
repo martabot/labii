@@ -81,7 +81,7 @@
                             }
                         }
 
-                        if(isset($post['img1'])||isset($post['img2'])||isset($post['img3'])){$x="●";}else{$x="";}
+                        if(!NULL==$post['img1']||!NULL==$post['img2']||!NULL==$post['img3']){$x="●";}else{$x="";}
                         $tal+=1;
                         $_SESSION['t']=$t;
             echo "<tr align='center'><td>";?>
