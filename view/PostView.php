@@ -46,9 +46,9 @@ if($usuario->id!=$_SESSION['id']){
             
             
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
+            <form class="form-inline my-2 my-lg-0" method="POST" action="<?php echo $helper->url("busqueda","buscar");?>">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="clave">
+                <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Buscar">
             </form>
             <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion"); ?>">Cerrar Sesion</a>
         </div>
@@ -64,7 +64,7 @@ if($usuario->id!=$_SESSION['id']){
                     <h2 style="width:100%" class="card-header-title text-center"><?php echo strtoupper($usuario->nombre." ".$usuario->apellido); ?></h2>
                     <h4 class="mb-1 pb-4 pt-0 text-center"><?php echo $pais->nombre; ?></h4>
                 </div>
-                <div class="row justify-content-center" style="padding:15px 0px 15px 0px">
+                <div class="row justify-content-center" >
                     <?php if($usuario->id!=$_SESSION["id"]&&!strpos($_SESSION['username'],"@")) { 
                             if(!isset($amigo)){ ?>
                                 <a class="btn btn-outline-info my-2 my-sm-0" href="<?php echo $helper->url("usuario","agregarAmigo"); ?>">Agregar amigo</a>

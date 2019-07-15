@@ -45,9 +45,9 @@
                     <a class="nav-link" href="<?php echo $helper->url("notificaciones","notificaciones"); ?>">Notificaciones<?php if($notis!=0) {echo '&nbsp&nbsp<span class="badge badge-danger">'.$notis.'<span>';} ?></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
+            <form class="form-inline my-2 my-lg-0" method="POST" action="<?php echo $helper->url("busqueda","buscar");?>">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="clave">
+                <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Buscar">
             </form>
             <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion");?>">Cerrar Sesion</a>
         </div>

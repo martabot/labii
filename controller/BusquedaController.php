@@ -20,13 +20,13 @@ class BusquedaController extends ControladorBase{
             $pd=new Post($this->adapter);
             $postClaves=$pd->buscarPorclave($clave);
             $postTitulos=$pd->buscarPorclaveTitulo($clave);
-            $ud=new Usuario($this->apdater);
+            $ud=new Usuario($this->adapter);
             $personas=$ud->buscarPersonas($clave);
             $cd=new Comentario($this->adapter);
             $cant=$cd->getAllCom();
             $duenios=$cd->getPublicadores();
-            if ($post->getUnseen($_SESSION['id'])==!null) {
-                $notificaciones=sizeof($post->getUnseen($_SESSION['id']));
+            if ($pd->getUnseen($_SESSION['id'])==!null) {
+                $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));
             } else {
                 $notificaciones=0;
             }
@@ -36,7 +36,7 @@ class BusquedaController extends ControladorBase{
                 "personas"=>$personas,
                 "cant"=>$cant,
                 "duenios"=>$duenios,
-                "notificaciones"=>$notificaciones,
+                "notis"=>$notificaciones,
                 "clave"=>$clave
             ));
         }

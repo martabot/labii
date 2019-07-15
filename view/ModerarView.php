@@ -29,7 +29,7 @@
 
 
     </script>
-    <style>body{margin-top:35px}.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif;}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}nav a{text-shadow:0px 0px 1px #df9e31}#nan{padding:42px 25px 10px 25px;font-weight:bold;font-size:20px}</style>
+    <style>body{margin-top:35px}.op{width:100%}.navbar-brand{text-shadow:0px 0px 1px yellow}a{outline:0;text-decoration:none}html{overflow-x: hidden}.x,.d,h5{text-decoration-color:rgb(252, 159, 84);color: rgb(252, 159, 84)}#nombre{color: rgb(252, 159, 84)}.x:hover{text-decoration: none;color: rgb(255, 128, 24);text-shadow: 1px 1px 1px rgba(65, 65, 65, 0.637) }.todo{font-family: 'Assistant', sans-serif}#img{padding-left:10px}.l{margin:30px}.r{margin:30px 50px 0px 7px}#eti{background-color: #fefbde; padding:3px;margin:5px;color:grey}.card p{padding-top:10px}.post{width:95%}.post img{width:100%;height:auto}.p {max-width:95%}.space{justify-content:space-around}#f{width:250px;margin:40px 15px 0px 15px}#mod{background-color: #fcfbbe}nav a{text-shadow:0px 0px 1px #df9e31}#nan{padding:42px 25px 10px 25px;font-weight:bold;font-size:20px}</style>
   </head>
   <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark" style="background-image: repeating-linear-gradient(rgb(255, 153, 0),rgb(255, 196, 0))">
@@ -40,9 +40,9 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
+            <form class="form-inline my-2 my-lg-0" method="POST" action="<?php echo $helper->url("busqueda","buscar");?>">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="clave">
+                <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Buscar">
             </form>
             <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion");?>">Cerrar Sesion</a>
         </div>
@@ -93,7 +93,7 @@
                     <span style="width:5px"></span><input type="submit" name="<?php echo "nono".$tal; ?>" class="btn btn-danger" value="✘"></div>
             <?php echo "</td><td>$unP</td><td>$unD</td><td>
             <a href='".$helper->url('usuario','verPost')."&id=".$post['user']."&unico=".$post['id']."'>".
-                $post['titulo']."</a></td><td>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td><td>$x</td></tr>";                        
+                $post['titulo']."</a></td><td style='max-width:400px'>".$post['cuerpo']."</td><td>".$post['fecha']."</td><td>".$post['dFecha']."</td><td>".$post['motivo']."</td><td>$x</td></tr>";                        
                             }
                         }?></table>
                 </div>
@@ -140,7 +140,7 @@
                 <span style="width:5px"></span>
                     <input type="submit" name="<?php echo "x".$tal; ?>" class="btn btn-danger" value="✘"></div>
                          <?php echo "</td><td>$unP</td>
-                                        <td>$unD</td><td>
+                                        <td>$unD</td><td style='max-width:400px'>
         <a href='".$helper->url('usuario','verPost')."&id=".$com['posteador']."&unico=".$com['post']."'>".$com['cuerpo']."</a>
             </td><td>".$com['fecha']."</td><td>".$com['dFecha']."</td><td>".$com['motivo']."</td></tr>";                        
                             }

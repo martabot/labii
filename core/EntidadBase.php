@@ -312,7 +312,13 @@ class EntidadBase{
     }
 
     public function buscarPorclaveTitulo($clave){
-        $query=$this->db()->query("SELECT * FROM post WHERE MATCH (titulo, cuerpo) AGAINST ('$clave' IN BOOLEAN MODE);");
+        $query=$this->db()->query("SELECT * FROM post WHERE status=1 and privacidad=1 and
+            titulo LIKE '%$clave' OR
+            titulo LIKE '$clave%' or
+            titulo LIKE '%$clave%' or
+            cuerpo LIKE '%$clave' OR
+            cuerpo LIKE '$clave%' or
+            cuerpo LIKE '%$clave%' group by id;");
 
         while($row = $query->fetch_object()) {
             $resultSet[]=$row;
@@ -322,8 +328,11 @@ class EntidadBase{
         return $resultSet;
     }
 
-    public function buscarPersonas($persona){
-        $query=$this->db()->query("SELECT * FROM usuario WHERE MATCH (username, nombre, apellido) AGAINST ('$clave' IN BOOLEAN MODE);");
+    public function buscarPersonas($clave){
+        $query=$this->db()->query("SELECT * FROM usuario WHERE
+            username LIKE '%$clave' or username LIKE '$clave%' or username LIKE '%$clave%' or
+            nombre LIKE '%$clave' or nombre LIKE '$clave%' or nombre LIKE '%$clave%' or
+            apellido LIKE '%$clave' or apellido LIKE '$clave%' or apellido LIKE '%$clave%';");
 
         while($row = $query->fetch_object()) {
             $resultSet[]=$row;

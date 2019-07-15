@@ -5,3 +5,33 @@ Saque esos require que estaban de más pero dejé los mágicos porque ya estabá
 Fijate el ultimo commit con las notificaciones, también las agrego a la db y empecé a usar $_SESSION, como me sale, va mejorando de a poco. El usuarioController me quedó muy cargado o eso es normal? (o sea a pesar del codigo repetido, ya haré una limpieza)
 
 Tengo una duda... cómo atrapo errores de reenviar formularios a veces cuando vuelve atras el navegador? 
+<div class="container">
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-8">
+            <div class="people-nearby">
+            <?php 
+                    if(isset($personas)){
+                        foreach($personas as $persona){
+                            $link=$helper->url("usuario","verMuro")."&id=".$persona->id; ?>
+
+
+              <div class="nearby-user">
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <img src="<?php echo $persona->profilePic;?>" alt="user" class="profile-photo-lg">
+                  </div>
+                  <div class="col-md-7 col-sm-7">
+                    <h5><a href="#" class="profile-link"></a></h5>
+                    <p><?php echo $persona->nombre." ".$persona->apellido;?></p>
+                    <p class="text-muted">@<?php echo $persona->username;?></p>
+                  </div>
+                  <div class="col-md-3 col-sm-3">
+                  <a href="<?php echo $link;?>" class="btn btn-outline-warning btn-sm pull-right"><i class="fa fa-plus">VER PERFIL</i></a>
+                  </div>
+                </div>
+            
+              <?php } }?> </div>
+                 </div>
+    	</div>
+	</div>
+</div>
