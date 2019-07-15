@@ -22,10 +22,6 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 
             </ul>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="<?php echo $helper->url("busqueda","buscar");?>">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="clave">
-                <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Buscar">
-            </form>
             <a style="text-decoration: none;color:whitesmoke;padding-left:20px" href="<?php  echo $helper->url("usuario","cerrarSesion");?>">Cerrar Sesion</a>
         </div>
     </nav>
