@@ -301,25 +301,14 @@ class EntidadBase{
     }
 
     public function buscarPorclave($clave){
-        $query=$this->db()->query("SELECT * FROM post WHERE MATCH (palabra1, palabra2, palabra3) AGAINST ('$clave' IN BOOLEAN MODE);");
+        $query=$this->db()->query("SELECT * FROM post WHERE 
+        (MATCH (palabra1, palabra2, palabra3) AGAINST ('$clave' IN BOOLEAN MODE) 
+            or (palabra3 LIKE '%$clave%' or
+                palabra1 LIKE '%$clave%' or
+                palabra2 LIKE '%$clave%')
+            or (titulo LIKE '%$clave%' or
+                cuerpo LIKE '%$clave%')) and privacidad=1 and status=1;");
        
-        while($row = $query->fetch_object()) {
-            $resultSet[]=$row;
-        }
-         
-        $resultSet=isset($resultSet)?$resultSet:NULL;
-        return $resultSet;
-    }
-
-    public function buscarPorclaveTitulo($clave){
-        $query=$this->db()->query("SELECT * FROM post WHERE status=1 and privacidad=1 and
-            titulo LIKE '%$clave' OR
-            titulo LIKE '$clave%' or
-            titulo LIKE '%$clave%' or
-            cuerpo LIKE '%$clave' OR
-            cuerpo LIKE '$clave%' or
-            cuerpo LIKE '%$clave%' group by id;");
-
         while($row = $query->fetch_object()) {
             $resultSet[]=$row;
         }
@@ -330,14 +319,33 @@ class EntidadBase{
 
     public function buscarPersonas($clave){
         $query=$this->db()->query("SELECT * FROM usuario WHERE
-            username LIKE '%$clave' or username LIKE '$clave%' or username LIKE '%$clave%' or
-            nombre LIKE '%$clave' or nombre LIKE '$clave%' or nombre LIKE '%$clave%' or
-            apellido LIKE '%$clave' or apellido LIKE '$clave%' or apellido LIKE '%$clave%';");
+           (username LIKE '%$clave%' or
+            nombre LIKE '%$clave%' or
+            apellido LIKE '%$clave%');");
 
         while($row = $query->fetch_object()) {
             $resultSet[]=$row;
         }
          
+        $resultSet=isset($resultSet)?$resultSet:NULL;
+        return $resultSet;
+    }
+
+    public function filtrarPorFechasClave($fecha1,$fecha2,$clave){
+        $query=$this->db()->query("SELECT * FROM post WHERE 
+        (MATCH (palabra1, palabra2, palabra3) AGAINST ('$clave' IN BOOLEAN MODE) 
+            or (palabra3 LIKE '%$clave%' or
+                palabra1 LIKE '%$clave%' or
+                palabra2 LIKE '%$clave%')
+            or (titulo LIKE '%$clave%' or
+                cuerpo LIKE '%$clave%')) 
+            and privacidad=1 and status=1 
+            and (fecha between '$fecha1' and '$fecha2') order by fecha DESC;");
+
+        while($row = $query->fetch_object()) {
+            $resultSet[]=$row;
+        }
+        
         $resultSet=isset($resultSet)?$resultSet:NULL;
         return $resultSet;
     }

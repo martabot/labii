@@ -16,21 +16,26 @@ class BusquedaController extends ControladorBase{
     public function buscar(){
         if (isset($_SESSION["id"])) {
             unset($_SESSION["visitante"]);
-            $clave=$_POST['clave'];
             $pd=new Post($this->adapter);
-            $postClaves=$pd->buscarPorclave($clave);
-            $postTitulos=$pd->buscarPorclaveTitulo($clave);
-            $ud=new Usuario($this->adapter);
-            $personas=$ud->buscarPersonas($clave);
-            $cd=new Comentario($this->adapter);
-            $cant=$cd->getAllCom();
-            $duenios=$cd->getPublicadores();
-            if ($pd->getUnseen($_SESSION['id'])==!null) {
-                $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));
-            } else {
-                $notificaciones=0;
+            if(isset($_POST['filtrado'])){
+                $clave=$_POST['clave'];
+                $fecha1=$_POST['fecha1'];
+                $fecha2=$_POST['fecha2'];
+                $allPost=$pd->filtrarPorFechasClave($fecha1,$fecha2,$clave);
+            }else {
+                $clave=$_POST['clave'];
+                $allPost=$pd->buscarPorclave($clave);
             }
-            $allPost=array("postClaves"=>$postClaves,"postTitulos"=>$postTitulos);
+                $ud=new Usuario($this->adapter);
+                $personas=$ud->buscarPersonas($clave);
+                $cd=new Comentario($this->adapter);
+                $cant=$cd->getAllCom();
+                $duenios=$cd->getPublicadores();
+                if ($pd->getUnseen($_SESSION['id'])==!null) {
+                    $notificaciones=sizeof($pd->getUnseen($_SESSION['id']));
+                } else {
+                    $notificaciones=0;
+                }
             $this->view("Browser", array(
                 "allPost"=>$allPost,
                 "personas"=>$personas,
