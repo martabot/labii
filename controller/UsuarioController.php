@@ -355,8 +355,8 @@ class UsuarioController extends ControladorBase{
 				$usuario = $usuario->getById($id);
 				$pd=new Pais($this->adapter);
 				$paises=$pd->getAll();
-				if($post->getUnseen($_SESSION['id'])==!NULL){
-				$notificaciones=sizeof($post->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
+				if($pd->getUnseen($_SESSION['id'])==!NULL){
+				$notificaciones=sizeof($pd->getUnseen($_SESSION['id']));}else{$notificaciones=0;}
 				$this->view("EditarPerfil",array(
 					"notis"=>$notificaciones,
 					"paises"=>$paises,

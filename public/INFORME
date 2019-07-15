@@ -1,0 +1,42 @@
+Encontré el desarrollo de este trabajo como una actividad divertida y desafiante...
+
+Lo más dificil fue comenzar, ya que la mayoría del tiempo la utilicé en planearlo, imaginarlo,
+tener en claro sus funciones y organizarlo mentalmente.
+
+Una vez que eso estuvo listo, solo quedaba escribir y buscar entre la teoría brindada por los profes
+y mucho google para poder comunicarame con la computadora.
+
+No soy una persona adepta a las redes por lo que el segundo desafío fue lograr que agrade y sea
+cómodo a los usuarios, para ello a medida que creaba los módulos invitaba a amigos a registrarse,
+publicar y agregar a los otros amigos, de esa forma fui corrigiendo algunos errores de diseño,
+como por ejemplo de que lado ubicar algún boton o que debía contener su etiqueta.
+
+En cuanto al lenguaje, el único programa que escribí antes fue en java para la segunda certificación,
+por lo tanto, al nunca haber hecho nada en php, intenté en todo momento sacarle el mayor provecho 
+al tipado débil (dentro de los paramentros de la razón y la cautela). Me resultó muy útil
+y pude así lograr el mismo resultado de forma mucho mas simple y algunos casos elegante. Y por otro lado 
+me resultó dificil entender y adaptarme a la nueva estructura de objetos, por lo que se pueden encontrar
+algunos fetch_assoc necesarios y útiles y otros muy demás, tambien instancias demás u otros errores.
+
+En cuanto a css no me agrada. Utilicé bootstrap por primera vez y allí lo más complejo fue entender el 
+sistema de grillas hasta dominarlo. Al nivel que pude aplicarlo no resulta en una web muy origial,
+no obstante accedí a ello por ser un trabajo práctico.
+
+No utilicé stored procedure, aunque reconozco los casos en los que hubiera sido muy útil, 
+aun así al contener todas las querys a la vista en la entidad base podía darme cuenta cuando estaba 
+estaba repitiendo una explicitamente y así reutilizarla (por medio de CTRL+F).
+
+Pude resolver los errores en ejecucion del camino feliz, pero me quedaron algunas dudas en el 
+tintero de caminos alternativos. En otros casos, simplemente rescindí la funcionalidad 
+para no hacer trabajo de más, o no perder tiempo en cosas que se notaba que ya había entendido.
+
+Como conclusión del programa obtenido, como cualquiera pienso que lo haría todo de nuevo 
+de forma más organizada y aplicando los conocimientos adquiridos. Para que eso no boicotee 
+la entrega del mismo, recurrí a la ley del programador "Si funciona... no lo toques"
+y mi UsuarioController es una prueba de ello.
+
+Espero ansiosa llegar a la etapa de seguridad para resolver conflictos 
+que hoy en día me parecen chino mandarín.
+
+Laura Galeano.
+
