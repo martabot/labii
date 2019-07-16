@@ -270,7 +270,7 @@ class EntidadBase{
     }
 
     public function getComDenunciados(){
-        $query=$this->db->query("SELECT c.*,d.*,p.user as posteador FROM post p, comentario c join denunciaCom d on(c.id=d.idCom) where c.post=p.id and d.fechaMod is NULL order by d.dFecha DESC;");
+        $query=$this->db->query("SELECT c.*,d.*,p.user as posteador FROM post p, comentario c join denunciaCom d on(c.id=d.idCom) where c.post=p.id and p.status=1 and d.fechaMod is NULL order by d.dFecha DESC;");
         while($row=$query->fetch_assoc()){
             $resultSet[]=$row;
         }

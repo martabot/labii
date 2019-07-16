@@ -19,7 +19,7 @@ require_once 'config/global.php';
             require_once($corePath);   
 		}else if(file_exists($configPath)){
             require_once($configPath);   
-		}		
+		}
 	}
     spl_autoload_register('loadClasses');
 
