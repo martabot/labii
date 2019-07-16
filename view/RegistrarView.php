@@ -39,16 +39,16 @@
             </div>
             <form method="POST" action="<?php echo $helper->url("usuario","crear"); ?>">
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="username" placeholder="Username" required>
+                <input class="col-4 form-control" type="text" name="username" placeholder="Username" value="<?php if(isset($_POST['username'])){echo $_POST['username'];} ?>" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="nombre" placeholder="Nombre" required>
+                <input class="col-4 form-control" type="text" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];} ?>" placeholder="Nombre" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="apellido" placeholder="Apellido" required>
+                <input class="col-4 form-control" type="text" name="apellido" value="<?php if(isset($_POST['apellido'])){echo $_POST['apellido'];} ?>" placeholder="Apellido" required>
             </div>
             <div class="row justify-content-center">
-                <input class="col-4 form-control" type="text" name="mail" placeholder="e-mail" required>
+                <input class="col-4 form-control" type="text" name="mail" value="<?php if(isset($_POST['mail'])){echo $_POST['mail'];} ?>" placeholder="e-mail" required>
             </div>
             <div class="row justify-content-center">
                 <input class="form-control col-4" type="date" name="bd" required>

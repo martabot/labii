@@ -139,34 +139,34 @@ class UsuarioController extends ControladorBase{
 		public function ingresar(){
 			if(isset($_SESSION['id'])){
 				$this->index();
-			}else if(isset($_POST['username'])&&isset($_POST['pass'])){
-						$un=$_POST['username'];
-						$pw=$_POST['pass'];
-						$ad=new Admin($this->adapter);
-						$ud=new Usuario($this->adapter);
-						$md=new Moderador($this->adapter);
-					if(trim($un)==""||trim($pw)==""){
-							$_SESSION['error']="Los campos deben contener caracteres.";
+			}else if(trim($_POST['username'])==""||trim($_POST['pass'])==""){
+				$_SESSION['error']="Los campos deben contener caracteres.";
+				$this->view("Login","");
+			}else {
+          $un=$_POST['username'];
+          $pw=$_POST['pass'];
+          $ad=new Admin($this->adapter);
+          $ud=new Usuario($this->adapter);
+          $md=new Moderador($this->adapter);
+      	if(!NULL==$ud->getOneBy("username", $un)){
+					$usuario=$ud->getOneBy("username", $un);
+					$salt = $usuario['salt'];
+					$saltedPass = $pw.$salt;
+					$hashedPass = hash('sha256', $saltedPass);	
+						if($usuario['pass']==$hashedPass){
+							if($ud->getBanned($usuario['id'])==NULL){
+								$_SESSION["id"]=$usuario['id'];
+								$_SESSION['username']=$un;
+								$this->index();
+							}else{
+								$_SESSION['error']="La cuenta de usuario ha sido cancelada por un administrador.";
+								$this->view("Login","");
+							}
+						}else{
+							$_SESSION['error']="Contraseña incorrecta";
 							$this->view("Login","");
-						}else if(!NULL==$ud->getOneBy("username", $un)){
-								$usuario=$ud->getOneBy("username", $un);
-								$salt = $usuario['salt'];
-								$saltedPass = $pw.$salt;
-								$hashedPass = hash('sha256', $saltedPass);	
-								if($usuario['pass']==$hashedPass){
-									if($ud->getBanned($usuario['id'])==NULL){
-										$_SESSION["id"]=$usuario['id'];
-										$_SESSION['username']=$un;
-										$this->index();
-									}else{
-										$_SESSION['error']="La cuenta de usuario ha sido cancelada por un administrador.";
-										$this->view("Login","");
-									}
-								}else{
-									$_SESSION['error']="Contraseña incorrecta";
-									$this->view("Login","");
-									}
-								}else if(!NULL==$ad->getOneBy("username", $un)){
+						}
+					}else if(!NULL==$ad->getOneBy("username", $un)){
 									$usuario=$ad->getOneBy("username", $un);
 									$salt = $usuario['salt'];
 									$saltedPass = $pw.$salt;
@@ -180,31 +180,32 @@ class UsuarioController extends ControladorBase{
 										$_SESSION['error']="Contraseña incorrecta";
 										$this->view("Login","");
 										}
-								} else if(!NULL==$md->getOneBy("username", $un)){
-									$usuario=$md->getOneBy("username", $un);
-									$salt = $usuario['salt'];
-									$saltedPass = $pw.$salt;
-									$hashedPass = hash('sha256', $saltedPass);	
-									if($usuario['pass']==$hashedPass||$usuario['pass']=="12345"){
-											if($usuario['status']==0){
-												$_SESSION['error']="La cuenta moderadora ha sido cancelada por un administrador.";
-												$this->view("Login","");
-											} else{
-												$_SESSION["id"]=$usuario['id'];
-												$_SESSION['username']=$usuario['username'];
-												$_SESSION['moderador']="si";
-												$this->redirect("denuncia","moderador");
-										}
-									}else{
-										$_SESSION['error']="Contraseña incorrecta";
-										$this->view("Login","");
-										}
+						} else if(!NULL==$md->getOneBy("username", $un)){
+							$usuario=$md->getOneBy("username", $un);
+							$salt = $usuario['salt'];
+							$saltedPass = $pw.$salt;
+							$hashedPass = hash('sha256', $saltedPass);	
+							if($usuario['pass']==$hashedPass||$usuario['pass']=="12345"){
+								if($usuario['status']==0){
+									$_SESSION['error']="La cuenta moderadora ha sido cancelada por un administrador.";
+									$this->view("Login","");
+								} else{
+									$_SESSION["id"]=$usuario['id'];
+									$_SESSION['username']=$usuario['username'];
+									$_SESSION['moderador']="si";
+									$this->redirect("denuncia","moderador");
+								}
+							}else{
+								$_SESSION['error']="Contraseña incorrecta";
+								$this->view("Login","");
+							}
 						}else{
 							$_SESSION['error']="Cuenta no registrada";
 							$this->view("Login","");
-							}					
-				}
+						}		
+				}			
 			}
+
 
 		public function verMuro(){
 			if(isset($_GET['id'])){$_SESSION['visitante']=$_GET['id'];}
